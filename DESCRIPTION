@@ -1,0 +1,18 @@
+Package: MATCHA
+Title: Data consistency report
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Anna",
+           family = "Krystalli",
+           role = c("aut", "cre"),
+           email = "annakrystalli@googlemail.com",
+           comment = c(ORCID = "0000-0002-2378-4915"))
+Description: Load, compare and summarise IeDEA cohort data.
+License: What license is it under?
+Imports: 
+    config (>= 0.3.1),
+    golem (>= 0.4.1),
+    shiny (>= 1.7.4)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
