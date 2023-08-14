@@ -10,7 +10,7 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      h1("MATCHA2")
+      h1("MATCHA")
     )
   )
 }
@@ -30,10 +30,10 @@ golem_add_external_resources <- function() {
   )
 
   tags$head(
-    favicon(),
+    favicon(ext = 'png'),
     bundle_resources(
       path = app_sys("app/www"),
-      app_title = "MATCHA2"
+      app_title = "MATCHA"
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()

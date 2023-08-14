@@ -9,7 +9,7 @@
 #'
 #' @noRd
 app_sys <- function(...) {
-  system.file(..., package = "MATCHA2")
+  system.file(..., package = "MATCHA")
 }
 
 
