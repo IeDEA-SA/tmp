@@ -3,14 +3,16 @@
 #' @description A shiny Module.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
+#' @param dataset Character string. Dataset identifier. One of `current` or `previous`.
 #'
 #' @noRd
 #'
 #' @importFrom shiny NS tagList fileInput
 #' @importFrom shinyFiles shinyDirButton
-mod_access_data_ui <- function(id){
+mod_access_data_ui <- function(id, dataset){
   ns <- NS(id)
   tagList(
+    h3(paste(dataset, "dataset")),
     shinyDirButton(ns("folder"), "Select a folder",
                    "Please select a folder",
                    FALSE),
@@ -51,8 +53,3 @@ mod_access_data_server <- function(id){
   })
 }
 
-## To be copied in the UI
-# mod_access_data_ui("access_data_1")
-
-## To be copied in the server
-# mod_access_data_server("access_data_1")
