@@ -7,10 +7,13 @@ read_file <- function(path, label) {
         sav = haven::read_sav(file = path),
         por = haven::read_por(file = path),
         sas7bdat = haven::read_sas(data_file = path),
-        sas7bcat = haven::read_sas(data_file = path)
+        sas7bcat = haven::read_sas(data_file = path),
+        validate(
+            glue::glue(
+                "{basename(path)} is invalid file; Please select a file with appropriate extension."
+                )
+        )
     )
-
-    tbl$tbl_name <- label
 
     tibble::as_tibble(tbl)
 }
