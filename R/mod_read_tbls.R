@@ -10,30 +10,45 @@
 mod_read_tbls_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    uiOutput("tbls")
+    actionButton(ns("readBtn"), "Read Selected Tables"),
+    textOutput(ns("msg"))
   )
 }
 
 #' read_tbls Server Functions
 #'
 #' @noRd
-mod_read_tbls_server <- function(id, selected_tables, dataset_1, dataset_2) {
+mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    req(selected_tables)
 
-    tbl_ids <- reactive(paste("tbls", selected_tables(), sep = "_"))
+      output[["msg"]] <- renderText({
+        req(selected_tables)
+        if (length(selected_tables()) > 1L) {
+          txt <- "Tables"
+        } else {
+          txt <- "Table"
+        }
+        glue::glue("{txt} {selected_tables()} read successfully.")
+      }) %>% bindEvent(input$readBtn,
+                       ignoreNULL = TRUE,
+                       ignoreInit = TRUE)
 
-    output$tbls <- renderUI({
-      purrr::map(selected_tables(), ~ tableOutput(ns(tbl_ids())))
-    })
 
     reactive({
-    output[[ns(tbl_ids())]] <- purrr::map(
-      selected_tables(),
-      ~ renderTable(combine_tbls(dataset_1()[.x], dataset_2()[.x]))
-    )
-    })
+      req(selected_tables())
+      purrr::map(
+        .x = purrr::set_names(selected_tables()),
+        ~ {
+          list(
+            previous = read_file(previous_dat()[.x]),
+            current = read_file(current_dat()[.x])
+          )
+        }
+      )
+    }) %>% bindEvent(input$readBtn,
+                     ignoreNULL = TRUE,
+                     ignoreInit = TRUE)
   })
 }
 
