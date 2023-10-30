@@ -11,11 +11,23 @@ app_ui <- function(request) {
     # Your application UI logic
     fluidPage(
       h1("MATCHA"),
-      mod_access_data_ui("access_data_1"),
-      mod_access_data_ui("access_data_2"),
-      textOutput("shared_files"),
-      mod_select_tbls_ui("select_tbls"),
-      mod_read_tbls_ui("read_tbls")
+      # Select source for dataset 1 (previous)
+      sidebarLayout(
+        sidebarPanel(
+          mod_access_data_ui("access_prev_dat", dataset = "Previous"),
+          # Select source for dataset 2 (current)
+          mod_access_data_ui("access_curr_dat", dataset = "Current"),
+          # Show shared files
+          textOutput("shared_files"),
+          hr(),
+          # Select from shared files
+          mod_select_tbls_ui("select_tbls"),
+          mod_read_tbls_ui("read_tbls")
+        ),
+        mainPanel(
+          mod_tbls_check_ui("check_tbls")
+        )
+      )
     )
   )
 }
@@ -35,7 +47,7 @@ golem_add_external_resources <- function() {
   )
 
   tags$head(
-    favicon(ext = 'png'),
+    favicon(ext = "png"),
     bundle_resources(
       path = app_sys("app/www"),
       app_title = "MATCHA"
