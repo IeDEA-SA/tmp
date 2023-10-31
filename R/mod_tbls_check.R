@@ -18,7 +18,18 @@ mod_tbls_check_ui <- function(id) {
 mod_tbls_check_server <- function(id, tbls, rv) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    checks <- NULL
+
+    checks <- reactive({
+      purrr::map(tbls(), ~check_tbls(.x))
+    })
+    valid_tbls <- reactive({
+      purrr::map2(
+        .x = tbls(),
+        .y = checks(),
+        ~validate_tbl(.x, .y)
+      ) %>%
+        purrr::compact()
+    })
 
     observe({
       req(tbls())
@@ -30,30 +41,30 @@ mod_tbls_check_server <- function(id, tbls, rv) {
         )
       }
 
-      checks <- as.list(vector(length = length(tbls()))) %>%
-        setNames(names(tbls()))
-
       for (tbl_name in names(tbls())) {
         tbl_id <- paste("chk", tbl_name, sep = "_")
+
         appendTab(
           inputId = "chk_tbls",
           tabPanel(
             title = tbl_name,
-            mod_tbl_check_ui(ns(tbl_id)),
-            value = ns(tbl_name)
+            mod_display_check_ui(ns(tbl_id)),
+            value = ns(tbl_name),
+            icon = if (checks()[[tbl_name]]$valid) icon("check") else icon("x")
           )
         )
 
-        checks[[tbl_name]] <- mod_tbl_check_server(
+        mod_display_check_server(
           id = tbl_id,
           tbl = tbls()[[tbl_name]],
-          tbl_name = tbl_name
+          tbl_name = tbl_name,
+          check = checks()[[tbl_name]]
         )
         rv$tab_list <- c(rv$tab_list, ns(tbl_name))
       }
     }) %>%
       bindEvent(tbls())
 
-    return(checks)
+    return(valid_tbls)
   })
 }

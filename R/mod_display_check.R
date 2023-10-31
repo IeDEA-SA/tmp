@@ -1,4 +1,4 @@
-#' tbl_check UI Function
+#' display_check UI Function
 #'
 #' @description Check a set of `previous` & `current` data tables for ability to
 #' be compared and display the results of the checks.
@@ -8,7 +8,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_tbl_check_ui <- function(id){
+mod_display_check_ui <- function(id){
   ns <- NS(id)
   tagList(
     h3(textOutput(ns("tbl_name"))),
@@ -22,35 +22,26 @@ mod_tbl_check_ui <- function(id){
   )
 }
 
-#' tbl_check Server Functions
+#' display_check Server Functions
 #' @param tbl a list containing two elements:
 #' - `previous`: a tibble of previous data
 #' - `current`: a tibble of current data
 #' to compare.
 #' @param tbl_name Character string. The table name.
-#' @return a list of the results of checks output from [check_tbls()].
+#' @param check a list of the results of checks output from [check_tbls()].
 #'
 #' @noRd
-mod_tbl_check_server <- function(id, tbl, tbl_name){
+mod_display_check_server <- function(id, tbl, tbl_name, check){
   moduleServer( id, function(input, output, session){
-    ns <- session$ns
     print(tbl_name)
+    ns <- session$ns
     output$tbl_name <- renderText(tbl_name)
     output$tbl_summary <- renderPrint(str(tbl))
-
-    checks <- check_tbls(tbl)
-    output$names_msg <- renderText(checks$check_names$msg)
-    output$coltypes_msg <- renderText(checks$check_coltypes$msg)
+    output$names_msg <- renderText(check$check_names$msg)
+    output$coltypes_msg <- renderText(check$check_coltypes$msg)
     output$valid <- renderText({
-      if (checks$valid) "Tables are valid" else "Tables are invalid"
-      })
-
-    return(checks)
+      if (check$valid) "Tables are valid" else "Tables are invalid"
+    })
   })
 }
 
-## To be copied in the UI
-# mod_tbl_check_ui("tbl_check_1")
-
-## To be copied in the server
-# mod_tbl_check_server("tbl_check_1")

@@ -25,10 +25,14 @@ app_server <- function(input, output, session) {
                                  previous_dat,
                                  current_dat)
 
-    checks <- mod_tbls_check_server("check_tbls", tbls, rv)
+    valid_tbls <- mod_tbls_check_server("check_tbls", tbls, rv)
 
     observe({
-      req(checks)
-      print(checks)
-    })
+      req(valid_tbls())
+      print(str(valid_tbls()))
+    }) %>%
+      bindEvent(
+        tbls(),
+        ignoreInit = TRUE
+      )
 }
