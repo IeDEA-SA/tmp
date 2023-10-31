@@ -16,7 +16,7 @@ mod_access_data_ui <- function(id, dataset){
     shinyDirButton(ns("folder"), "Select a folder",
                    "Please select a folder",
                    FALSE),
-    textOutput(ns("folder_path"))
+    verbatimTextOutput(ns("folder_path"))
 
   )
 }
@@ -35,7 +35,7 @@ mod_access_data_server <- function(id){
                    filetypes = c("", "csv", "rds", "dta"),
                    allowDirCreate = FALSE)
 
-    output$folder_path <- renderText({
+    output$folder_path <- renderPrint({
       req(input$folder)
       parseDirPath(roots, input$folder)
       })
