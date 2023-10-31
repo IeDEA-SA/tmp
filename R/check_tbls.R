@@ -10,7 +10,7 @@
 check_tbls <- function(x) {
   check_names <- check_tbl_names(x)
 
-  x <- process_tbls(x,
+  x <- process_tbl(x,
     clean_names = check_names$clean_names,
     select_vars = check_names$valid_cols
   )
@@ -157,7 +157,7 @@ check_tbl_coltypes <- function(x) {
   )
 }
 
-process_tbls <- function(x, clean_names = FALSE, select_vars) {
+process_tbl <- function(x, clean_names = FALSE, select_vars) {
   if (clean_names) {
     x <- purrr::map(x, janitor::clean_names)
   }
