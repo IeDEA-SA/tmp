@@ -8,17 +8,24 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
+#' @importFrom bslib card card_header card_body
 mod_display_check_ui <- function(id){
   ns <- NS(id)
   tagList(
     h3(textOutput(ns("tbl_name"))),
-    verbatimTextOutput(ns("tbl_summary")),
+    h4(textOutput(ns("valid"))),
+    card(
+      card_header("Valid shared variables"),
+      card_body(strong(textOutput(ns("valid_cols"))))
+      ),
     h4("Check tbl variable names"),
     textOutput(ns("names_msg")),
     hr(),
     h4("Check tbl variable data types"),
     textOutput(ns("coltypes_msg")),
-    h4(textOutput(ns("valid")))
+    hr(),
+    h4("tbl Structure"),
+    verbatimTextOutput(ns("tbl_summary"))
   )
 }
 
@@ -34,8 +41,15 @@ mod_display_check_ui <- function(id){
 mod_display_check_server <- function(id, tbl, tbl_name, check){
   moduleServer( id, function(input, output, session){
     print(tbl_name)
+    print(tbl)
+    print(check)
     ns <- session$ns
     output$tbl_name <- renderText(tbl_name)
+    output$valid_cols <- renderText({
+      glue::glue_collapse(
+        check$check_coltypes$valid_cols,
+        sep = ", ")
+      })
     output$tbl_summary <- renderPrint(str(tbl))
     output$names_msg <- renderText(check$check_names$msg)
     output$coltypes_msg <- renderText(check$check_coltypes$msg)
