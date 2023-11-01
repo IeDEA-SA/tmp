@@ -3,6 +3,7 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @importFrom bslib bs_theme font_google
 #' @noRd
 app_ui <- function(request) {
   tagList(
@@ -10,6 +11,11 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
+      theme = bs_theme(bg = "white",
+                       fg = "#494544",
+                       primary = "maroon",
+                       base_font = font_google("Montserrat")
+      ),
       h1("MATCHA"),
       # Select source for dataset 1 (previous)
       sidebarLayout(
@@ -18,7 +24,7 @@ app_ui <- function(request) {
           # Select source for dataset 2 (current)
           mod_access_data_ui("access_curr_dat", dataset = "Current"),
           # Show shared files
-          textOutput("shared_files"),
+          bslib::card(textOutput("shared_files")),
           hr(),
           # Select from shared files
           mod_select_tbls_ui("select_tbls"),

@@ -1,6 +1,7 @@
 #' select_tbls UI Function
 #'
-#' @description A shiny Module.
+#' @description Module for selecting tables to compare from shared tables between previous
+#' and current dataset.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
@@ -17,7 +18,9 @@ mod_select_tbls_ui <- function(id){
 }
 
 #' select_tbls Server Functions
-#'
+#' @param shared_tables Reactive. Names of shared tables between previous
+#' and current dataset.
+#' @return Reactive. The user selected table names from the selectize widget.
 #' @noRd
 mod_select_tbls_server <- function(id, shared_tables){
   moduleServer( id, function(input, output, session){

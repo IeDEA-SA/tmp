@@ -17,7 +17,16 @@ mod_read_tbls_ui <- function(id) {
 
 #' read_tbls Server Functions
 #'
+#' @param selected_tables Reactive. Names of selected shared tables.
+#' @param previous_dat Reactive. Named vector of file paths to tables in the
+#' directory containing previous data.
+#' @param current_dat Reactive. Named vector of file paths to tables in the
+#' directory containing current data.
 #' @noRd
+#' @return A reactive which returns a list, one element for each table in
+#' `selected_tables`. Each table element contains a list of two elements:
+#' - `previous`: a tibble of previous data
+#' - `current`: a tibble of current data
 mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

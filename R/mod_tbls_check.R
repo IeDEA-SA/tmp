@@ -1,6 +1,6 @@
 #' tbls_check UI Function
 #'
-#' @description A shiny Module.
+#' @description Module for checking validity of variables of selected tables
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
@@ -13,6 +13,15 @@ mod_tbls_check_ui <- function(id) {
 }
 
 #' tbls_check Server Functions
+#'
+#' @param tbls Reactive. List of previous and current tibbles for each selected
+#' table. Output of the `mod_read_tbls()` module.
+#' @param rv Reactive values object containing a `tab_list` element. Used to keep
+#' track of currently opened tabs to ensure they are closed each time `tbls()` is
+#' updated.
+#'
+#' @return Reactive. A list of valid tables, processed to clean names and subse
+#' to valid shared variables where appropriate.
 #'
 #' @noRd
 mod_tbls_check_server <- function(id, tbls, rv) {

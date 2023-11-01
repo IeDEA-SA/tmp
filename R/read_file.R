@@ -1,4 +1,12 @@
-read_file <- function(path, label) {
+#' Read a data file.
+#'
+#' Accepted file extensions include `csv`, `rds`, `dta`, `sav`, `por`, `sas7bdat`
+#' and `sas7bcat`.
+#' @param path path to the file.
+#' @noRd
+#'
+#' @return a tibble
+read_file <- function(path) {
     extension <- fs::path_ext(path)
     tbl <- switch (extension,
         csv = readr::read_csv(file = path),
@@ -14,6 +22,5 @@ read_file <- function(path, label) {
                 )
         )
     )
-
     tibble::as_tibble(tbl)
 }
