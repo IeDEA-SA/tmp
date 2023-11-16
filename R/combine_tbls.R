@@ -1,10 +1,11 @@
-combine_tbls <- function(current_path, previous_path) {
-    curr_tbl <- read_file(current_path, label = "current")
-    prev_tbl <- read_file(previous_path, label = "previous")
+combine_tbls <- function(current_tbl, previous_tbl) {
+    current_tbl$tbl <- "current"
+    previous_tbl$tbl <- "previous"
+    shared_cols <- intersect(names(current_tbl), names(previous_tbl))
+    stopifnot(length(shared_cols) != 0L)
 
-    shared_cols <- intersect(names(curr_tbl), names(prev_tbl))
+    dplyr::bind_rows(current_tbl[, shared_cols],
+          previous_tbl[, shared_cols]) %>%
+        dplyr::mutate(tbl = as.factor(.data[["tbl"]]))
 
-    stopifnot(length(shared_cols) == 0L)
-
-    cbind(curr_tbl[, shared_cols], prev_tbl[, shared_cols])
 }
