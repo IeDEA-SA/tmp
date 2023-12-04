@@ -1,6 +1,6 @@
 plot_histogram <- function(current_tbl, previous_tbl, var,
                            position = c(
-                             "stack", "dodge",
+                            "dodge",
                              "mirror", "facet"
                            ),
                            interactive = TRUE,
@@ -8,7 +8,7 @@ plot_histogram <- function(current_tbl, previous_tbl, var,
   position <- rlang::arg_match(position)
   tbl <- combine_tbls(current_tbl, previous_tbl)
 
-  if (position %in% c("stack", "dodge")) {
+  if (position == "dodge") {
     p <- tbl %>%
       ggplot(aes(x = .data[[var]], fill = .data[["tbl"]])) +
       geom_histogram(position = position, bins = bins)
