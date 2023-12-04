@@ -12,14 +12,16 @@ app_server <- function(input, output, session) {
     previous_dat <- mod_access_data_server("access_prev_dat")
     current_dat <- mod_access_data_server("access_curr_dat")
 
-    shared_tables <- reactive({
-      req(previous_dat(), current_dat())
-      intersect(names(previous_dat()),
-                names(current_dat()))
-    })
+    shared_tables <- get_shared_nms_rct(
+      previous = reactive(previous_dat()),
+      current = reactive(current_dat())
+    )
+
     output$shared_files <- renderText(shared_tables())
 
-    selected_tables <- mod_select_tbls_server("select_tbls", shared_tables)
+    selected_tables <- mod_dynamic_select_server("select_tbls",
+                                                 property = 'tables',
+                                                 choices = shared_tables)
     tbls <- mod_read_tbls_server("read_tbls",
                                  selected_tables,
                                  previous_dat,

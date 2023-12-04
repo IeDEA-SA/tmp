@@ -27,7 +27,7 @@ app_ui <- function(request) {
           bslib::card(textOutput("shared_files")),
           hr(),
           # Select from shared files
-          mod_select_tbls_ui("select_tbls"),
+          mod_dynamic_select_ui("select_tbls", property = "tables"),
           mod_read_tbls_ui("read_tbls")
         ),
         mainPanel(
