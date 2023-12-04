@@ -53,8 +53,10 @@ plot_count_by_date <- function(current_tbl, previous_tbl, var,
   }
   p <- p + xlab(glue::glue("{var} (binned by {time_bin})"))
   if (mark_cutoff) {
-    p <- p + geom_vline(xintercept = as.numeric(prev_cutoff),
-                        linetype = 3, linewidth = 0.5)
+    p <- p + geom_vline(
+      xintercept = as.numeric(prev_cutoff),
+      linetype = 3, linewidth = 0.5
+    )
   }
   if (interactive) {
     p <- plotly::ggplotly(p)

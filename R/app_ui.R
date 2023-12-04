@@ -11,10 +11,11 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     fluidPage(
-      theme = bs_theme(bg = "white",
-                       fg = "#494544",
-                       primary = "maroon",
-                       base_font = font_google("Montserrat")
+      theme = bs_theme(
+        bg = "white",
+        fg = "#494544",
+        primary = "maroon",
+        base_font = font_google("Montserrat")
       ),
       h1("MATCHA"),
       # Select source for dataset 1 (previous)

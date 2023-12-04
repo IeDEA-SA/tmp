@@ -29,13 +29,13 @@ mod_tbls_check_server <- function(id, tbls, rv) {
     ns <- session$ns
 
     checks <- reactive({
-      purrr::map(tbls(), ~check_tbls(.x))
+      purrr::map(tbls(), ~ check_tbls(.x))
     })
     valid_tbls <- reactive({
       purrr::map2(
         .x = tbls(),
         .y = checks(),
-        ~validate_tbl(.x, .y)
+        ~ validate_tbl(.x, .y)
       ) %>%
         purrr::compact()
     })

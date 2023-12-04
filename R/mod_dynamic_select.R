@@ -10,14 +10,15 @@
 #'
 #' @importFrom shiny NS tagList
 mod_dynamic_select_ui <- function(id, property = "tables", multiple = TRUE,
-                                  selectize = TRUE){
+                                  selectize = TRUE) {
   ns <- NS(id)
   tagList(
     selectInput(ns("tables"),
-                   paste("Select", property, "to compare"),
-                   choices = NULL,
-                   multiple = multiple,
-                selectize = selectize)
+      paste("Select", property, "to compare"),
+      choices = NULL,
+      multiple = multiple,
+      selectize = selectize
+    )
   )
 }
 
@@ -28,8 +29,8 @@ mod_dynamic_select_ui <- function(id, property = "tables", multiple = TRUE,
 #' tables or shared variables within tables.
 #' @return Reactive. The user selected table names from the selectize widget.
 #' @noRd
-mod_dynamic_select_server <- function(id, property, choices){
-  moduleServer( id, function(input, output, session){
+mod_dynamic_select_server <- function(id, property, choices) {
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
     observeEvent(choices(), {
       updateSelectInput(session, property, choices = choices())

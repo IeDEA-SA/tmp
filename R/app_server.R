@@ -5,36 +5,38 @@
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
+  options(shiny.maxRequestSize = 100 * 1024^2)
+  rv <- reactiveValues(tab_list = NULL)
 
-    options(shiny.maxRequestSize=100*1024^2)
-    rv <- reactiveValues(tab_list = NULL)
+  previous_dat <- mod_access_data_server("access_prev_dat")
+  current_dat <- mod_access_data_server("access_curr_dat")
 
-    previous_dat <- mod_access_data_server("access_prev_dat")
-    current_dat <- mod_access_data_server("access_curr_dat")
+  shared_tables <- get_shared_nms_rct(
+    previous = reactive(previous_dat()),
+    current = reactive(current_dat())
+  )
 
-    shared_tables <- get_shared_nms_rct(
-      previous = reactive(previous_dat()),
-      current = reactive(current_dat())
+  output$shared_files <- renderText(shared_tables())
+
+  selected_tables <- mod_dynamic_select_server("select_tbls",
+    property = "tables",
+    choices = shared_tables
+  )
+  tbls <- mod_read_tbls_server(
+    "read_tbls",
+    selected_tables,
+    previous_dat,
+    current_dat
+  )
+
+  valid_tbls <- mod_tbls_check_server("check_tbls", tbls, rv)
+
+  observe({
+    req(valid_tbls())
+    print(str(valid_tbls()))
+  }) %>%
+    bindEvent(
+      tbls(),
+      ignoreInit = TRUE
     )
-
-    output$shared_files <- renderText(shared_tables())
-
-    selected_tables <- mod_dynamic_select_server("select_tbls",
-                                                 property = 'tables',
-                                                 choices = shared_tables)
-    tbls <- mod_read_tbls_server("read_tbls",
-                                 selected_tables,
-                                 previous_dat,
-                                 current_dat)
-
-    valid_tbls <- mod_tbls_check_server("check_tbls", tbls, rv)
-
-    observe({
-      req(valid_tbls())
-      print(str(valid_tbls()))
-    }) %>%
-      bindEvent(
-        tbls(),
-        ignoreInit = TRUE
-      )
 }

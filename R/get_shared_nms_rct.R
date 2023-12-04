@@ -8,9 +8,11 @@
 #'
 #' @noRd
 get_shared_nms_rct <- function(previous, current) {
-    reactive({
-        req(previous(), current())
-        intersect(names(previous()),
-                  names(current()))
-    })
+  reactive({
+    req(previous(), current())
+    intersect(
+      names(previous()),
+      names(current())
+    )
+  })
 }

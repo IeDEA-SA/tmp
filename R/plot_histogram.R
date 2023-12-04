@@ -1,6 +1,6 @@
 plot_histogram <- function(current_tbl, previous_tbl, var,
                            position = c(
-                            "dodge",
+                             "dodge",
                              "mirror", "facet"
                            ),
                            interactive = TRUE,
