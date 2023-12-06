@@ -32,10 +32,14 @@ mod_dynamic_select_ui <- function(id, property = "tables", multiple = TRUE,
 mod_dynamic_select_server <- function(id, property, choices) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    if (is.reactive(choices)) {
     observeEvent(choices(), {
       updateSelectInput(session, property, choices = choices())
     })
-
+    } else {
+      updateSelectInput(session, property, choices = choices)
+}
     reactive(input[[property]])
   })
 }
