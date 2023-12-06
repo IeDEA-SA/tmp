@@ -1,3 +1,17 @@
+#' Create count by date plot of Date variable
+#'
+#' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
+#' @param var Character string. Name of variable in table to plot.
+#' @param time_bin Character string. Temporal bin.
+#' @param position Character string.  Bar position.
+#' @param plot_diff Logical. Whether to plot diff between previous and current.
+#' @param mark_cutoff Logical. Whether to show temporal cut-off of previous data.
+#' @param interactive Logical. Whether to plot interactive plotly plot.
+#'
+#' @importFrom ggplot2 ggplot aes geom_col ylab theme xlab geom_vline
+#' @return Count by date ggplot plot (if `interactive` = FALSE) or plotly plot
+#' (if `interactive` = TRUE).
+#' @export
 plot_count_by_date <- function(tbl, var,
                                time_bin = c(
                                  "day", "week", "month", "bimonth",

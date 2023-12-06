@@ -1,3 +1,15 @@
+#' Create histogram plot of numerical variable
+#'
+#' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
+#' @param var Character string. Name of variable in table to plot.
+#' @param position Character string.  Bar position.
+#' @param interactive Logical. Whether to plot interactive plotly plot.
+#' @param bins Integer. Number of bins.
+#'
+#' @importFrom ggplot2 ggplot aes geom_histogram after_stat ylab facet_grid
+#' @return Histogram ggplot plot (if `interactive` = FALSE) or plotly plot
+#' (if `interactive` = TRUE).
+#' @export
 plot_histogram <- function(tbl, var,
                            position = c(
                              "dodge",

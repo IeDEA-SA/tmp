@@ -55,7 +55,7 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
         sep = ", "
       )
     })
-    output$tbl_summary <- renderPrint(str(tbl))
+    output$tbl_summary <- renderPrint(utils::str(tbl))
     output$names_msg <- renderText(check$check_names$msg)
     output$coltypes_msg <- renderText(check$check_coltypes$msg)
     output$valid <- renderText({
