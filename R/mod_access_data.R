@@ -12,13 +12,17 @@
 mod_access_data_ui <- function(id, dataset) {
   ns <- NS(id)
   tagList(
-    h3(paste(dataset, "dataset")),
-    shinyDirButton(
-      ns("folder"), "Select a folder",
-      "Please select a folder",
-      FALSE
-    ),
-    verbatimTextOutput(ns("folder_path"))
+    card(
+      card_header(paste(dataset, "dataset")),
+      shinyDirButton(
+        id = ns("folder"), label = "Select a folder",
+        title = "Please select a folder",
+        multiple = FALSE,
+        icon = icon("folder"),
+        buttonType = "primary"
+      ),
+      verbatimTextOutput(ns("folder_path"))
+    )
   )
 }
 
