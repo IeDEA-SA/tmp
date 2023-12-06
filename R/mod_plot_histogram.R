@@ -1,8 +1,9 @@
 #' plot_histogram UI Function
 #'
-#' @description A shiny Module.
+#' @description Module for creating histogram plot card.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
+#' @param var Character string. Name of variable being plotted.
 #'
 #' @noRd
 #'
@@ -47,6 +48,7 @@ mod_plot_histogram_ui <- function(id, var) {
 
 #' plot_histogram Server Functions
 #'
+#' @param comb_tbl A tibble of combined previous and current data.
 #' @noRd
 mod_plot_histogram_server <- function(id, comb_tbl, var) {
   moduleServer(id, function(input, output, session) {

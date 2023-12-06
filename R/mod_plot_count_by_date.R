@@ -1,8 +1,9 @@
 #' plot_count_by_date UI Function
 #'
-#' @description A shiny Module.
+#' @description Module for creating count by date plot card.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
+#' @param var Character string. Name of variable being plotted.
 #'
 #' @noRd
 #'
@@ -51,6 +52,7 @@ mod_plot_count_by_date_ui <- function(id, var) {
 
 #' plot_count_by_date Server Functions
 #'
+#' @param comb_tbl A tibble of combined previous and current data.
 #' @noRd
 mod_plot_count_by_date_server <- function(id, comb_tbl, var) {
   moduleServer(id, function(input, output, session) {
