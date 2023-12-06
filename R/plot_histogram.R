@@ -1,4 +1,4 @@
-plot_histogram <- function(current_tbl, previous_tbl, var,
+plot_histogram <- function(tbl, var,
                            position = c(
                              "dodge",
                              "mirror", "facet"
@@ -6,7 +6,6 @@ plot_histogram <- function(current_tbl, previous_tbl, var,
                            interactive = TRUE,
                            bins = 30L) {
   position <- rlang::arg_match(position)
-  tbl <- combine_tbls(current_tbl, previous_tbl)
 
   if (position == "dodge") {
     p <- tbl %>%

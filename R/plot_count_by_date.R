@@ -1,4 +1,4 @@
-plot_count_by_date <- function(current_tbl, previous_tbl, var,
+plot_count_by_date <- function(tbl, var,
                                time_bin = c(
                                  "day", "week", "month", "bimonth",
                                  "quarter", "season", "halfyear", "year"
@@ -18,10 +18,10 @@ plot_count_by_date <- function(current_tbl, previous_tbl, var,
   just <- ifelse(position == "dodge", 0.5, 0)
 
   if (mark_cutoff) {
-    prev_cutoff <- get_date_floor(previous_tbl, var, time_bin)
+    prev_cutoff <- get_date_floor(tbl, var, time_bin)
   }
   if (plot_diff) {
-    p <- combine_tbls(current_tbl, previous_tbl) %>%
+    p <- tbl %>%
       bin_count_by_date(
         var = var, time_bin = time_bin,
         mirror = TRUE
@@ -38,7 +38,7 @@ plot_count_by_date <- function(current_tbl, previous_tbl, var,
       ylab("current count - previous count") +
       theme(legend.position = "none")
   } else {
-    p <- combine_tbls(current_tbl, previous_tbl) %>%
+    p <- tbl %>%
       bin_count_by_date(
         var = var, time_bin = time_bin,
         mirror = mirror
