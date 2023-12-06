@@ -1,3 +1,12 @@
+#' Combine current and previous tbl data
+#'
+#' @param current_tbl a tibble of current data of a table.
+#' @param previous_tbl a tibble of previous data of the same table.
+#'
+#' @return a combined (row bound) long table of current and previous data with
+#' column `tbl` appended containing a factor indicator of whether a row originates
+#' from the `current` or `previous` version of the data.
+#' @export
 combine_tbls <- function(current_tbl, previous_tbl) {
   current_tbl$tbl <- "current"
   previous_tbl$tbl <- "previous"
