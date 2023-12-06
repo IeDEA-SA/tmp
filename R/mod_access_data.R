@@ -9,15 +9,20 @@
 #'
 #' @importFrom shiny NS tagList fileInput
 #' @importFrom shinyFiles shinyDirButton
-mod_access_data_ui <- function(id, dataset){
+mod_access_data_ui <- function(id, dataset) {
   ns <- NS(id)
   tagList(
-    h3(paste(dataset, "dataset")),
-    shinyDirButton(ns("folder"), "Select a folder",
-                   "Please select a folder",
-                   FALSE),
-    verbatimTextOutput(ns("folder_path"))
-
+    card(
+      card_header(paste(dataset, "dataset")),
+      shinyDirButton(
+        id = ns("folder"), label = "Select a folder",
+        title = "Please select a folder",
+        multiple = FALSE,
+        icon = icon("folder"),
+        buttonType = "primary"
+      ),
+      verbatimTextOutput(ns("folder_path"))
+    )
   )
 }
 
@@ -25,20 +30,21 @@ mod_access_data_ui <- function(id, dataset){
 #'
 #' @noRd
 #' @importFrom shinyFiles shinyDirChoose parseDirPath
-mod_access_data_server <- function(id){
-  moduleServer( id, function(input, output, session){
-
+mod_access_data_server <- function(id) {
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
     roots <- c("." = here::here(), "home" = fs::path_home())
 
-    shinyDirChoose(input, "folder", roots = roots,
-                   filetypes = c("", "csv", "rds", "dta"),
-                   allowDirCreate = FALSE)
+    shinyDirChoose(input, "folder",
+      roots = roots,
+      filetypes = c("", "csv", "rds", "dta"),
+      allowDirCreate = FALSE
+    )
 
     output$folder_path <- renderPrint({
       req(input$folder)
       parseDirPath(roots, input$folder)
-      })
+    })
 
     reactive({
       folder <- input$folder
@@ -49,7 +55,6 @@ mod_access_data_server <- function(id){
         fs::path_ext_remove()
 
       file_paths
-      })
+    })
   })
 }
-

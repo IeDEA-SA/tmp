@@ -7,9 +7,10 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
+#' @importFrom bslib navset_underline
 mod_tbls_check_ui <- function(id) {
   ns <- NS(id)
-  tabsetPanel(id = ns("chk_tbls"))
+  navset_underline(id = ns("chk_tbls"))
 }
 
 #' tbls_check Server Functions
@@ -29,15 +30,7 @@ mod_tbls_check_server <- function(id, tbls, rv) {
     ns <- session$ns
 
     checks <- reactive({
-      purrr::map(tbls(), ~check_tbls(.x))
-    })
-    valid_tbls <- reactive({
-      purrr::map2(
-        .x = tbls(),
-        .y = checks(),
-        ~validate_tbl(.x, .y)
-      ) %>%
-        purrr::compact()
+      purrr::map(tbls(), ~ check_tbls(.x))
     })
 
     observe({
@@ -52,12 +45,14 @@ mod_tbls_check_server <- function(id, tbls, rv) {
 
       for (tbl_name in names(tbls())) {
         tbl_id <- paste("chk", tbl_name, sep = "_")
+        tbl_plots_id <- paste("plt", tbl_name, sep = "_")
 
         appendTab(
           inputId = "chk_tbls",
           tabPanel(
             title = tbl_name,
             mod_display_check_ui(ns(tbl_id)),
+            mod_tbl_plots_ui(ns(tbl_plots_id)),
             value = ns(tbl_name),
             icon = if (checks()[[tbl_name]]$valid) icon("check") else icon("x")
           )
@@ -69,11 +64,17 @@ mod_tbls_check_server <- function(id, tbls, rv) {
           tbl_name = tbl_name,
           check = checks()[[tbl_name]]
         )
+
+        mod_tbl_plots_server(
+          id = tbl_plots_id,
+          tbl = tbls()[[tbl_name]],
+          tbl_name = tbl_name,
+          check = checks()[[tbl_name]]
+        )
+
         rv$tab_list <- c(rv$tab_list, ns(tbl_name))
       }
     }) %>%
       bindEvent(tbls())
-
-    return(valid_tbls)
   })
 }

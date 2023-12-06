@@ -3,39 +3,44 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
-#' @importFrom bslib bs_theme font_google
+#' @import bslib
+# @importFrom bslib bs_theme font_google page_sidebar sidebar card
 #' @noRd
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
     # Your application UI logic
-    fluidPage(
-      theme = bs_theme(bg = "white",
-                       fg = "#494544",
-                       primary = "maroon",
-                       base_font = font_google("Montserrat")
+    page_sidebar(
+      theme = bs_theme(
+        bg = "white",
+        fg = "#494544",
+        primary = "maroon",
+        base_font = font_google("Montserrat"),
+        version = 5
       ),
-      h1("MATCHA"),
+      #shinyWidgets::useShinydashboard(),
+      title = "MATCHA",
       # Select source for dataset 1 (previous)
-      sidebarLayout(
-        sidebarPanel(
+      sidebar = sidebar(
+        open = "open", width = 350,
           mod_access_data_ui("access_prev_dat", dataset = "Previous"),
           # Select source for dataset 2 (current)
           mod_access_data_ui("access_curr_dat", dataset = "Current"),
           # Show shared files
-          bslib::card(textOutput("shared_files")),
-          hr(),
+          card(
+            card_header("Shared tables"),
+            textOutput("shared_files")
+            ),
           # Select from shared files
-          mod_select_tbls_ui("select_tbls"),
+        card(
+          card_header("Table selection"),
+          mod_dynamic_select_ui("select_tbls", property = "tables"),
           mod_read_tbls_ui("read_tbls")
-        ),
-        mainPanel(
+        )),
           mod_tbls_check_ui("check_tbls")
-        )
       )
     )
-  )
 }
 
 #' Add external Resources to the Application
