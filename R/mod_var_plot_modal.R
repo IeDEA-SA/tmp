@@ -38,7 +38,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
       req(input$select_plot)
       if (!is.null(input$select_plot)) {
         plot_ui_mod <- get(paste("mod", input$select_plot, "ui", sep = "_"))
-        plot_ui_mod(ns("plot"), var = input$select_var)
+        plot_ui_mod(ns("card"), var = input$select_var)
       }
     }) %>%
       bindEvent(input$ok)
@@ -68,7 +68,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
       req(input$select_plot)
       if (!is.null(input$select_plot)) {
         plot_server_mod <- get(paste("mod", input$select_plot, "server", sep = "_"))
-        plot_server_mod("plot", comb_tbl, input$select_var)
+        plot_server_mod("card", comb_tbl, input$select_var)
       }
       removeModal()
     })

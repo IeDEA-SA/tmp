@@ -38,11 +38,11 @@ mod_tbl_plots_server <- function(id, tbl, tbl_name, check){
       insertUI(
         selector = glue::glue("#{ns('add_plot')}"), where = "afterEnd",
         ui = mod_var_plot_modal_ui(
-          ns(paste0("var_plot_modal_", input$add_plot))
+          ns(paste0("plt_", input$add_plot))
         )
       )
       mod_var_plot_modal_server(
-        paste0("var_plot_modal_", input$add_plot),
+        paste0("plt_", input$add_plot),
         comb_tbl
       )
     })

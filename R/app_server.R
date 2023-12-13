@@ -28,5 +28,5 @@ app_server <- function(input, output, session) {
     previous_dat,
     current_dat
   )
-  mod_tbls_check_server("check_tbls", tbls, rv)
+  mod_tbl_tabs_server("tbl_tab", tbls, rv)
 }

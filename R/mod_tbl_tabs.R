@@ -1,6 +1,6 @@
 #' tbls_check UI Function
 #'
-#' @description Module for checking validity of variables of selected tables
+#' @description Module for creating panels for selected tables
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
@@ -8,9 +8,9 @@
 #'
 #' @importFrom shiny NS tagList
 #' @importFrom bslib navset_underline
-mod_tbls_check_ui <- function(id) {
+mod_tbl_tabs_ui <- function(id) {
   ns <- NS(id)
-  navset_underline(id = ns("chk_tbls"))
+  navset_underline(id = ns("tab"))
 }
 
 #' tbls_check Server Functions
@@ -25,7 +25,7 @@ mod_tbls_check_ui <- function(id) {
 #' to valid shared variables where appropriate.
 #'
 #' @noRd
-mod_tbls_check_server <- function(id, tbls, rv) {
+mod_tbl_tabs_server <- function(id, tbls, rv) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -39,16 +39,16 @@ mod_tbls_check_server <- function(id, tbls, rv) {
       if (!is.null(rv$tab_list)) {
         purrr::walk(
           rv$tab_list,
-          ~ removeTab("chk_tbls", .x)
+          ~ removeTab("tab", .x)
         )
       }
 
       for (tbl_name in names(tbls())) {
         tbl_id <- paste("chk", tbl_name, sep = "_")
-        tbl_plots_id <- paste("plt", tbl_name, sep = "_")
+        tbl_plots_id <- tbl_name
 
         appendTab(
-          inputId = "chk_tbls",
+          inputId = "tab",
           tabPanel(
             title = tbl_name,
             mod_display_check_ui(ns(tbl_id)),

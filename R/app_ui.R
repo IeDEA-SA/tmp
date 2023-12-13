@@ -38,7 +38,7 @@ app_ui <- function(request) {
           mod_dynamic_select_ui("select_tbls", property = "tables"),
           mod_read_tbls_ui("read_tbls")
         )),
-          mod_tbls_check_ui("check_tbls")
+          mod_tbl_tabs_ui("tbl_tab")
       )
     )
 }
