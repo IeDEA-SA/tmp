@@ -30,4 +30,7 @@ app_server <- function(input, output, session) {
     current_dat
   )
   mod_tbl_tabs_server("tbl_tab", tbls, rv)
+
+  mod_download_server("download")
+
 }

@@ -1,0 +1,46 @@
+---
+title: "MATCHA Report"
+author: "Anna Krystalli"
+date: "2024-01-24"
+output: html_document
+params:
+    plots: NULL         
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+```
+
+
+```{r}
+str(params$plots, max.level = 2)
+```
+
+
+## Interactive?
+
+```{r}
+purrr::imap(params$plots[[1]], ~{
+  paste(.y, .x$interactive)
+  })
+```
+
+
+```{r}
+for (tbl in params$plots){
+  for(plt_name in names(tbl)){
+      print(plt_name)
+    if (tbl[[plt_name]]$interactive) {
+      tbl[[plt_name]]$plot %>%
+        plotly::ggplotly()
+    } else {
+      print(tbl[[plt_name]]$plot)
+    }
+    print(tbl[[plt_name]]$plot)
+  }
+}
+```
+
+
+
