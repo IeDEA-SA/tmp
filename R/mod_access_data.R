@@ -37,7 +37,7 @@ mod_access_data_server <- function(id) {
 
     shinyDirChoose(input, "folder",
       roots = roots,
-      filetypes = c("", "csv", "rds", "dta"),
+      filetypes = c("", "csv", "rds", "dta", "sav", "por", "sas7bdat", "sas7bcat"),
       allowDirCreate = FALSE
     )
 
