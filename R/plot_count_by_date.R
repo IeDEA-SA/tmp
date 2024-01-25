@@ -6,7 +6,6 @@
 #' @param position Character string.  Bar position.
 #' @param plot_diff Logical. Whether to plot diff between previous and current.
 #' @param mark_cutoff Logical. Whether to show temporal cut-off of previous data.
-#' @param interactive Logical. Whether to plot interactive plotly plot.
 #'
 #' @importFrom ggplot2 ggplot aes geom_col ylab theme xlab geom_vline
 #' @return Count by date ggplot plot (if `interactive` = FALSE) or plotly plot
@@ -22,8 +21,7 @@ plot_count_by_date <- function(tbl, var,
                                  "mirror", "diff"
                                ),
                                plot_diff = FALSE,
-                               mark_cutoff = TRUE,
-                               interactive = FALSE) {
+                               mark_cutoff = TRUE) {
   time_bin <- rlang::arg_match(time_bin)
   position <- rlang::arg_match(position)
   plot_diff <- ifelse(position == "diff", TRUE, FALSE)
@@ -71,9 +69,6 @@ plot_count_by_date <- function(tbl, var,
       xintercept = as.numeric(prev_cutoff),
       linetype = 3, linewidth = 0.5
     )
-  }
-  if (interactive) {
-    p <- plotly::ggplotly(p)
   }
   p
 }
