@@ -39,12 +39,23 @@ mod_tbl_tabs_server <- function(id, tbls, rv) {
       if (!is.null(rv$tab_list)) {
         purrr::walk(
           rv$tab_list,
-          ~ removeTab("tab", .x)
+          ~ {
+            # removeUI(selector = sprintf("div:has(> #%s)", .x),
+            #          multiple = TRUE)
+            removeTab("tab", .x)
+            remove_shiny_outputs(.x, output)
+            print("\n Inputs \n")
+            print(names(input))
+            remove_shiny_inputs(.x, input)
+            print("\n Inputs after removal \\n")
+            print(names(input))
+          }
         )
+        session$userData$plots <- list()
       }
 
       for (tbl_name in names(tbls())) {
-        tbl_id <- paste("chk", tbl_name, sep = "_")
+        tbl_id <- tbl_name
         tbl_plots_id <- tbl_name
 
         appendTab(
