@@ -87,7 +87,8 @@ mod_plot_count_by_date_server <- function(id, comb_tbl, var) {
       session$userData$plots[[tbl_name]][[plot_id]] <- list(
         var = var,
         plot = generate_plot(),
-        interactive = input$interactive
+        interactive = input$interactive,
+        plot_type = "count_by_date"
       )
     })
 
