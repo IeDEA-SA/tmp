@@ -11,8 +11,7 @@ plot_count_by_date(
     "year"),
   position = c("stack", "dodge", "mirror", "diff"),
   plot_diff = FALSE,
-  mark_cutoff = TRUE,
-  interactive = FALSE
+  mark_cutoff = TRUE
 )
 }
 \arguments{
@@ -27,8 +26,6 @@ plot_count_by_date(
 \item{plot_diff}{Logical. Whether to plot diff between previous and current.}
 
 \item{mark_cutoff}{Logical. Whether to show temporal cut-off of previous data.}
-
-\item{interactive}{Logical. Whether to plot interactive plotly plot.}
 }
 \value{
 Count by date ggplot plot (if \code{interactive} = FALSE) or plotly plot
