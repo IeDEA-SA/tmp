@@ -24,10 +24,29 @@ remotes::install_github("IeDEA-SA/MATCHA")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+To run the app, load the library and run the `run_app()` function.
 
 ``` r
 library(MATCHA)
 ## basic example code
 run_app()
 ```
+
+## Select previous & current data
+
+The first step involves selecting the directories containing the
+previous and current data to be compared. The directories can be
+selected by clicking on the `Select a folder` button.
+
+The file system navigator will open in the root of the demo data
+contained within the package. You can use this data to explore app
+functionality.
+
+<img src="man/figures/select_directories_a.png" width="100%" /><img src="man/figures/select_directories_b.png" width="100%" />
+
+To select another root, click on the `demo_data` button in the top right
+corner of the file system navigator.
+
+Selecting **home** will set the root to **your home directory** from
+where you can navigate to your own directories containing the previous
+and current data.
