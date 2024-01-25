@@ -20,8 +20,6 @@ mod_var_plot_modal_ui <- function(id) {
 mod_var_plot_modal_server <- function(id, comb_tbl) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    print(paste("plot_modal_server ns", ns(NULL)))
-    print(paste("plot_modal_server plot_ui ns", ns("plot_ui")))
 
     output$select_plot_ui <- renderUI({
       req(input$select_var)
@@ -67,19 +65,14 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
     observeEvent(input$ok, {
       req(input$select_plot)
       if (!is.null(input$select_plot)) {
-        plot_server_mod <- get(paste("mod", input$select_plot, "server", sep = "_"))
+        plot_server_mod <- get(paste("mod",
+                                     input$select_plot,
+                                     "server", sep = "_"))
         plot_server_mod("card", comb_tbl, input$select_var)
       }
       removeModal()
     })
 
-    reactive({
-      list(
-        var = input$select_var,
-        plot = input$select_plot
-      )
-    }) %>%
-      bindEvent(input$ok)
   })
 }
 
