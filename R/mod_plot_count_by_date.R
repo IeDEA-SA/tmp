@@ -18,6 +18,7 @@ mod_plot_count_by_date_ui <- function(id, var) {
         fillable = TRUE,
         sidebar = sidebar(
           title = "Configure plot",
+          open = "closed",
           selectInput(ns("time_bin"),
             label = "Select time bin",
             choices = eval(
@@ -57,30 +58,43 @@ mod_plot_count_by_date_ui <- function(id, var) {
 mod_plot_count_by_date_server <- function(id, comb_tbl, var) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    tbl_name <- get_ns_tbl_name(ns)
+    plot_id <- get_ns_plot_id(ns)
+
+    generate_plot <- reactive({
+      req(input$position, input$time_bin, input$mark_cutoff, !is.null(input$interactive))
+      plot_count_by_date(comb_tbl, var,
+                         time_bin = input$time_bin,
+                         position = input$position,
+                         mark_cutoff = input$mark_cutoff
+      )
+    })
 
     output$plot <- renderUI({
       if (input$interactive) {
         plotly::renderPlotly({
-          plot_count_by_date(comb_tbl, var,
-            time_bin = input$time_bin,
-            position = input$position,
-            mark_cutoff = input$mark_cutoff,
-            interactive = input$interactive
-          )
+          generate_plot() %>%
+            plotly::ggplotly()
         })
       } else {
         renderPlot({
-          plot_count_by_date(comb_tbl, var,
-            time_bin = input$time_bin,
-            position = input$position,
-            mark_cutoff = input$mark_cutoff,
-            interactive = input$interactive
-          )
+          generate_plot()
         })
       }
     })
+
+    observe({
+      session$userData$plots[[tbl_name]][[plot_id]] <- list(
+        var = var,
+        plot = generate_plot(),
+        interactive = input$interactive,
+        plot_type = "count_by_date"
+      )
+    })
+
     observeEvent(input$delete, {
-      delete_id <- paste0(ns(NULL), "_ui")
+      session$userData$plots[[tbl_name]][[plot_id]] <- NULL
+      delete_id <- gsub("-card", "-plot_ui", ns(NULL))
       removeUI(
         selector = glue::glue("#{delete_id}")
       )

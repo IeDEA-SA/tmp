@@ -18,6 +18,7 @@ mod_plot_histogram_ui <- function(id, var) {
         fillable = TRUE,
         sidebar = sidebar(
           title = "Configure plot",
+          open = "closed",
           selectInput(ns("position"),
             label = "Select bar position",
             choices = eval(rlang::fn_fmls(
@@ -53,28 +54,42 @@ mod_plot_histogram_ui <- function(id, var) {
 mod_plot_histogram_server <- function(id, comb_tbl, var) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    tbl_name <- get_ns_tbl_name(ns)
+    plot_id <- get_ns_plot_id(ns)
+
+    generate_plot <- reactive({
+      req(input$position, input$bins, !is.null(input$interactive))
+      plot_histogram(
+        tbl = comb_tbl, var = var,
+        position = input$position,
+        bins = input$bins
+      )
+    })
 
     output$plot <- renderUI({
       if (input$interactive) {
         plotly::renderPlotly({
-          plot_histogram(comb_tbl, var,
-            position = input$position,
-            interactive = input$interactive,
-            bins = input$bins
-          )
+          generate_plot() %>%
+            plotly::ggplotly()
         })
       } else {
         renderPlot({
-          plot_histogram(comb_tbl, var,
-            position = input$position,
-            interactive = input$interactive,
-            bins = input$bins
-          )
+          generate_plot()
         })
       }
     })
+
+    observe({
+      session$userData$plots[[tbl_name]][[plot_id]] <- list(
+        var = var,
+        plot = generate_plot(),
+        interactive = input$interactive,
+        plot_type = "histogram"
+      )
+    })
+
     observeEvent(input$delete, {
-      delete_id <- gsub("-plot", "-plot_ui", ns(NULL))
+      delete_id <- gsub("-card", "-plot_ui", ns(NULL))
       removeUI(
         selector = glue::glue("#{delete_id}")
       )

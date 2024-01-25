@@ -33,11 +33,15 @@ mod_access_data_ui <- function(id, dataset) {
 mod_access_data_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    roots <- c("." = here::here(), "home" = fs::path_home())
+    roots <- c(
+      demo_data = system.file("test-data", "synth", package = "MATCHA"),
+      "home" = fs::path_home(),
+      "." = here::here()
+    )
 
     shinyDirChoose(input, "folder",
       roots = roots,
-      filetypes = c("", "csv", "rds", "dta"),
+      filetypes = c("", "csv", "rds", "dta", "sav", "por", "sas7bdat", "sas7bcat"),
       allowDirCreate = FALSE
     )
 

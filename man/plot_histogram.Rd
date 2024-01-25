@@ -4,13 +4,7 @@
 \alias{plot_histogram}
 \title{Create histogram plot of numerical variable}
 \usage{
-plot_histogram(
-  tbl,
-  var,
-  position = c("dodge", "mirror", "facet"),
-  interactive = TRUE,
-  bins = 30L
-)
+plot_histogram(tbl, var, position = c("dodge", "mirror", "facet"), bins = 30L)
 }
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
@@ -19,13 +13,10 @@ plot_histogram(
 
 \item{position}{Character string.  Bar position.}
 
-\item{interactive}{Logical. Whether to plot interactive plotly plot.}
-
 \item{bins}{Integer. Number of bins.}
 }
 \value{
-Histogram ggplot plot (if \code{interactive} = FALSE) or plotly plot
-(if \code{interactive} = TRUE).
+Histogram ggplot plot.
 }
 \description{
 Create histogram plot of numerical variable

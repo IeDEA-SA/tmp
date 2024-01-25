@@ -2,12 +2,15 @@
 #'
 #' @param current_tbl a tibble of current data of a table.
 #' @param previous_tbl a tibble of previous data of the same table.
+#' @param tbl_name
 #'
 #' @return a combined (row bound) long table of current and previous data with
-#' column `tbl` appended containing a factor indicator of whether a row originates
-#' from the `current` or `previous` version of the data.
+#' the following columns appended:
+#' - `tbl`: factor indicating whether a row originates from the `current` or
+#'   `previous` version of the data.
+#' - `tbl_name`: the name of the table
 #' @export
-combine_tbls <- function(current_tbl, previous_tbl) {
+combine_tbls <- function(current_tbl, previous_tbl, tbl_name) {
   current_tbl$tbl <- "current"
   previous_tbl$tbl <- "previous"
   shared_cols <- intersect(names(current_tbl), names(previous_tbl))
@@ -17,5 +20,6 @@ combine_tbls <- function(current_tbl, previous_tbl) {
     current_tbl[, shared_cols],
     previous_tbl[, shared_cols]
   ) %>%
-    dplyr::mutate(tbl = as.factor(.data[["tbl"]]))
+    dplyr::mutate(tbl = as.factor(.data[["tbl"]]),
+                  tbl_name = tbl_name)
 }

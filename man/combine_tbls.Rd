@@ -4,17 +4,23 @@
 \alias{combine_tbls}
 \title{Combine current and previous tbl data}
 \usage{
-combine_tbls(current_tbl, previous_tbl)
+combine_tbls(current_tbl, previous_tbl, tbl_name)
 }
 \arguments{
 \item{current_tbl}{a tibble of current data of a table.}
 
 \item{previous_tbl}{a tibble of previous data of the same table.}
+
+\item{tbl_name}{}
 }
 \value{
 a combined (row bound) long table of current and previous data with
-column \code{tbl} appended containing a factor indicator of whether a row originates
-from the \code{current} or \code{previous} version of the data.
+the following columns appended:
+\itemize{
+\item \code{tbl}: factor indicating whether a row originates from the \code{current} or
+\code{previous} version of the data.
+\item \code{tbl_name}: the name of the table
+}
 }
 \description{
 Combine current and previous tbl data
