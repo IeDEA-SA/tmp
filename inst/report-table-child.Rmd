@@ -1,0 +1,14 @@
+## `r tbl_name`
+
+
+```{r, results='asis'}
+res <- purrr::map(x, 
+                   function(x) {
+  knitr::knit_child(
+    system.file('report-plot-child.Rmd', package = 'MATCHA'),
+    envir = environment(), quiet = TRUE
+  )
+})
+cat(unlist(res), sep = '\n')
+```
+

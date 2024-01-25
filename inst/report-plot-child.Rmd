@@ -1,0 +1,16 @@
+```{r}
+plot_title <- paste0(x$var, ": ", stringr::str_replace_all(x$plot_type, "_", " ") %>% stringr::str_to_title())
+```
+
+
+### `r plot_title`
+
+```{r}
+if (x$interactive) {
+  plotly::ggplotly(x$plot)
+} else {
+    print(x$plot)
+}
+```
+
+
