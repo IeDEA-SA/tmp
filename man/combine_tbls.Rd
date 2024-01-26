@@ -11,7 +11,7 @@ combine_tbls(current_tbl, previous_tbl, tbl_name)
 
 \item{previous_tbl}{a tibble of previous data of the same table.}
 
-\item{tbl_name}{}
+\item{tbl_name}{a character string. The name of the table.}
 }
 \value{
 a combined (row bound) long table of current and previous data with

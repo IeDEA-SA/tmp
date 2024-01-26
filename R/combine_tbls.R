@@ -2,7 +2,7 @@
 #'
 #' @param current_tbl a tibble of current data of a table.
 #' @param previous_tbl a tibble of previous data of the same table.
-#' @param tbl_name
+#' @param tbl_name a character string. The name of the table.
 #'
 #' @return a combined (row bound) long table of current and previous data with
 #' the following columns appended:
