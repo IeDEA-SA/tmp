@@ -30,6 +30,11 @@ You can install the development version of MATCHA from [GitHub](https://github.c
 remotes::install_github("IeDEA-SA/MATCHA")
 ```
 
+> NOTE: Because the repository is currently private, **installation will require that you have created a GitHub Personal Authorisation Token (PAT)** and made it available to the session (this is necessary for interacting through https with private repositories). 
+>
+> Follow [these instructions](https://happygitwithr.com/https-pat) to create, store and make your PAT available to your R session.
+
+
 ## Example
 
 To run the app, load the library and run the `run_app()` function.
