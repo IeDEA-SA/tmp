@@ -1,6 +1,6 @@
 Package: MATCHA
 Title: Data consistency report
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person(given = "Anna",
            family = "Krystalli",
@@ -27,6 +27,7 @@ Imports:
     purrr,
     readr,
     rlang,
+    rmarkdown,
     shiny (>= 1.7.4),
     shinyFiles,
     tibble
