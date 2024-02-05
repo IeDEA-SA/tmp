@@ -45,7 +45,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
       modalDialog(
         selectInput(ns("select_var"),
           paste("Select", "variable", "to compare"),
-          choices = names(comb_tbl),
+          choices = setdiff(names(comb_tbl), c("tbl", "tbl_name")),
           multiple = FALSE,
           selected = NULL,
           selectize = TRUE
