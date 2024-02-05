@@ -38,7 +38,10 @@ pak::pak("IeDEA-SA/MATCHA")
 
 > NOTE: Because the repository is currently private, **installation will require that you have created a GitHub Personal Authorisation Token (PAT)** and made it available to the session (this is necessary for interacting through https with private repositories). 
 >
-> Follow [these instructions](https://happygitwithr.com/https-pat#credentials-package) using the `credentials` 📦 to create, store and make your PAT available to your R session. 
+> Follow the following instructions to:
+> 
+> - [create a GitHub PAT](https://happygitwithr.com/https-pat#get-a-pat) 
+> - [use the `credentials` 📦 to store and make your PAT available](https://happygitwithr.com/https-pat#credentials-package) to your R session. 
 > 
 > You can make your PAT available to any fresh R session by adding `credentials::set_github_pat()` to your `.Rprofile` file. This will run `credentials::set_github_pat()` at the start of each session, ensuring your PAT is available in the environment.
 > To open your `.Rprofile` file for editing, run `usethis::edit_r_profile()`.

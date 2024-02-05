@@ -34,10 +34,12 @@ pak::pak("IeDEA-SA/MATCHA")
 > (PAT)** and made it available to the session (this is necessary for
 > interacting through https with private repositories).
 >
-> Follow [these
-> instructions](https://happygitwithr.com/https-pat#credentials-package)
-> using the `credentials` 📦 to create, store and make your PAT
-> available to your R session.
+> Follow the following instructions to:
+>
+> - [create a GitHub PAT](https://happygitwithr.com/https-pat#get-a-pat)
+> - [use the `credentials` 📦 to store and make your PAT
+>   available](https://happygitwithr.com/https-pat#credentials-package)
+>   to your R session.
 >
 > You can make your PAT available to any fresh R session by adding
 > `credentials::set_github_pat()` to your `.Rprofile` file. This will
