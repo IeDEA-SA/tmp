@@ -17,7 +17,7 @@ mod_var_plot_modal_ui <- function(id) {
 #' var_plot_modal Server Functions
 #'
 #' @noRd
-mod_var_plot_modal_server <- function(id, comb_tbl) {
+mod_var_plot_modal_server <- function(id, comb_tbl, add_plot) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -60,7 +60,8 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
 
     observe({
       showModal(plotModal())
-    })
+    }) %>%
+      bindEvent(add_plot())
 
     observeEvent(input$ok, {
       req(input$select_plot)

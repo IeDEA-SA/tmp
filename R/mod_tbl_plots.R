@@ -47,7 +47,8 @@ mod_tbl_plots_server <- function(id, tbl, tbl_name, check, rv) {
       )
       mod_var_plot_modal_server(
         plot_id,
-        comb_tbl
+        comb_tbl,
+        add_plot = reactive(input$add_plot)
       )
     })
   })
