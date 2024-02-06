@@ -17,15 +17,12 @@ mod_tbl_tabs_ui <- function(id) {
 #'
 #' @param tbls Reactive. List of previous and current tibbles for each selected
 #' table. Output of the `mod_read_tbls()` module.
-#' @param rv Reactive values object containing a `tab_list` element. Used to keep
-#' track of currently opened tabs to ensure they are closed each time `tbls()` is
-#' updated.
 #'
 #' @return Reactive. A list of valid tables, processed to clean names and subse
 #' to valid shared variables where appropriate.
 #'
 #' @noRd
-mod_tbl_tabs_server <- function(id, tbls, rv) {
+mod_tbl_tabs_server <- function(id, tbls) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -36,25 +33,27 @@ mod_tbl_tabs_server <- function(id, tbls, rv) {
     observe({
       req(tbls())
       # Clear previous tabs
-      if (!is.null(rv$tab_list)) {
+
+      remove_tabs <- setdiff(session$userData$tab_list, names(tbls()))
+      add_tabs <- setdiff(names(tbls()), session$userData$tab_list)
+
+
+      if (length(remove_tabs) > 0) {
+        remove_tabs <- ns(remove_tabs)
         purrr::walk(
-          rv$tab_list,
+          remove_tabs,
           ~ {
             # removeUI(selector = sprintf("div:has(> #%s)", .x),
             #          multiple = TRUE)
             removeTab("tab", .x)
-            remove_shiny_outputs(.x, output)
-            print("\n Inputs \n")
-            print(names(input))
-            remove_shiny_inputs(.x, input)
-            print("\n Inputs after removal \\n")
-            print(names(input))
+            remove_shiny_inputs(.x, input, parent_id = sprintf("%s-", ns(NULL)))
+            remove_shiny_outputs(.x, output, parent_id = sprintf("%s-", ns(NULL)))
           }
         )
         session$userData$plots <- list()
       }
 
-      for (tbl_name in names(tbls())) {
+      for (tbl_name in add_tabs) {
         tbl_id <- tbl_name
         tbl_plots_id <- tbl_name
 
@@ -83,7 +82,7 @@ mod_tbl_tabs_server <- function(id, tbls, rv) {
           check = checks()[[tbl_name]]
         )
 
-        rv$tab_list <- c(rv$tab_list, ns(tbl_name))
+        session$userData$tab_list <- names(tbls())
       }
     }) %>%
       bindEvent(tbls())
