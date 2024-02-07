@@ -6,8 +6,10 @@
 #' @noRd
 app_server <- function(input, output, session) {
   options(shiny.maxRequestSize = 100 * 1024^2)
-  rv <- reactiveValues(tab_list = NULL)
   session$userData$plots <- list()
+  session$userData$add_plot_observers <- list()
+  session$userData$tab_list <- vector("character")
+
 
   previous_dat <- mod_access_data_server("access_prev_dat")
   current_dat <- mod_access_data_server("access_curr_dat")
@@ -29,7 +31,7 @@ app_server <- function(input, output, session) {
     previous_dat,
     current_dat
   )
-  mod_tbl_tabs_server("tbl_tab", tbls, rv)
+  mod_tbl_tabs_server("tbl_tab", tbls)
 
   mod_download_server("download")
 
