@@ -13,6 +13,7 @@ Imports:
     bslib (>= 0.6.1),
     checkmate,
     config (>= 0.3.1),
+    digest,
     dplyr (>= 1.1.0),
     fs,
     ggplot2,
@@ -30,7 +31,8 @@ Imports:
     rmarkdown,
     shiny (>= 1.7.4),
     shinyFiles,
-    tibble
+    tibble,
+    uuid
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
