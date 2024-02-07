@@ -34,7 +34,7 @@ mod_access_data_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     roots <- c(
-      demo_data = system.file("test-data", "synth", package = "MATCHA"),
+      demo_data = system.file("test-data", package = "MATCHA"),
       "home" = fs::path_home(),
       "." = here::here()
     )

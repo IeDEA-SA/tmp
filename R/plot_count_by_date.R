@@ -7,7 +7,7 @@
 #' @param plot_diff Logical. Whether to plot diff between previous and current.
 #' @param mark_cutoff Logical. Whether to show temporal cut-off of previous data.
 #'
-#' @importFrom ggplot2 ggplot aes geom_col ylab theme xlab geom_vline
+#' @importFrom ggplot2 ggplot aes geom_col ylab theme xlab geom_vline scale_y_continuous geom_hline
 #' @return Count by date ggplot plot (if `interactive` = FALSE) or plotly plot
 #' (if `interactive` = TRUE).
 #' @export
@@ -61,7 +61,9 @@ plot_count_by_date <- function(tbl, var,
         fill = .data$tbl,
         group = .data$tbl
       )) +
-      geom_col(just = just, position = position)
+      geom_col(just = just, position = position) +
+      scale_y_continuous(labels = abs) +
+      geom_hline(yintercept = 0)
   }
   p <- p + xlab(glue::glue("{var} (binned by {time_bin})"))
   if (mark_cutoff) {

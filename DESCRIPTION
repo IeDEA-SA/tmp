@@ -1,6 +1,6 @@
 Package: MATCHA
 Title: Data consistency report
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: 
     person(given = "Anna",
            family = "Krystalli",
@@ -8,7 +8,7 @@ Authors@R:
            email = "annakrystalli@googlemail.com",
            comment = c(ORCID = "0000-0002-2378-4915"))
 Description: Load, compare and summarise IeDEA cohort data.
-License: What license is it under?
+License: file LICENSE
 Imports: 
     bslib (>= 0.6.1),
     checkmate,
@@ -39,6 +39,7 @@ RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 Suggests: 
     spelling,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    vdiffr
 Config/testthat/edition: 3
 Language: en-US
