@@ -52,7 +52,7 @@ mod_tbl_plots_server <- function(id, tbl, tbl_name, check, rv) {
         comb_tbl,
         add_plot = reactive(input$add_plot)
       )
-    })
+    }, ignoreInit = TRUE)
   })
 }
 
