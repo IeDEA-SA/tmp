@@ -51,6 +51,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
             remove_shiny_outputs(.x, output, parent_id = sprintf("%s-", ns(NULL)))
             # Remove any previously created plots
             session$userData$plots[[.y]] <- NULL
+            session$userData$add_plot_observers[[.y]]$destroy()
           }
         )
       }

@@ -17,7 +17,7 @@ mod_var_plot_modal_ui <- function(id) {
 #' var_plot_modal Server Functions
 #'
 #' @noRd
-mod_var_plot_modal_server <- function(id, comb_tbl, add_plot) {
+mod_var_plot_modal_server <- function(id, comb_tbl) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -32,6 +32,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl, add_plot) {
         )
       }
     })
+
     output$plot_ui <- renderUI({
       req(input$select_plot)
       if (!is.null(input$select_plot)) {
@@ -41,7 +42,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl, add_plot) {
     }) %>%
       bindEvent(input$ok)
 
-    plotModal <- function(failed = FALSE) {
+    plotModal <- function() {
       modalDialog(
         selectInput(ns("select_var"),
           paste("Select", "variable", "to compare"),
@@ -58,10 +59,9 @@ mod_var_plot_modal_server <- function(id, comb_tbl, add_plot) {
       )
     }
 
-    observe({
+    mod_observer <- observe({
       showModal(plotModal())
-    }) %>%
-      bindEvent(add_plot())
+    }, label = ns("launch-modal-obs"))
 
     observeEvent(input$ok, {
       req(input$select_plot)
@@ -71,8 +71,9 @@ mod_var_plot_modal_server <- function(id, comb_tbl, add_plot) {
                                      "server", sep = "_"))
         plot_server_mod("card", comb_tbl, input$select_var)
       }
+      mod_observer$destroy()
       removeModal()
-    })
+    }, label = ns("modal-ok-obs-event"))
 
   })
 }
