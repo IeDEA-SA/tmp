@@ -5,7 +5,7 @@
 #' @param position Character string.  Bar position.
 #' @param bins Integer. Number of bins.
 #'
-#' @importFrom ggplot2 ggplot aes geom_histogram after_stat ylab facet_grid
+#' @importFrom ggplot2 ggplot aes geom_histogram after_stat ylab facet_grid scale_y_continuous geom_hline
 #' @return Histogram ggplot plot.
 #' @export
 plot_histogram <- function(tbl, var,
@@ -33,7 +33,9 @@ plot_histogram <- function(tbl, var,
         fill = .data[["tbl"]]
       )) +
       geom_histogram(position = "stack", bins = bins) +
-      ylab("count (previous data as -ve)")
+      scale_y_continuous(labels = abs) +
+      geom_hline(yintercept = 0) +
+      ylab("count")
   }
   if (position == "facet") {
     p <- tbl %>%
