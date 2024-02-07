@@ -5,16 +5,12 @@
 remove_shiny_inputs <- function(id, .input, parent_id = "") {
 
   id <- gsub(parent_id, "", id)
-  cli::cli_h1("Inputs before removal: {.var {id}}")
-  print(names(.input))
 
   invisible(
     lapply(grep(id, names(.input), value = TRUE), function(i) {
       .subset2(.input, "impl")$.values$remove(i)
     })
   )
-  cli::cli_h2("Inputs after removal")
-  print(names(.input))
 
 }
 
@@ -22,12 +18,7 @@ remove_shiny_inputs <- function(id, .input, parent_id = "") {
 # https://appsilon.com/how-to-safely-remove-a-dynamic-shiny-module/
 remove_shiny_outputs <- function(id, .output, parent_id = "") {
   delete_ui <- grep(id, names(outputOptions(.output)), value = TRUE)
-  delete_ui_id <- gsub(parent_id, "", delete_ui)
-
-  cli::cli_h1("Outputs before removal: {.var {id}}")
-  names(outputOptions(.output))
-  cli::cli_h3("Delete UIs")
-  print(delete_ui)
+  #delete_ui_id <- gsub(parent_id, "", delete_ui)
 
   purrr::walk(
     delete_ui,
@@ -55,7 +46,4 @@ remove_shiny_outputs <- function(id, .output, parent_id = "") {
 #     })
 #   )
 
-
-  cli::cli_h2("Outputs after removal")
-  print(names(outputOptions(.output)))
 }
