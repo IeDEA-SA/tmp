@@ -10,8 +10,7 @@
 mod_read_tbls_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    actionButton(ns("readBtn"), "Read Selected Tables"),
-    textOutput(ns("msg"))
+    actionButton(ns("readBtn"), "Read Selected Tables")
   )
 }
 
@@ -31,23 +30,10 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    output[["msg"]] <- renderText({
-      req(selected_tables)
-      if (length(selected_tables()) > 1L) {
-        txt <- "Tables"
-      } else {
-        txt <- "Table"
-      }
-      glue::glue("{txt} {selected_tables()} read successfully.")
-    }) %>% bindEvent(input$readBtn,
-      ignoreNULL = TRUE,
-      ignoreInit = TRUE
-    )
-
     observe({
       req(selected_tables)
       purrr::map(
-        selected_tables(),
+        setdiff(selected_tables(), session$userData$tab_list),
         ~ showNotification(
           glue::glue("Table {.x} read successfully."),
           type = "message"
