@@ -36,7 +36,7 @@ test_that("plot_count_by_date works", {
   )
 
   expect_doppelganger(
-    title = "tbl_tblART art_comb dodge plot_count_by_date",
+    title = "tbl_tblART art_comb diff plot_count_by_date",
     {
       plot_count_by_date(tbl_tblART, var = "art_sd", position = "diff")
     }
