@@ -32,58 +32,56 @@ mod_tbl_tabs_server <- function(id, tbls) {
 
     observe({
       req(tbls())
-      # Clear previous tabs
-
       remove_tabs <- setdiff(session$userData$tab_list, names(tbls()))
       add_tabs <- setdiff(names(tbls()), session$userData$tab_list)
 
-
+      # If any tabs deleted, clear them
       if (length(remove_tabs) > 0) {
-        remove_tabs <- ns(remove_tabs)
-        purrr::walk(
-          remove_tabs,
+        remove_tab_ns <- ns(remove_tabs)
+        purrr::walk2(
+          remove_tab_ns, remove_tabs,
           ~ {
             # removeUI(selector = sprintf("div:has(> #%s)", .x),
             #          multiple = TRUE)
+            removeUI(selector = "div:has(> '#shiny-modal')",
+                             multiple = TRUE)
+
             removeTab("tab", .x)
             remove_shiny_inputs(.x, input, parent_id = sprintf("%s-", ns(NULL)))
             remove_shiny_outputs(.x, output, parent_id = sprintf("%s-", ns(NULL)))
+            # Remove any previously created plots
+            session$userData$plots[[.y]] <- NULL
           }
         )
-        session$userData$plots <- list()
       }
 
       for (tbl_name in add_tabs) {
-        tbl_id <- tbl_name
-        tbl_plots_id <- tbl_name
-
         appendTab(
           inputId = "tab",
           tabPanel(
             title = tbl_name,
-            mod_display_check_ui(ns(tbl_id)),
-            mod_tbl_plots_ui(ns(tbl_plots_id)),
+            mod_display_check_ui(ns(tbl_name)),
+            mod_tbl_plots_ui(ns(tbl_name)),
             value = ns(tbl_name),
             icon = if (checks()[[tbl_name]]$valid) icon("check") else icon("x")
           )
         )
 
         mod_display_check_server(
-          id = tbl_id,
+          id = tbl_name,
           tbl = tbls()[[tbl_name]],
           tbl_name = tbl_name,
           check = checks()[[tbl_name]]
         )
 
         mod_tbl_plots_server(
-          id = tbl_plots_id,
+          id = tbl_name,
           tbl = tbls()[[tbl_name]],
           tbl_name = tbl_name,
           check = checks()[[tbl_name]]
         )
-
-        session$userData$tab_list <- names(tbls())
       }
+      session$userData$tab_list <- names(tbls())
     }) %>%
       bindEvent(tbls())
   })
