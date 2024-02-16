@@ -1,7 +1,7 @@
 #' Create count by date plot of Date variable
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
-#' @param var Character string. Name of variable in table to plot.
+#' @param x Character string. Name of variable in table to plot.
 #' @param time_bin Character string. Temporal bin.
 #' @param position Character string.  Bar position.
 #' @param plot_diff Logical. Whether to plot diff between previous and current.
@@ -11,7 +11,7 @@
 #' @return Count by date ggplot plot (if `interactive` = FALSE) or plotly plot
 #' (if `interactive` = TRUE).
 #' @export
-plot_count_by_date <- function(tbl, var,
+plot_count_by_date <- function(tbl, x,
                                time_bin = c(
                                  "day", "week", "month", "bimonth",
                                  "quarter", "season", "halfyear", "year"
@@ -30,12 +30,12 @@ plot_count_by_date <- function(tbl, var,
   just <- ifelse(position == "dodge", 0.5, 0)
 
   if (mark_cutoff) {
-    prev_cutoff <- get_date_floor(tbl, var, time_bin)
+    prev_cutoff <- get_date_floor(tbl, x, time_bin)
   }
   if (plot_diff) {
     p <- tbl %>%
       bin_count_by_date(
-        var = var, time_bin = time_bin,
+        x = x, time_bin = time_bin,
         mirror = TRUE
       ) %>%
       dplyr::group_by(.data[["time_bin"]]) %>%
@@ -52,7 +52,7 @@ plot_count_by_date <- function(tbl, var,
   } else {
     p <- tbl %>%
       bin_count_by_date(
-        var = var, time_bin = time_bin,
+        x = x, time_bin = time_bin,
         mirror = mirror
       ) %>%
       ggplot(aes(
@@ -65,7 +65,7 @@ plot_count_by_date <- function(tbl, var,
       scale_y_continuous(labels = abs) +
       geom_hline(yintercept = 0)
   }
-  p <- p + xlab(glue::glue("{var} (binned by {time_bin})"))
+  p <- p + xlab(glue::glue("{x} (binned by {time_bin})"))
   if (mark_cutoff) {
     p <- p + geom_vline(
       xintercept = as.numeric(prev_cutoff),

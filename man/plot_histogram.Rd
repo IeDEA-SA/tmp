@@ -4,12 +4,12 @@
 \alias{plot_histogram}
 \title{Create histogram plot of numerical variable}
 \usage{
-plot_histogram(tbl, var, position = c("dodge", "mirror", "facet"), bins = 30L)
+plot_histogram(tbl, x, position = c("dodge", "mirror", "facet"), bins = 30L)
 }
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
 
-\item{var}{Character string. Name of variable in table to plot.}
+\item{x}{Character string. Name of variable in table to plot.}
 
 \item{position}{Character string.  Bar position.}
 

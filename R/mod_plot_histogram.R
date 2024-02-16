@@ -3,16 +3,18 @@
 #' @description Module for creating histogram plot card.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
-#' @param var Character string. Name of variable being plotted.
+#' @param x Character string. Name of variable being plotted.
+#' @param y Defaults to NULL. Not used in 1 variable plots but required for consistency
+#' with 2 var plots.
 #'
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_plot_histogram_ui <- function(id, var) {
+mod_plot_histogram_ui <- function(id, x, y = NULL) {
   ns <- NS(id)
   tagList(
     card(
-      card_header(var),
+      card_header(x),
       full_screen = TRUE,
       layout_sidebar(
         fillable = TRUE,
@@ -51,7 +53,7 @@ mod_plot_histogram_ui <- function(id, var) {
 #'
 #' @param comb_tbl A tibble of combined previous and current data.
 #' @noRd
-mod_plot_histogram_server <- function(id, comb_tbl, var) {
+mod_plot_histogram_server <- function(id, comb_tbl, x, y = NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     tbl_name <- get_ns_tbl_name(ns)
@@ -60,7 +62,7 @@ mod_plot_histogram_server <- function(id, comb_tbl, var) {
     generate_plot <- reactive({
       req(input$position, input$bins, !is.null(input$interactive))
       plot_histogram(
-        tbl = comb_tbl, var = var,
+        tbl = comb_tbl, x = x,
         position = input$position,
         bins = input$bins
       )
@@ -81,7 +83,7 @@ mod_plot_histogram_server <- function(id, comb_tbl, var) {
 
     observe({
       session$userData$plots[[tbl_name]][[plot_id]] <- list(
-        var = var,
+        x = x,
         plot = generate_plot(),
         interactive = input$interactive,
         plot_type = "histogram"

@@ -6,7 +6,7 @@
 \usage{
 plot_count_by_date(
   tbl,
-  var,
+  x,
   time_bin = c("day", "week", "month", "bimonth", "quarter", "season", "halfyear",
     "year"),
   position = c("stack", "dodge", "mirror", "diff"),
@@ -17,7 +17,7 @@ plot_count_by_date(
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
 
-\item{var}{Character string. Name of variable in table to plot.}
+\item{x}{Character string. Name of variable in table to plot.}
 
 \item{time_bin}{Character string. Temporal bin.}
 

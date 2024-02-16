@@ -1,10 +1,10 @@
-bin_count_by_date <- function(tbl, var, time_bin, mirror) {
-  var <- rlang::arg_match(var, values = names(tbl))
-  checkmate::assert_class(tbl[[var]], "Date")
+bin_count_by_date <- function(tbl, x, time_bin, mirror) {
+  x <- rlang::arg_match(x, values = names(tbl))
+  checkmate::assert_class(tbl[[x]], "Date")
 
   dplyr::mutate(
     tbl,
-    time_bin = lubridate::floor_date(.data[[var]], time_bin)
+    time_bin = lubridate::floor_date(.data[[x]], time_bin)
   ) %>%
     dplyr::group_by(.data[["tbl"]], .data[["time_bin"]]) %>%
     dplyr::summarise(count = dplyr::n()) %>%
@@ -14,18 +14,18 @@ bin_count_by_date <- function(tbl, var, time_bin, mirror) {
     ))
 }
 
-get_date_floor <- function(tbl, var, time_bin) {
-  var <- rlang::arg_match(var, values = names(tbl))
-  checkmate::assert_class(tbl[[var]], "Date")
+get_date_floor <- function(tbl, x, time_bin) {
+  x <- rlang::arg_match(x, values = names(tbl))
+  checkmate::assert_class(tbl[[x]], "Date")
 
   if (!"tbl" %in% names(tbl)) {
     return({
-      max(tbl[[var]]) %>%
+      max(tbl[[x]]) %>%
         lubridate::floor_date(unit = time_bin)
     })
   }
 
-  tbl[tbl[["tbl"]] == "previous", var, drop = TRUE] %>%
+  tbl[tbl[["tbl"]] == "previous", x, drop = TRUE] %>%
     max() %>%
     lubridate::floor_date(unit = time_bin)
 }

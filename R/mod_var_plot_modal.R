@@ -73,7 +73,11 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
       req(input$select_plot)
       if (!is.null(input$select_plot)) {
         plot_ui_mod <- get(paste("mod", input$select_plot, "ui", sep = "_"))
-        plot_ui_mod(ns("card"), var = input$select_var_x)
+        plot_ui_mod(
+          ns("card"),
+          x = input$select_var_x,
+          y = input$select_var_y
+        )
       }
     }) %>%
       bindEvent(input$ok)
@@ -84,7 +88,6 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
           "Select plot type",
           choices = names(plot_meta),
           multiple = FALSE,
-          selected = "plot_histogram",
           selectize = TRUE
         ),
         uiOutput(ns("select_plot_ui")),
@@ -111,7 +114,10 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
             "server",
             sep = "_"
           ))
-          plot_server_mod("card", comb_tbl, input$select_var_x)
+          plot_server_mod("card", comb_tbl,
+            x = input$select_var_x,
+            y = input$select_var_y
+          )
         }
         mod_observer$destroy()
         removeModal()
