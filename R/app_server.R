@@ -19,8 +19,6 @@ app_server <- function(input, output, session) {
     current = reactive(current_dat())
   )
 
-  output$shared_files <- renderText(shared_tables())
-
   selected_tables <- mod_dynamic_select_server("select_tbls",
     property = "tables",
     choices = shared_tables
