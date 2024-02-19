@@ -24,14 +24,14 @@ test_that("plot_histogram works", {
   expect_doppelganger(
     title = "tbl_tblART art_comb mirror histogram",
     {
-      plot_histogram(tbl_tblART, var = "art_comb", position = "mirror")
+      plot_histogram(tbl_tblART, x = "art_comb", position = "mirror")
     }
   )
 
   expect_doppelganger(
     title = "tbl_tblART art_comb dodge histogram",
     {
-      plot_histogram(tbl_tblART, var = "art_comb", position = "dodge")
+      plot_histogram(tbl_tblART, x = "art_comb", position = "dodge")
     }
   )
 })
