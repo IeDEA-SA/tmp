@@ -20,7 +20,6 @@ mod_plot_count_by_date_ui <- function(id, x, y = NULL) {
         fillable = TRUE,
         sidebar = sidebar(
           title = "Configure plot",
-          open = "closed",
           selectInput(ns("time_bin"),
             label = "Select time bin",
             choices = eval(

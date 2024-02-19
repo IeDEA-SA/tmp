@@ -20,7 +20,6 @@ mod_plot_histogram_ui <- function(id, x, y = NULL) {
         fillable = TRUE,
         sidebar = sidebar(
           title = "Configure plot",
-          open = "closed",
           selectInput(ns("position"),
             label = "Select bar position",
             choices = eval(rlang::fn_fmls(
