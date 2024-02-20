@@ -65,7 +65,7 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
     #output$coltypes_msg <- renderText(check$check_coltypes$msg)
     schema_config <- mod_schema_config_server("schema_config", tbl)
 
-    observe(schema_config())
+    #observe({browser()})
     output$valid <- renderText({
       if (check$valid) "Tables are valid" else "Tables are invalid"
     })

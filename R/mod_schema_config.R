@@ -68,7 +68,7 @@ mod_schema_config_server <- function(id, tbl) {
    }
 
    observe({
-     print(schema)
+     print(schema[["art_rs"]])
    })
 
 
@@ -81,7 +81,7 @@ mod_schema_config_server <- function(id, tbl) {
   # observe({
   #   print(all_out)
   # })
-  mitsos_out
+   schema
 
   })
 }
