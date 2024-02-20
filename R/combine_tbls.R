@@ -20,6 +20,10 @@ combine_tbls <- function(current_tbl, previous_tbl, tbl_name) {
     current_tbl[, shared_cols],
     previous_tbl[, shared_cols]
   ) %>%
-    dplyr::mutate(tbl = as.factor(.data[["tbl"]]),
-                  tbl_name = tbl_name)
+    dplyr::mutate(
+      tbl = factor(.data[["tbl"]],
+        levels = c("previous", "current")
+      ),
+      tbl_name = tbl_name
+    )
 }

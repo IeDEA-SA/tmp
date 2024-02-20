@@ -10,9 +10,22 @@
 get_shared_nms_rct <- function(previous, current) {
   reactive({
     req(previous(), current())
-    intersect(
+    shared <- intersect(
       names(previous()),
       names(current())
     )
+    if (length(shared) == 0L) {
+      showNotification(
+        glue::glue("No shared tables detected! No data to compare."),
+        type = "error"
+      )
+    } else {
+      showNotification(
+        glue::glue("{length(shared)} shared tables detected:
+                   {glue::glue_collapse(shared, sep = ', ')}"),
+        type = "message"
+      )
+    }
+    shared
   })
 }

@@ -1,7 +1,7 @@
 ---
-title: "MATCHA Report"
-author: "Anna Krystalli"
-date: "2024-01-24"
+title: "Data consistency report"
+author: ""
+date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output: html_document
 params:
     plots: NULL         

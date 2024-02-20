@@ -3,22 +3,23 @@
 #' @description Module for creating count by date plot card.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
-#' @param var Character string. Name of variable being plotted.
+#' @param x Character string. Name of variable being plotted.
+#' @param y Defaults to NULL. Not used in 1 variable plots but required for
+#' consistency.
 #'
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_plot_count_by_date_ui <- function(id, var) {
+mod_plot_count_by_date_ui <- function(id, x, y = NULL) {
   ns <- NS(id)
   tagList(
     card(
-      card_header(var),
+      card_header(x),
       full_screen = TRUE,
       layout_sidebar(
         fillable = TRUE,
         sidebar = sidebar(
           title = "Configure plot",
-          open = "closed",
           selectInput(ns("time_bin"),
             label = "Select time bin",
             choices = eval(
@@ -55,7 +56,7 @@ mod_plot_count_by_date_ui <- function(id, var) {
 #'
 #' @param comb_tbl A tibble of combined previous and current data.
 #' @noRd
-mod_plot_count_by_date_server <- function(id, comb_tbl, var) {
+mod_plot_count_by_date_server <- function(id, comb_tbl, x, y = NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     tbl_name <- get_ns_tbl_name(ns)
@@ -63,7 +64,7 @@ mod_plot_count_by_date_server <- function(id, comb_tbl, var) {
 
     generate_plot <- reactive({
       req(input$position, input$time_bin, input$mark_cutoff, !is.null(input$interactive))
-      plot_count_by_date(comb_tbl, var,
+      plot_count_by_date(comb_tbl, x,
                          time_bin = input$time_bin,
                          position = input$position,
                          mark_cutoff = input$mark_cutoff
@@ -85,7 +86,7 @@ mod_plot_count_by_date_server <- function(id, comb_tbl, var) {
 
     observe({
       session$userData$plots[[tbl_name]][[plot_id]] <- list(
-        var = var,
+        x = x,
         plot = generate_plot(),
         interactive = input$interactive,
         plot_type = "count_by_date"

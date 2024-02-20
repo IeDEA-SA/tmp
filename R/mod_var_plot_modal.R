@@ -22,14 +22,50 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
     ns <- session$ns
 
     output$select_plot_ui <- renderUI({
-      req(input$select_var)
-      if (!is.null(input$select_var)) {
-        selectInput(ns("select_plot"),
-          "Select plot type",
-          choices = var_plot_types(input$select_var, comb_tbl),
-          multiple = FALSE,
-          selectize = TRUE
-        )
+      req(input$select_plot)
+      if (!is.null(input$select_plot)) {
+        #   purrr::imap(
+        #     plot_meta[[input$select_plot]],
+        #     ~ selectInput(ns(sprintf("select_var_%s", .y)),
+        #       paste("Select", "variable", "to compare"),
+        #       choices = setdiff(
+        #         names(comb_tbl)[
+        #           purrr::map_lgl(comb_tbl, ~ get(sprintf("is.%s", .x))(.x))
+        #         ],
+        #         c("tbl", "tbl_name")
+        #       ),
+        #       multiple = FALSE,
+        #       selected = NULL,
+        #       selectize = TRUE
+        #     )
+        # )
+
+        output <- tagList()
+        for (i in seq_along(plot_meta[[input$select_plot]])) {
+          var_type <- plot_meta[[input$select_plot]][[i]]
+          var_name <- names(plot_meta[[input$select_plot]])[i]
+          id <- sprintf("select_var_%s", var_name)
+          fn <- switch(var_type,
+            numeric = is.numeric,
+            Date = function(x) {
+              inherits(x, "Date")
+            }
+          )
+
+          output[[i]] <- selectInput(ns(sprintf("select_var_%s", var_name)),
+            paste("Select", var_name, "variable", "to compare"),
+            choices = setdiff(
+              names(comb_tbl)[
+                purrr::map_lgl(comb_tbl, ~ fn(.x))
+              ],
+              c("tbl", "tbl_name")
+            ),
+            multiple = FALSE,
+            selected = NULL,
+            selectize = TRUE
+          )
+        }
+        output
       }
     })
 
@@ -37,18 +73,21 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
       req(input$select_plot)
       if (!is.null(input$select_plot)) {
         plot_ui_mod <- get(paste("mod", input$select_plot, "ui", sep = "_"))
-        plot_ui_mod(ns("card"), var = input$select_var)
+        plot_ui_mod(
+          ns("card"),
+          x = input$select_var_x,
+          y = input$select_var_y
+        )
       }
     }) %>%
       bindEvent(input$ok)
 
     plotModal <- function() {
       modalDialog(
-        selectInput(ns("select_var"),
-          paste("Select", "variable", "to compare"),
-          choices = setdiff(names(comb_tbl), c("tbl", "tbl_name")),
+        selectInput(ns("select_plot"),
+          "Select plot type",
+          choices = names(plot_meta),
           multiple = FALSE,
-          selected = NULL,
           selectize = TRUE
         ),
         uiOutput(ns("select_plot_ui")),
@@ -59,22 +98,32 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
       )
     }
 
-    mod_observer <- observe({
-      showModal(plotModal())
-    }, label = ns("launch-modal-obs"))
+    mod_observer <- observe(
+      {
+        showModal(plotModal())
+      },
+      label = ns("launch-modal-obs")
+    )
 
-    observeEvent(input$ok, {
-      req(input$select_plot)
-      if (!is.null(input$select_plot)) {
-        plot_server_mod <- get(paste("mod",
-                                     input$select_plot,
-                                     "server", sep = "_"))
-        plot_server_mod("card", comb_tbl, input$select_var)
-      }
-      mod_observer$destroy()
-      removeModal()
-    }, label = ns("modal-ok-obs-event"))
-
+    observeEvent(input$ok,
+      {
+        req(input$select_plot)
+        if (!is.null(input$select_plot)) {
+          plot_server_mod <- get(paste("mod",
+            input$select_plot,
+            "server",
+            sep = "_"
+          ))
+          plot_server_mod("card", comb_tbl,
+            x = input$select_var_x,
+            y = input$select_var_y
+          )
+        }
+        mod_observer$destroy()
+        removeModal()
+      },
+      label = ns("modal-ok-obs-event")
+    )
   })
 }
 

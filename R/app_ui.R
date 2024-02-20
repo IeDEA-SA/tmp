@@ -26,11 +26,6 @@ app_ui <- function(request) {
         mod_access_data_ui("access_prev_dat", dataset = "Previous"),
         # Select source for dataset 2 (current)
         mod_access_data_ui("access_curr_dat", dataset = "Current"),
-        # Show shared files
-        card(
-          card_header("Shared tables"),
-          textOutput("shared_files")
-        ),
         # Select from shared files
         card(
           card_header("Table selection"),

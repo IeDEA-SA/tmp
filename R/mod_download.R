@@ -10,7 +10,7 @@
 mod_download_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    downloadButton(ns("report"), "Generate report"),
+    downloadButton(ns("report"), "Generate report", class = "btn-secondary"),
   )
 }
 

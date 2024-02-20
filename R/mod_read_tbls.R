@@ -10,7 +10,9 @@
 mod_read_tbls_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    actionButton(ns("readBtn"), "Read Selected Tables")
+    actionButton(ns("readBtn"), "Read Selected Tables",
+      class = "btn-secondary"
+    )
   )
 }
 

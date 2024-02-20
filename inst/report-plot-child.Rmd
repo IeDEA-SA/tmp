@@ -1,5 +1,5 @@
 ```{r}
-plot_title <- paste0(x$var, ": ", stringr::str_replace_all(x$plot_type, "_", " ") %>% stringr::str_to_title())
+plot_title <- paste0(x$x, ": ", stringr::str_replace_all(x$plot_type, "_", " ") %>% stringr::str_to_title())
 ```
 
 
