@@ -43,8 +43,10 @@ mod_tbl_tabs_server <- function(id, tbls) {
           ~ {
             # removeUI(selector = sprintf("div:has(> #%s)", .x),
             #          multiple = TRUE)
-            removeUI(selector = "div:has(> '#shiny-modal')",
-                             multiple = TRUE)
+            removeUI(
+              selector = "div:has(> '#shiny-modal')",
+              multiple = TRUE
+            )
 
             removeTab("tab", .x)
             remove_shiny_inputs(.x, input, parent_id = sprintf("%s-", ns(NULL)))

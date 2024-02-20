@@ -38,21 +38,24 @@ mod_tbl_plots_server <- function(id, tbl, tbl_name, check, rv) {
       tbl_name = tbl_name
     )
 
-    session$userData$add_plot_observers[[tbl_name]] <- observeEvent(input$add_plot, {
-      plot_id <- make_uuid()
-      print(plot_id)
-      insertUI(
-        selector = glue::glue("#{ns('add_plot')}"), where = "beforeBegin",
-        ui = mod_var_plot_modal_ui(
-          ns(plot_id)
+    session$userData$add_plot_observers[[tbl_name]] <- observeEvent(input$add_plot,
+      {
+        plot_id <- make_uuid()
+        print(plot_id)
+        insertUI(
+          selector = glue::glue("#{ns('add_plot')}"), where = "beforeBegin",
+          ui = mod_var_plot_modal_ui(
+            ns(plot_id)
+          )
         )
-      )
-      mod_var_plot_modal_server(
-        plot_id,
-        comb_tbl
-      )
-    },
-    ignoreInit = TRUE, label = ns("add-plot"))
+        mod_var_plot_modal_server(
+          plot_id,
+          comb_tbl
+        )
+      },
+      ignoreInit = TRUE,
+      label = ns("add-plot")
+    )
   })
 }
 
