@@ -25,7 +25,8 @@ mod_display_check_ui <- function(id) {
       accordion_panel(
         title = "Variable data types",
         icon = icon("table"),
-        textOutput(ns("coltypes_msg"))
+        #textOutput(ns("coltypes_msg"))
+        mod_schema_config_ui(ns("schema_config"))
       ),
       accordion_panel(
         "tbl Structure",
@@ -55,9 +56,16 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
         sep = ", "
       )
     })
-    output$tbl_summary <- renderPrint(utils::str(tbl))
+    output$tbl_summary <- renderPrint({
+      message(paste0("printing summary for table", tbl_name))
+      utils::str(tbl)
+    })
+
     output$names_msg <- renderText(check$check_names$msg)
-    output$coltypes_msg <- renderText(check$check_coltypes$msg)
+    #output$coltypes_msg <- renderText(check$check_coltypes$msg)
+    schema_config <- mod_schema_config_server("schema_config", tbl)
+
+    observe(schema_config())
     output$valid <- renderText({
       if (check$valid) "Tables are valid" else "Tables are invalid"
     })
