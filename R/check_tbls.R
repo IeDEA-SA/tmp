@@ -164,9 +164,8 @@ process_tbl <- function(x, clean_names = FALSE, select_vars) {
   purrr::map(x, ~ .x[, select_vars])
 }
 
-
 col_rbind_error <- function(x, var) {
-  purrr::map(x, ~ .x[, "patient"]) %>%
+  purrr::map(x, ~ .x[, var]) %>%
     try() %>%
     purrr::list_rbind() %>%
     inherits("try-error")
