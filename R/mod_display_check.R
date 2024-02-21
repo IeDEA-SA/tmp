@@ -31,7 +31,20 @@ mod_display_check_ui <- function(id) {
       accordion_panel(
         "tbl Structure",
         icon = icon("magnifying-glass-chart"),
-        verbatimTextOutput(ns("tbl_summary"))
+        navset_card_tab(
+          height = 450,
+          full_screen = TRUE,
+          nav_panel(
+            "Previous",
+            card_title("Previous data summary"),
+            verbatimTextOutput(ns("tbl_skim_previous"))
+          ),
+          nav_panel(
+            "Current",
+            card_title("Current data summary"),
+            verbatimTextOutput(ns("tbl_skim_current"))
+          )
+        )
       ),
       open = FALSE
     )
@@ -76,8 +89,11 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
       )
     })
 
-    output$tbl_summary <- renderPrint({
-      skimr::skim(schema_tbl())
+    output$tbl_skim_current <- renderPrint({
+      skimr::skim(schema_tbl()$current)
+    })
+    output$tbl_skim_previous <- renderPrint({
+      skimr::skim(schema_tbl()$previous)
     })
     output$valid <- renderText({
       if (check$valid) "Tables are valid" else "Tables are invalid"
