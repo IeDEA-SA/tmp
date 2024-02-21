@@ -31,6 +31,7 @@ Imports:
     rmarkdown,
     shiny (>= 1.7.4),
     shinyFiles,
+    skimr,
     tibble,
     uuid
 Encoding: UTF-8
