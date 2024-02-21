@@ -30,7 +30,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
       purrr::map(tbls(), ~ check_tbls(.x))
     })
 
-    schema <- reactiveValues()
+    clean_tbls <- reactiveValues()
 
     observe({
       req(tbls())
@@ -72,7 +72,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
           )
         )
 
-        schema[[tbl_name]] <- mod_display_check_server(
+        clean_tbls[[tbl_name]] <- mod_display_check_server(
           id = tbl_name,
           tbl = tbls()[[tbl_name]],
           tbl_name = tbl_name,
@@ -81,9 +81,8 @@ mod_tbl_tabs_server <- function(id, tbls) {
 
         mod_tbl_plots_server(
           id = tbl_name,
-          tbl = schema[[tbl_name]],
-          tbl_name = tbl_name#,
-          #check = checks()[[tbl_name]]
+          tbl = clean_tbls[[tbl_name]],
+          tbl_name = tbl_name
         )
       }
       session$userData$tab_list <- names(tbls())
