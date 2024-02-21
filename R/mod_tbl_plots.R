@@ -20,25 +20,29 @@ mod_tbl_plots_ui <- function(id) {
 
 #' tbl_plots Server Functions
 #'
-#' @param tbl a list containing two elements:
+#' @param tbl a reactive list containing two elements:
 #' - `previous`: a tibble of previous data
 #' - `current`: a tibble of current data
 #' to compare.
 #' @param tbl_name Character string. The table name.
-#' @param check a list of the results of checks output from [check_tbls()].
 #' @noRd
-mod_tbl_plots_server <- function(id, tbl, tbl_name, check, rv) {
+mod_tbl_plots_server <- function(id, tbl, tbl_name) {
+  stopifnot(is.reactive(tbl))
+
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    tbl <- validate_tbl(tbl, check)
 
-    comb_tbl <- combine_tbls(
-      current_tbl = tbl$current,
-      previous_tbl = tbl$previous,
-      tbl_name = tbl_name
-    )
+    comb_tbl <- reactive({
+      req(tbl())
+      combine_tbls(
+        current_tbl = tbl()$current,
+        previous_tbl = tbl()$previous,
+        tbl_name = tbl_name
+      )
+    })
 
-    session$userData$add_plot_observers[[tbl_name]] <- observeEvent(input$add_plot,
+    session$userData$add_plot_observers[[tbl_name]] <- observeEvent(
+      input$add_plot,
       {
         plot_id <- make_uuid()
         print(plot_id)
@@ -50,7 +54,7 @@ mod_tbl_plots_server <- function(id, tbl, tbl_name, check, rv) {
         )
         mod_var_plot_modal_server(
           plot_id,
-          comb_tbl
+          comb_tbl()
         )
       },
       ignoreInit = TRUE,
