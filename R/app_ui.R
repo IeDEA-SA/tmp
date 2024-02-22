@@ -18,7 +18,9 @@ app_ui <- function(request) {
         primary = "maroon",
         base_font = font_google("Montserrat"),
         version = 5
-      ),
+      ) %>%
+        # Rule to allow overflow in cards with dropdown menus
+        bs_add_rules(".card-dropdown {overflow: visible !important;}"),
       title = "MATCHA",
       # Select source for dataset 1 (previous)
       sidebar = sidebar(
@@ -28,9 +30,13 @@ app_ui <- function(request) {
         mod_access_data_ui("access_curr_dat", dataset = "Current"),
         # Select from shared files
         card(
+          class = "card-dropdown",
           card_header("Table selection"),
-          mod_dynamic_select_ui("select_tbls", property = "tables"),
-          mod_read_tbls_ui("read_tbls")
+          card_body(
+            class = "card-dropdown",
+            mod_dynamic_select_ui("select_tbls", property = "tables"),
+            mod_read_tbls_ui("read_tbls")
+          )
         ),
         mod_download_ui("download")
       ),
