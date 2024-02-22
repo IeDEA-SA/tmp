@@ -34,12 +34,12 @@ mod_dynamic_select_server <- function(id, property, choices) {
     ns <- session$ns
 
     if (is.reactive(choices)) {
-    observeEvent(choices(), {
-      updateSelectInput(session, property, choices = choices())
-    })
+      observeEvent(choices(), {
+        updateSelectInput(session, property, choices = choices())
+      })
     } else {
       updateSelectInput(session, property, choices = choices)
-}
+    }
     reactive(input[[property]])
   })
 }

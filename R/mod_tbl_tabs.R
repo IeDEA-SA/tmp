@@ -30,6 +30,8 @@ mod_tbl_tabs_server <- function(id, tbls) {
       purrr::map(tbls(), ~ check_tbls(.x))
     })
 
+    clean_tbls <- reactiveValues()
+
     observe({
       req(tbls())
       remove_tabs <- setdiff(session$userData$tab_list, names(tbls()))
@@ -43,8 +45,10 @@ mod_tbl_tabs_server <- function(id, tbls) {
           ~ {
             # removeUI(selector = sprintf("div:has(> #%s)", .x),
             #          multiple = TRUE)
-            removeUI(selector = "div:has(> '#shiny-modal')",
-                             multiple = TRUE)
+            removeUI(
+              selector = "div:has(> '#shiny-modal')",
+              multiple = TRUE
+            )
 
             removeTab("tab", .x)
             remove_shiny_inputs(.x, input, parent_id = sprintf("%s-", ns(NULL)))
@@ -68,7 +72,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
           )
         )
 
-        mod_display_check_server(
+        clean_tbls[[tbl_name]] <- mod_display_check_server(
           id = tbl_name,
           tbl = tbls()[[tbl_name]],
           tbl_name = tbl_name,
@@ -77,9 +81,8 @@ mod_tbl_tabs_server <- function(id, tbls) {
 
         mod_tbl_plots_server(
           id = tbl_name,
-          tbl = tbls()[[tbl_name]],
-          tbl_name = tbl_name,
-          check = checks()[[tbl_name]]
+          tbl = clean_tbls[[tbl_name]],
+          tbl_name = tbl_name
         )
       }
       session$userData$tab_list <- names(tbls())

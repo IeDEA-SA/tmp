@@ -65,9 +65,9 @@ mod_plot_count_by_date_server <- function(id, comb_tbl, x, y = NULL) {
     generate_plot <- reactive({
       req(input$position, input$time_bin, input$mark_cutoff, !is.null(input$interactive))
       plot_count_by_date(comb_tbl, x,
-                         time_bin = input$time_bin,
-                         position = input$position,
-                         mark_cutoff = input$mark_cutoff
+        time_bin = input$time_bin,
+        position = input$position,
+        mark_cutoff = input$mark_cutoff
       )
     })
 

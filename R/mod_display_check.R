@@ -23,14 +23,28 @@ mod_display_check_ui <- function(id) {
         textOutput(ns("names_msg"))
       ),
       accordion_panel(
-        title = "Variable data types",
+        title = "Configure Table schema",
         icon = icon("table"),
-        textOutput(ns("coltypes_msg"))
+        # textOutput(ns("coltypes_msg"))
+        mod_schema_tbl_config_ui(ns("schema_config"))
       ),
       accordion_panel(
         "tbl Structure",
         icon = icon("magnifying-glass-chart"),
-        verbatimTextOutput(ns("tbl_summary"))
+        navset_card_tab(
+          height = 450,
+          full_screen = TRUE,
+          nav_panel(
+            "Previous",
+            card_title("Previous data summary"),
+            verbatimTextOutput(ns("tbl_skim_previous"))
+          ),
+          nav_panel(
+            "Current",
+            card_title("Current data summary"),
+            verbatimTextOutput(ns("tbl_skim_current"))
+          )
+        )
       ),
       open = FALSE
     )
@@ -49,18 +63,43 @@ mod_display_check_ui <- function(id) {
 mod_display_check_server <- function(id, tbl, tbl_name, check) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+
+    tbl <- validate_tbl(tbl, check)
+
     output$valid_cols <- renderText({
       glue::glue_collapse(
         check$check_coltypes$valid_cols,
         sep = ", "
       )
     })
-    output$tbl_summary <- renderPrint(utils::str(tbl))
+
     output$names_msg <- renderText(check$check_names$msg)
-    output$coltypes_msg <- renderText(check$check_coltypes$msg)
+    # output$coltypes_msg <- renderText(check$check_coltypes$msg)
+    schema_config <- mod_schema_tbl_config_server(
+      "schema_config", tbl
+    )
+
+    # return table with schema applied, ready for plotting
+    schema_tbl <- reactive({
+      schema_list <- schema_config %>%
+        reactiveValuesToList()
+      apply_schema(
+        tbl,
+        schema_list
+      )
+    })
+
+    output$tbl_skim_current <- renderPrint({
+      skimr::skim(schema_tbl()$current)
+    })
+    output$tbl_skim_previous <- renderPrint({
+      skimr::skim(schema_tbl()$previous)
+    })
     output$valid <- renderText({
       if (check$valid) "Tables are valid" else "Tables are invalid"
     })
     check_valid_cols <- check$check_coltypes$valid_cols
+
+    schema_tbl
   })
 }
