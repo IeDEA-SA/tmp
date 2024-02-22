@@ -11,14 +11,27 @@
 mod_schema_var_config_ui <- function(id, var_name, selected_class) {
   ns <- NS(id)
   tagList(
-    div(
-      class = "d-flex justify-content-around align-items-center",
-      h4(var_name),
-      selectInput(ns("var_type"), "Variable Type",
-        choices = c("numeric", "character", "factor", "Date", "logical"),
-        selected = selected_class
-      ),
-      textInput(ns("unknown"), "Unknown Values", value = "")
+    # div(
+    #   class = "d-flex justify-content-around align-items-center",
+    #   h4(var_name),
+    #   selectInput(ns("var_type"), "Variable Type",
+    #     choices = c("numeric", "character", "factor", "Date", "logical"),
+    #     selected = selected_class
+    #   ),
+    #   textInput(ns("unknown"), "Unknown Values", value = "")
+    # )
+    card(
+      card_header(var_name),
+      card_body(
+        layout_column_wrap(
+          width = 1 / 2,
+          selectInput(ns("var_type"), "Variable Type",
+            choices = c("numeric", "character", "factor", "Date", "logical"),
+            selected = selected_class
+          ),
+          textInput(ns("unknown"), "Unknown Values", value = "")
+        )
+      )
     )
   )
 }
