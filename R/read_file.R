@@ -9,7 +9,7 @@
 read_file <- function(path) {
   extension <- fs::path_ext(path)
   tbl <- switch(extension,
-    csv = readr::read_csv(file = path),
+    csv = readr::read_csv(file = path, show_col_types = FALSE),
     rds = readRDS(file = path),
     dta = haven::read_dta(file = path),
     sav = haven::read_sav(file = path),
