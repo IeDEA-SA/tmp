@@ -28,6 +28,9 @@ mod_read_tbls_ui <- function(id) {
 #' `selected_tables`. Each table element contains a list of two elements:
 #' - `previous`: a tibble of previous data
 #' - `current`: a tibble of current data
+#'
+#' @importFrom fs file_info
+#' @importFrom digest digest
 mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -47,13 +50,18 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
     )
     reactive({
       req(selected_tables())
+      log_info("reading data from disk")
       purrr::map(
         .x = purrr::set_names(selected_tables()),
         ~ {
+          previous_file_path <- previous_dat()[.x]
+          current_file_path <- current_dat()[.x]
+
           list(
-            previous = read_file(previous_dat()[.x]),
-            current = read_file(current_dat()[.x])
-          )
+            previous = read_file(previous_file_path),
+            current = read_file(current_file_path)
+          ) %>%
+            set_source_hash(c(previous_file_path, current_file_path))
         }
       )
     }) %>% bindEvent(input$readBtn,
