@@ -25,21 +25,21 @@ get_tbl_hash_lookup <- function(tbls) {
 #'
 #' @noRd
 #'
-#' @importFrom purrr map2 walk
+#' @importFrom purrr map2
 #' @importFrom digest digest
 #' @importFrom rlang is_list
 #' @importFrom fs file_exists
+#' @importFrom cli hash_md5
 set_source_hash <- function(tbl_list, source_files) {
-  walk(tbl_list, check_data_frame)
   stopifnot(
-    "source file is missing" = all(file_exists(source_files)),
-    "'source_files' length not match" = length(tbl_list) == length(source_files)
+    "'source_files' length not match" = length(tbl_list) == length(source_files),
+    "source file is missing" = all(file_exists(source_files))
   )
 
   tbl_list %>%
     structure(
       source_hash = source_files %>%
-        file_info() %>%
+        hash_md5() %>%
         digest("xxhash32")
     )
 }

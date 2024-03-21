@@ -23,7 +23,6 @@ mod_tbl_tabs_ui <- function(id) {
 #'
 #' @noRd
 #'
-#' @importFrom shiny insertTab
 mod_tbl_tabs_server <- function(id, tbls) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns

@@ -28,9 +28,6 @@ mod_read_tbls_ui <- function(id) {
 #' `selected_tables`. Each table element contains a list of two elements:
 #' - `previous`: a tibble of previous data
 #' - `current`: a tibble of current data
-#'
-#' @importFrom fs file_info
-#' @importFrom digest digest
 mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
