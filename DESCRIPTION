@@ -41,6 +41,9 @@ LazyData: true
 RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
+    chromote,
+    shinytest2,
+    shinyvalidate,
     spelling,
     testthat (>= 3.0.0),
     vdiffr
