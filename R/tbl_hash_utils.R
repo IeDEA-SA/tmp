@@ -29,7 +29,7 @@ get_tbl_hash_lookup <- function(tbls) {
 #' @importFrom digest digest
 #' @importFrom rlang is_list
 #' @importFrom fs file_exists
-#' @importFrom cli hash_md5
+#' @importFrom fs file_info
 set_source_hash <- function(tbl_list, source_files) {
   stopifnot(
     "'source_files' length not match" = length(tbl_list) == length(source_files),
@@ -39,7 +39,7 @@ set_source_hash <- function(tbl_list, source_files) {
   tbl_list %>%
     structure(
       source_hash = source_files %>%
-        hash_md5() %>%
+        file_info() %>%
         digest("xxhash32")
     )
 }
