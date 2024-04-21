@@ -8,10 +8,9 @@
 #'
 #' @importFrom shiny NS tagList
 #' @importFrom bslib navset_underline
-#' @importFrom tibble enframe
 #' @importFrom dplyr anti_join if_else
 #' @importFrom rlang is_empty
-#' @importFrom purrr pwalk map walk2
+#' @importFrom purrr pwalk map
 mod_tbl_tabs_ui <- function(id) {
   ns <- NS(id)
   navset_underline(id = ns("tab"))
@@ -47,14 +46,9 @@ mod_tbl_tabs_server <- function(id, tbls) {
     observe({
       req(tbls())
 
-      selected_sources_lookup <- get_tbl_hash_lookup(tbls()) %>%
-        enframe("source_hash", "tbl_name") %>%
-        left_join(session$userData$tab_list, by = c("source_hash", "tbl_name")) %>%
-        rowwise() %>%
-        mutate(
-          tab_id = if_else(is.na(tab_id), make_uuid(tbl_name), tab_id)
-        )
-
+      selected_sources_lookup <- get_tbl_tabs_lookup(tbls(), session$userData$tab_list)
+      log_debug("Table tabs meta:")
+      log_debug("{selected_sources_lookup}")
       remove_tabs <- session$userData$tab_list %>%
         anti_join(selected_sources_lookup, by = "source_hash")
 
@@ -66,16 +60,16 @@ mod_tbl_tabs_server <- function(id, tbls) {
       if (isTRUE(nrow(remove_tabs) > 0)) {
         pwalk(remove_tabs, function(source_hash, tbl_name, tab_id) {
           log_debug("remove tab {tbl_name}")
-          tbl_name_ns <- ns(tbl_name)
+          tbl_id_ns <- ns(tab_id)
 
           removeUI(
             selector = "div:has(> '#shiny-modal')",
             multiple = TRUE
           )
 
-          removeTab("tab", tbl_name_ns)
-          remove_shiny_inputs(tbl_name_ns, input, parent_id = sprintf("%s-", ns(NULL)))
-          remove_shiny_outputs(tbl_name_ns, output, parent_id = sprintf("%s-", ns(NULL)))
+          removeTab("tab", tbl_id_ns)
+          remove_shiny_inputs(tbl_id_ns, input, parent_id = sprintf("%s-", ns(NULL)))
+          remove_shiny_outputs(tbl_id_ns, output, parent_id = sprintf("%s-", ns(NULL)))
 
           session$userData$plots[[tbl_name]] <- NULL
           session$userData$add_plot_observers[[tbl_name]]$destroy()
@@ -87,37 +81,44 @@ mod_tbl_tabs_server <- function(id, tbls) {
         tab_index <- which(names(tbls()) %in% tbl_name)
         tab_panel <- tabPanel(
           title = tbl_name,
-          mod_display_check_ui(ns(tbl_name)),
-          mod_tbl_plots_ui(ns(tbl_name)),
-          value = ns(tbl_name),
+          mod_display_check_ui(ns(tab_id)),
+          mod_tbl_plots_ui(ns(tab_id)),
+          value = ns(tab_id),
           icon = if (checks()[[tbl_name]]$valid) icon("check") else icon("x")
         )
         if(tab_index == 1) {
+          log_debug("Prepend as first tab")
           prependTab(
             inputId = "tab",
             tab_panel,
             select = selected_tab
           )
         } else {
+          target_tab <- selected_sources_lookup %>%
+            filter(tbl_name == names(tbls())[tab_index - 1]) %>%
+            pull(tab_id) %>%
+            ns()
+
+          log_debug("Insert as tab after {target_tab}")
           insertTab(
             inputId = "tab",
-            target = names(tbls())[tab_index - 1] %>% ns(),
+            target = target_tab,
             position = "after",
             tab_panel,
             select = selected_tab
           )
         }
 
-        clean_tbls[[tbl_name]] <- mod_display_check_server(
-          id = tbl_name,
+        clean_tbls[[tab_id]] <- mod_display_check_server(
+          id = tab_id,
           tbl = tbls()[[tbl_name]],
           tbl_name = tbl_name,
           check = checks()[[tbl_name]]
         )
 
         mod_tbl_plots_server(
-          id = tbl_name,
-          tbl = clean_tbls[[tbl_name]],
+          id = tab_id,
+          tbl = clean_tbls[[tab_id]],
           tbl_name = tbl_name
         )
       })

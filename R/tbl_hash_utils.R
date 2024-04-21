@@ -1,19 +1,33 @@
-#' Get Table Hash Lookup
+#' Get Table Tabs Lookup
 #'
-#' Creates a named character vector where the names are the source hash
-#' of the input tables and the values are the names of those tables.
+#' Creates a tibble with the source file hash, the table name, and a unique random id
+#' for the input tables. It also takes into account any existing table tabs, so
+#' that it doesn't recalculates random id
 #'
 #' @param tbls A list of tables (or any objects with a "source_hash" attribute).
+#' @param existing_tbl_tabs_lookup A tibble of existing tabs metadata.
+#'
+#' @importFrom dplyr tibble ungroup left_join rowwise mutate if_else
+#' @importFrom purrr attr_getter list_rbind imap
 #'
 #' @noRd
 #'
-#' @importFrom purrr imap_chr set_names attr_getter
-get_tbl_hash_lookup <- function(tbls) {
-  res <- imap_chr(tbls, \(tbl_pair, tbl_name) {
-    attr_getter("source_hash")(tbl_pair)
-  })
-  set_names(names(res), res)
+get_tbl_tabs_lookup <- function(tbls, existing_tbl_tabs_lookup) {
+  imap(tbls, \(tbl_pair, tbl_name) {
+    tibble(
+      source_hash = attr_getter("source_hash")(tbl_pair),
+      tbl_name = tbl_name
+    )
+  }) %>%
+    list_rbind() %>%
+    left_join(existing_tbl_tabs_lookup, by = c("source_hash", "tbl_name")) %>%
+    rowwise() %>%
+    mutate(
+      tab_id = if_else(is.na(tab_id), make_uuid(tbl_name), tab_id)
+    ) %>%
+    ungroup()
 }
+
 
 #' Set Source Hash for Tables
 #'
