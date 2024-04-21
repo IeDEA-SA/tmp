@@ -26,16 +26,6 @@ test_that("get_tbl_tabs_lookup correctly processes input list", {
   expect_equal(result$tab_id, "foo_123")
 })
 
-test_that("get_tbl_tabs_lookup do not recalculate existing tab ids", {
-  tbls <- list(
-    tbl_pair1 = list(
-      previous = iris,
-      current = mtcars
-    ) %>%
-      structure(source_hash = "hash1")
-  )
-})
-
 test_that("Error when 'tbl_list' and 'source_files' lengths do not match", {
   df1 <- data.frame(x = 1:10)
   tbl_list <- list(df1)
