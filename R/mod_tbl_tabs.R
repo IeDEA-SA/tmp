@@ -9,8 +9,9 @@
 #' @importFrom shiny NS tagList
 #' @importFrom bslib navset_underline
 #' @importFrom tibble enframe
-#' @importFrom dplyr anti_join
+#' @importFrom dplyr anti_join if_else
 #' @importFrom rlang is_empty
+#' @importFrom purrr walk map walk2
 mod_tbl_tabs_ui <- function(id) {
   ns <- NS(id)
   navset_underline(id = ns("tab"))
@@ -38,15 +39,21 @@ mod_tbl_tabs_server <- function(id, tbls) {
     ns <- session$ns
 
     checks <- reactive({
-      purrr::map(tbls(), ~ check_tbls(.x))
+      map(tbls(), ~ check_tbls(.x))
     })
 
     clean_tbls <- reactiveValues()
 
     observe({
       req(tbls())
+
       selected_sources_lookup <- get_tbl_hash_lookup(tbls()) %>%
-        enframe("source_hash", "table")
+        enframe("source_hash", "table") %>%
+        left_join(session$userData$tab_list, by = c("source_hash", "table")) %>%
+        rowwise() %>%
+        mutate(
+          tab_id = if_else(is.na(tab_id), make_uuid(table), tab_id)
+        )
 
       remove_tabs <- session$userData$tab_list %>%
         anti_join(selected_sources_lookup, by = "source_hash") %>%
@@ -58,15 +65,12 @@ mod_tbl_tabs_server <- function(id, tbls) {
 
       selected_tab <- input$tab
 
-      # If any tabs deleted, clear them
       if (isTRUE(length(remove_tabs) > 0)) {
         log_debug("remove tabs {remove_tabs}")
         remove_tab_ns <- ns(remove_tabs)
-        purrr::walk2(
+        walk2(
           remove_tab_ns, remove_tabs,
           ~ {
-            # removeUI(selector = sprintf("div:has(> #%s)", .x),
-            #          multiple = TRUE)
             removeUI(
               selector = "div:has(> '#shiny-modal')",
               multiple = TRUE
@@ -75,14 +79,14 @@ mod_tbl_tabs_server <- function(id, tbls) {
             removeTab("tab", .x)
             remove_shiny_inputs(.x, input, parent_id = sprintf("%s-", ns(NULL)))
             remove_shiny_outputs(.x, output, parent_id = sprintf("%s-", ns(NULL)))
-            # Remove any previously created plots
+
             session$userData$plots[[.y]] <- NULL
             session$userData$add_plot_observers[[.y]]$destroy()
           }
         )
       }
 
-      for (tbl_name in add_tabs) {
+      walk(add_tabs, function(tbl_name) {
         tab_index <- which(names(tbls()) %in% tbl_name)
         tab_panel <- tabPanel(
           title = tbl_name,
@@ -119,7 +123,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
           tbl = clean_tbls[[tbl_name]],
           tbl_name = tbl_name
         )
-      }
+      })
       session$userData$tab_list <- selected_sources_lookup
     }) %>%
       bindEvent(tbls())
