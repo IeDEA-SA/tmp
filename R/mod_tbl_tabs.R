@@ -48,20 +48,20 @@ mod_tbl_tabs_server <- function(id, tbls) {
       req(tbls())
 
       selected_sources_lookup <- get_tbl_hash_lookup(tbls()) %>%
-        enframe("source_hash", "table") %>%
-        left_join(session$userData$tab_list, by = c("source_hash", "table")) %>%
+        enframe("source_hash", "table_name") %>%
+        left_join(session$userData$tab_list, by = c("source_hash", "table_name")) %>%
         rowwise() %>%
         mutate(
-          tab_id = if_else(is.na(tab_id), make_uuid(table), tab_id)
+          tab_id = if_else(is.na(tab_id), make_uuid(table_name), tab_id)
         )
 
       remove_tabs <- session$userData$tab_list %>%
         anti_join(selected_sources_lookup, by = "source_hash") %>%
-        pull(table)
+        pull(table_name)
 
       add_tabs <- selected_sources_lookup %>%
         anti_join(session$userData$tab_list, by = "source_hash") %>%
-        pull(table)
+        pull(table_name)
 
       selected_tab <- input$tab
 

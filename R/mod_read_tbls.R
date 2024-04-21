@@ -42,7 +42,7 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
     observe({
       req(selected_tables)
       purrr::map(
-        setdiff(selected_tables(), session$userData$tab_list),
+        setdiff(selected_tables(), session$userData$tab_list$table_name),
         ~ showNotification(
           glue::glue("Table {.x} read successfully."),
           type = "message"
