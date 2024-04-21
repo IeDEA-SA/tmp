@@ -54,7 +54,7 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
     )
     reactive({
       req(selected_tables())
-      log_info("reading data from disk")
+      log_debug("reading data from disk")
       purrr::map(
         .x = purrr::set_names(selected_tables()),
         ~ {

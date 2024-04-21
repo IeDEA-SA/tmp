@@ -8,6 +8,9 @@
 #'
 #' @importFrom shiny NS tagList
 #' @importFrom bslib navset_underline
+#' @importFrom tibble enframe
+#' @importFrom dplyr anti_join
+#' @importFrom rlang is_empty
 mod_tbl_tabs_ui <- function(id) {
   ns <- NS(id)
   navset_underline(id = ns("tab"))
@@ -42,16 +45,16 @@ mod_tbl_tabs_server <- function(id, tbls) {
 
     observe({
       req(tbls())
-      selected_sources_lookup <- get_tbl_hash_lookup(tbls())
-      selected_source_hashes <- names(selected_sources_lookup)
-      tab_list_source_hashes <- names(session$userData$tab_list)
+      selected_sources_lookup <- get_tbl_hash_lookup(tbls()) %>%
+        enframe("source_hash", "table")
 
-      remove_tabs <- session$userData$tab_list[
-        setdiff(tab_list_source_hashes, selected_source_hashes)
-      ]
-      add_tabs <- selected_sources_lookup[
-        setdiff(selected_source_hashes, tab_list_source_hashes)
-      ]
+      remove_tabs <- session$userData$tab_list %>%
+        anti_join(selected_sources_lookup, by = "source_hash") %>%
+        pull(table)
+
+      add_tabs <- selected_sources_lookup %>%
+        anti_join(session$userData$tab_list, by = "source_hash") %>%
+        pull(table)
 
       selected_tab <- input$tab
 
@@ -117,7 +120,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
           tbl_name = tbl_name
         )
       }
-      session$userData$tab_list <- get_tbl_hash_lookup(tbls())
+      session$userData$tab_list <- selected_sources_lookup
     }) %>%
       bindEvent(tbls())
   })
