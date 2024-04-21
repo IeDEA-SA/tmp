@@ -1,4 +1,4 @@
-test_that("get_tbl_hash_lookup correctly processes input list", {
+test_that("get_tbl_tabs_lookup correctly processes input list", {
   tbls <- list(
     tbl_pair1 = list(
       previous = iris,
@@ -6,8 +6,34 @@ test_that("get_tbl_hash_lookup correctly processes input list", {
     ) %>%
       structure(source_hash = "hash1")
   )
-  result <- get_tbl_hash_lookup(tbls)
-  expect_equal(result, c("hash1" = "tbl_pair1"))
+  existing_tbl_tabs_lookup <- tibble(
+    source_hash = character(),
+    tbl_name = character(),
+    tab_id = character()
+  )
+  result <- get_tbl_tabs_lookup(tbls, existing_tbl_tabs_lookup)
+
+  expect_s3_class(result, "tbl")
+  expect_equal(names(result), c("source_hash", "tbl_name", "tab_id"))
+
+  #it does not recalculate existing tab ids
+  existing_tbl_tabs_lookup <- tibble(
+    source_hash = "hash1",
+    tbl_name = "tbl_pair1",
+    tab_id = "foo_123"
+  )
+  result <- get_tbl_tabs_lookup(tbls, existing_tbl_tabs_lookup)
+  expect_equal(result$tab_id, "foo_123")
+})
+
+test_that("get_tbl_tabs_lookup do not recalculate existing tab ids", {
+  tbls <- list(
+    tbl_pair1 = list(
+      previous = iris,
+      current = mtcars
+    ) %>%
+      structure(source_hash = "hash1")
+  )
 })
 
 test_that("Error when 'tbl_list' and 'source_files' lengths do not match", {
