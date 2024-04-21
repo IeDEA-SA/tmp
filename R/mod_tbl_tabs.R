@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS tagList
 #' @importFrom bslib navset_underline
-#' @importFrom dplyr anti_join if_else
+#' @importFrom dplyr anti_join if_else pull
 #' @importFrom rlang is_empty
 #' @importFrom purrr pwalk map
 mod_tbl_tabs_ui <- function(id) {
