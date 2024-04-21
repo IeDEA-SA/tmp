@@ -11,7 +11,7 @@ app_server <- function(input, output, session) {
   session$userData$add_plot_observers <- list()
   session$userData$tab_list <- tibble(
     source_hash = character(),
-    table_name = character(),
+    tbl_name = character(),
     tab_id = character()
   )
 

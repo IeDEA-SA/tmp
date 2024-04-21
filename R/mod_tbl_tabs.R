@@ -11,7 +11,7 @@
 #' @importFrom tibble enframe
 #' @importFrom dplyr anti_join if_else
 #' @importFrom rlang is_empty
-#' @importFrom purrr walk map walk2
+#' @importFrom purrr pwalk map walk2
 mod_tbl_tabs_ui <- function(id) {
   ns <- NS(id)
   navset_underline(id = ns("tab"))
@@ -48,45 +48,42 @@ mod_tbl_tabs_server <- function(id, tbls) {
       req(tbls())
 
       selected_sources_lookup <- get_tbl_hash_lookup(tbls()) %>%
-        enframe("source_hash", "table_name") %>%
-        left_join(session$userData$tab_list, by = c("source_hash", "table_name")) %>%
+        enframe("source_hash", "tbl_name") %>%
+        left_join(session$userData$tab_list, by = c("source_hash", "tbl_name")) %>%
         rowwise() %>%
         mutate(
-          tab_id = if_else(is.na(tab_id), make_uuid(table_name), tab_id)
+          tab_id = if_else(is.na(tab_id), make_uuid(tbl_name), tab_id)
         )
 
       remove_tabs <- session$userData$tab_list %>%
-        anti_join(selected_sources_lookup, by = "source_hash") %>%
-        pull(table_name)
+        anti_join(selected_sources_lookup, by = "source_hash")
 
       add_tabs <- selected_sources_lookup %>%
-        anti_join(session$userData$tab_list, by = "source_hash") %>%
-        pull(table_name)
+        anti_join(session$userData$tab_list, by = "source_hash")
 
       selected_tab <- input$tab
 
-      if (isTRUE(length(remove_tabs) > 0)) {
-        log_debug("remove tabs {remove_tabs}")
-        remove_tab_ns <- ns(remove_tabs)
-        walk2(
-          remove_tab_ns, remove_tabs,
-          ~ {
-            removeUI(
-              selector = "div:has(> '#shiny-modal')",
-              multiple = TRUE
-            )
+      if (isTRUE(nrow(remove_tabs) > 0)) {
+        pwalk(remove_tabs, function(source_hash, tbl_name, tab_id) {
+          log_debug("remove tab {tbl_name}")
+          tbl_name_ns <- ns(tbl_name)
 
-            removeTab("tab", .x)
-            remove_shiny_inputs(.x, input, parent_id = sprintf("%s-", ns(NULL)))
-            remove_shiny_outputs(.x, output, parent_id = sprintf("%s-", ns(NULL)))
+          removeUI(
+            selector = "div:has(> '#shiny-modal')",
+            multiple = TRUE
+          )
 
-            session$userData$plots[[.y]] <- NULL
-            session$userData$add_plot_observers[[.y]]$destroy()
-          }
-        )
+          removeTab("tab", tbl_name_ns)
+          remove_shiny_inputs(tbl_name_ns, input, parent_id = sprintf("%s-", ns(NULL)))
+          remove_shiny_outputs(tbl_name_ns, output, parent_id = sprintf("%s-", ns(NULL)))
+
+          session$userData$plots[[tbl_name]] <- NULL
+          session$userData$add_plot_observers[[tbl_name]]$destroy()
+        })
       }
 
-      walk(add_tabs, function(tbl_name) {
+      pwalk(add_tabs, function(source_hash, tbl_name, tab_id) {
+        log_debug("adding tab {tbl_name}")
         tab_index <- which(names(tbls()) %in% tbl_name)
         tab_panel <- tabPanel(
           title = tbl_name,
