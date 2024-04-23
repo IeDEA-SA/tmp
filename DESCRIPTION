@@ -1,6 +1,6 @@
 Package: MATCHA
 Title: Data consistency report
-Version: 0.0.0.9006
+Version: 0.0.1
 Authors@R: 
     person(given = "Anna",
            family = "Krystalli",
@@ -12,6 +12,7 @@ License: file LICENSE
 Imports: 
     bslib (>= 0.6.1),
     checkmate,
+    cli,
     config (>= 0.3.1),
     digest,
     dplyr (>= 1.1.0),
@@ -22,12 +23,13 @@ Imports:
     haven,
     here,
     janitor,
+    logger,
     lubridate,
     magrittr,
     plotly,
     purrr,
     readr,
-    rlang,
+    rlang (>= 1.1.0),
     rmarkdown,
     shiny (>= 1.7.4),
     shinyFiles,
@@ -36,12 +38,16 @@ Imports:
     uuid
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
 Suggests: 
+    chromote,
+    shinytest2,
+    shinyvalidate,
     spelling,
     testthat (>= 3.0.0),
-    vdiffr
+    vdiffr,
+    withr
 Config/testthat/edition: 3
 Language: en-US
 Depends: 

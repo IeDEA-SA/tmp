@@ -16,7 +16,13 @@ mod_read_tbls_ui <- function(id) {
   )
 }
 
-#' read_tbls Server Functions
+#' Read Tables Module Server
+#'
+#' This Shiny module server function reads tables from disk based on a list of
+#' selected tables. It updates the UI with notifications for each successfully
+#' read table and stores the read data reactively for further processing. The
+#' module is designed to be triggered by a UI event (e.g., clicking a "Read
+#' Tables" button).
 #'
 #' @param selected_tables Reactive. Names of selected shared tables.
 #' @param previous_dat Reactive. Named vector of file paths to tables in the
@@ -28,6 +34,7 @@ mod_read_tbls_ui <- function(id) {
 #' `selected_tables`. Each table element contains a list of two elements:
 #' - `previous`: a tibble of previous data
 #' - `current`: a tibble of current data
+#'
 mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
@@ -35,7 +42,7 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
     observe({
       req(selected_tables)
       purrr::map(
-        setdiff(selected_tables(), session$userData$tab_list),
+        setdiff(selected_tables(), session$userData$tab_list$tbl_name),
         ~ showNotification(
           glue::glue("Table {.x} read successfully."),
           type = "message"
@@ -47,13 +54,18 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
     )
     reactive({
       req(selected_tables())
+      log_debug("reading data from disk")
       purrr::map(
         .x = purrr::set_names(selected_tables()),
         ~ {
+          previous_file_path <- previous_dat()[.x]
+          current_file_path <- current_dat()[.x]
+
           list(
-            previous = read_file(previous_dat()[.x]),
-            current = read_file(current_dat()[.x])
-          )
+            previous = read_file(previous_file_path),
+            current = read_file(current_file_path)
+          ) %>%
+            set_source_hash(c(previous_file_path, current_file_path))
         }
       )
     }) %>% bindEvent(input$readBtn,
