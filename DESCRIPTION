@@ -1,6 +1,6 @@
 Package: MATCHA
 Title: Data consistency report
-Version: 0.0.1
+Version: 0.2.0
 Authors@R: 
     person(given = "Anna",
            family = "Krystalli",
@@ -12,7 +12,6 @@ License: file LICENSE
 Imports: 
     bslib (>= 0.6.1),
     checkmate,
-    cli,
     config (>= 0.3.1),
     digest,
     dplyr (>= 1.1.0),
