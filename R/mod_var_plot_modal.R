@@ -45,12 +45,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
           var_type <- plot_meta[[input$select_plot]][[i]]
           var_name <- names(plot_meta[[input$select_plot]])[i]
           id <- sprintf("select_var_%s", var_name)
-          fn <- switch(var_type,
-            numeric = is.numeric,
-            Date = function(x) {
-              inherits(x, "Date")
-            }
-          )
+          fn <- var_type_fn(var_type)
 
           output[[i]] <- selectInput(ns(sprintf("select_var_%s", var_name)),
             paste("Select", var_name, "variable", "to compare"),

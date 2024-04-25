@@ -8,7 +8,7 @@ plot_meta <- list(
     x = "Date"
   ),
   plot_stacked_bar = list(
-    x = c("character", "factor")
+    x = "character_or_factor"
   )
 )
 
