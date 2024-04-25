@@ -6,6 +6,9 @@ plot_meta <- list(
   ),
   plot_count_by_date = list(
     x = "Date"
+  ),
+  plot_stacked_bar = list(
+    x = c("character", "factor")
   )
 )
 
