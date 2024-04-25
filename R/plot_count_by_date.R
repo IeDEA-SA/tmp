@@ -8,7 +8,7 @@
 #' @param mark_cutoff Logical. Whether to show temporal cut-off of previous data.
 #'
 #' @importFrom ggplot2 ggplot aes geom_col ylab theme xlab geom_vline scale_y_continuous geom_hline
-#' @return Count by date ggplot plot (if `interactive` = FALSE) or plotly plot
+#' @return Count by date ggplot plot.
 #' (if `interactive` = TRUE).
 #' @export
 plot_count_by_date <- function(tbl, x,

@@ -28,7 +28,7 @@ plot_count_by_date(
 \item{mark_cutoff}{Logical. Whether to show temporal cut-off of previous data.}
 }
 \value{
-Count by date ggplot plot (if \code{interactive} = FALSE) or plotly plot
+Count by date ggplot plot.
 (if \code{interactive} = TRUE).
 }
 \description{
