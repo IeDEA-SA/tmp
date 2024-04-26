@@ -1,0 +1,30 @@
+{
+  "input": {
+    "access_curr_dat-folder": 0,
+    "access_prev_dat-folder": 0,
+    "read_tbls-readBtn": 0,
+    "select_tbls-tables": null,
+    "tbl_tab-tab": null
+  },
+  "output": {
+    "access_curr_dat-folder_path": {
+      "message": "",
+      "call": "NULL",
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
+    },
+    "access_prev_dat-folder_path": {
+      "message": "",
+      "call": "NULL",
+      "type": [
+        "shiny.silent.error",
+        "validation"
+      ]
+    }
+  },
+  "export": {
+
+  }
+}

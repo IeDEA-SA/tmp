@@ -56,8 +56,6 @@ mod_tbl_tabs_server <- function(id, tbls) {
       add_tabs <- selected_sources_lookup %>%
         anti_join(session$userData$tab_list, by = "source_hash")
 
-      selected_tab <- input$tab
-
       if (isTRUE(nrow(remove_tabs) > 0)) {
         pwalk(remove_tabs, function(source_hash, tbl_name, tab_id) {
           log_debug("remove tab {tbl_name}")
@@ -92,7 +90,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
           prependTab(
             inputId = "tab",
             tab_panel,
-            select = selected_tab
+            select = FALSE
           )
         } else {
           target_tab <- selected_sources_lookup %>%
@@ -101,12 +99,12 @@ mod_tbl_tabs_server <- function(id, tbls) {
             ns()
 
           log_debug("Insert as tab after {target_tab}")
-          insertTab(
+          shiny::insertTab(
             inputId = "tab",
             target = target_tab,
             position = "after",
             tab_panel,
-            select = selected_tab
+            select = FALSE
           )
         }
 
