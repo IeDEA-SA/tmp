@@ -37,6 +37,7 @@ Imports:
     shinyFiles,
     skimr,
     tibble,
+    tidyr,
     uuid
 Encoding: UTF-8
 LazyData: true
