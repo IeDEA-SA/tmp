@@ -22,5 +22,7 @@ read_file <- function(path) {
       )
     )
   )
-  tibble::as_tibble(tbl)
+  readr::type_convert(tbl, guess_integer = TRUE) %>%
+    suppressMessages() %>%
+    tibble::as_tibble()
 }

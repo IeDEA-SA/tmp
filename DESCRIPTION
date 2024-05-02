@@ -1,6 +1,6 @@
 Package: MATCHA
 Title: Data consistency report
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
     person(given = "Anna",
            family = "Krystalli",
@@ -37,6 +37,7 @@ Imports:
     shinyFiles,
     skimr,
     tibble,
+    tidyr,
     uuid
 Encoding: UTF-8
 LazyData: true
