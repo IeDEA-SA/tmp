@@ -45,7 +45,7 @@ mod_tbl_plots_server <- function(id, tbl, tbl_name) {
       input$add_plot,
       {
         plot_id <- make_uuid()
-        print(plot_id)
+        log_debug(paste("Creating new plot:", plot_id))
         insertUI(
           selector = glue::glue("#{ns('add_plot')}"), where = "beforeBegin",
           ui = mod_var_plot_modal_ui(
