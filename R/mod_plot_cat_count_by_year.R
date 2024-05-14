@@ -87,6 +87,7 @@ mod_plot_cat_count_by_year_server <- function(id, comb_tbl, x, y){
     })
 
     observeEvent(input$delete, {
+      log_debug(paste("Removing plot:", tbl_name, plot_id))
       session$userData$plots[[tbl_name]][[plot_id]] <- NULL
       delete_id <- gsub("-card", "-plot_ui", ns(NULL))
       removeUI(

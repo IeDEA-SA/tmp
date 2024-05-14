@@ -94,6 +94,7 @@ mod_plot_count_by_date_server <- function(id, comb_tbl, x, y = NULL) {
     })
 
     observeEvent(input$delete, {
+      log_debug(paste("Removing plot:", tbl_name, plot_id))
       session$userData$plots[[tbl_name]][[plot_id]] <- NULL
       delete_id <- gsub("-card", "-plot_ui", ns(NULL))
       removeUI(
