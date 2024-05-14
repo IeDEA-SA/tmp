@@ -28,7 +28,7 @@ mod_tbl_plots_ui <- function(id) {
 #' @noRd
 mod_tbl_plots_server <- function(id, tbl, tbl_name) {
   stopifnot(is.reactive(tbl))
-
+  log_debug("Creating tbl_plots module with add_plot_observer id: ", id)
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
@@ -41,7 +41,7 @@ mod_tbl_plots_server <- function(id, tbl, tbl_name) {
       )
     })
 
-    session$userData$add_plot_observers[[tbl_name]] <- observeEvent(
+    session$userData$add_plot_observers[[id]] <- observeEvent(
       input$add_plot,
       {
         plot_id <- make_uuid()

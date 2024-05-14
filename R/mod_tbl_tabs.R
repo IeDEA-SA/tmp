@@ -70,8 +70,8 @@ mod_tbl_tabs_server <- function(id, tbls) {
           remove_shiny_inputs(tbl_id_ns, input, parent_id = sprintf("%s-", ns(NULL)))
           remove_shiny_outputs(tbl_id_ns, output, parent_id = sprintf("%s-", ns(NULL)))
 
-          session$userData$plots[[tab_id]] <- NULL
-          session$userData$add_plot_observers[[tbl_name]]$destroy()
+          session$userData$plots[[tbl_name]] <- NULL
+          session$userData$add_plot_observers[[tab_id]]$destroy()
         })
       }
 
