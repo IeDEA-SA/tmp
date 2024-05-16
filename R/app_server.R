@@ -14,6 +14,11 @@ app_server <- function(input, output, session) {
     tbl_name = character(),
     tab_id = character()
   )
+  session$userData$pk_tbl_name <- "tblBAS"
+  session$userData$pk_col <- "patient"
+  session$userData$pk_tbl <- NULL
+
+
 
 
   previous_dat <- mod_access_data_server("access_prev_dat")
