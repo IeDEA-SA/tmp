@@ -26,3 +26,12 @@ join_pk <- function(tbl, pk_tbl, pk_col = "patient", keep_pk = FALSE) {
   ) %>%
     dplyr::select(-dplyr::any_of(rm_cols))
 }
+
+select_pk_col <- function(tbl, selected = c("patient", "mother_id")) {
+  pk_col <- utils::head(names(tbl)[names(tbl) %in% selected], 1)
+  if (length(pk_col) == 0L) {
+    return(NULL)
+  } else {
+    return(pk_col)
+  }
+}
