@@ -24,21 +24,6 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
     output$select_plot_ui <- renderUI({
       req(input$select_plot)
       if (!is.null(input$select_plot)) {
-        #   purrr::imap(
-        #     plot_meta[[input$select_plot]],
-        #     ~ selectInput(ns(sprintf("select_var_%s", .y)),
-        #       paste("Select", "variable", "to compare"),
-        #       choices = setdiff(
-        #         names(comb_tbl)[
-        #           purrr::map_lgl(comb_tbl, ~ get(sprintf("is.%s", .x))(.x))
-        #         ],
-        #         c("tbl", "tbl_name")
-        #       ),
-        #       multiple = FALSE,
-        #       selected = NULL,
-        #       selectize = TRUE
-        #     )
-        # )
 
         output <- tagList()
         for (i in seq_along(plot_meta[[input$select_plot]])) {
