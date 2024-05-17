@@ -2,6 +2,8 @@ default:
   golem_name: MATCHA
   golem_version: 0.0.0.9000
   app_prod: no
+  pk_tbl_name: tblBAS
+  pk_col: patient
 production:
   app_prod: yes
 dev:

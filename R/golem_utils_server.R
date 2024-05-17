@@ -61,3 +61,13 @@ drop_nulls <- function(x) {
 #' @noRd
 rv <- function(...) shiny::reactiveValues(...)
 rvtl <- function(...) shiny::reactiveValuesToList(...)
+
+#' Get an app config value, either the default from the config file or
+#' override with the option provided at runtime.
+#' @param x name of option/config to get.
+#'
+#' @noRd
+get_app_config <- function(x = c("pk_tbl_name", "pk_col")) {
+  x <- rlang::arg_match(x)
+  golem::get_golem_options(x) %||% get_golem_config(x)
+}
