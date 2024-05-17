@@ -12,6 +12,9 @@ var_type_fn <- function(var_type) {
          factor = is.factor,
          character_or_factor = function(x) {
            is.character(x) | is.factor(x)
+         },
+         all = function(x) {
+           TRUE
          }
   )
 }

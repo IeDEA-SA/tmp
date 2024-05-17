@@ -72,20 +72,37 @@ mod_tbl_tabs_server <- function(id, tbls) {
 
           session$userData$plots[[tbl_name]] <- NULL
           session$userData$add_plot_observers[[tab_id]]$destroy()
+          if (tbl_name == session$userData$pk_tbl_name) {
+            log_debug("Removing pk_tbl with primary key info from {tbl_name}.")
+            session$userData$pk_tbl <- NULL
+            showNotification(
+              glue::glue("Table {tbl_name} removed as source of primary key info."),
+              type = "default"
+            )
+          }
         })
       }
 
       pwalk(add_tabs, function(source_hash, tbl_name, tab_id) {
         log_debug("adding tab {tbl_name}")
         tab_index <- which(names(tbls()) %in% tbl_name)
+        tab_icon <- if (checks()[[tbl_name]]$valid) {
+          if (tbl_name == session$userData$pk_tbl_name) {
+            icon("key")
+          } else {
+            icon("check")
+          }
+        } else {
+          icon("x")
+        }
         tab_panel <- tabPanel(
           title = tbl_name,
           mod_display_check_ui(ns(tab_id)),
           mod_tbl_plots_ui(ns(tab_id)),
           value = ns(tab_id),
-          icon = if (checks()[[tbl_name]]$valid) icon("check") else icon("x")
+          icon = tab_icon
         )
-        if(tab_index == 1) {
+        if (tab_index == 1) {
           log_debug("Prepend as first tab")
           prependTab(
             inputId = "tab",
@@ -115,6 +132,22 @@ mod_tbl_tabs_server <- function(id, tbls) {
           check = checks()[[tbl_name]]
         )
 
+        if (tbl_name == session$userData$pk_tbl_name) {
+          log_debug("Subsetting {tbl_name} for primary key info.")
+          session$userData$pk_tbl <- subset_pk_tbl_cols(
+            tblBAS = combine_tbls(
+              current_tbl = tbls()[[tbl_name]]$current,
+              previous_tbl = tbls()[[tbl_name]]$previous,
+              tbl_name = tbl_name
+            ),
+            pk_col = session$userData$pk_col
+          )
+          showNotification(
+            glue::glue("Table {tbl_name} set as source of primary key info."),
+            type = "default"
+          )
+          print(session$userData$pk_tbl)
+        }
         mod_tbl_plots_server(
           id = tab_id,
           tbl = clean_tbls[[tab_id]],
