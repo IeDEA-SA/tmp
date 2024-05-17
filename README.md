@@ -70,7 +70,7 @@ functionality.
 
 <img src="man/figures/select_directories_a.png" width="100%" />
 
-### Select another root directoy
+### Select another root directory
 
 To select another root directory, for example your home directory so you
 can navigate other folders on your system, click on the `demo_data`
@@ -81,3 +81,25 @@ where you can navigate to your own directories containing the previous
 and current data.
 
 <img src="man/figures/select_directories_b.png" width="100%" />
+
+## Overriding default Primary Key source settings
+
+Some plots require primary key information to be provided. By default,
+the app will attempt to infer the primary key from the data and store it
+centrally. It is configured to consider:
+
+- a **table named `tblBAS` as the primary source** of primary key
+  information.
+- within the primary table, the **column `patient` to contain the actual
+  primary key values**.
+
+However, you can override this at runtime through arguments
+`pk_tbl_name` and `pk_col` in the `run_app()` function respectively.
+
+For example, if you wanted to configure the app to use a table called
+`tblKEYS` with a primary key column `id` as the source of primary key
+information, you would run the app as follows:
+
+``` r
+run_app(pk_tbl_name = "tblKEYS", pk_col = "id")
+```
