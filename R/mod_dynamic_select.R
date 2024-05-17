@@ -27,18 +27,21 @@ mod_dynamic_select_ui <- function(id, property = "tables", multiple = TRUE,
 #' @param property character string. Name of property to select.
 #' @param choices Reactive. Vector of drop down choices, e.g. names of shared
 #' tables or shared variables within tables.
+#' @param selected character vector. The default selected value. Defaults to `NULL`.
 #' @return Reactive. The user selected table names from the selectize widget.
 #' @noRd
-mod_dynamic_select_server <- function(id, property, choices) {
+mod_dynamic_select_server <- function(id, property, choices, selected = NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
     if (is.reactive(choices)) {
       observeEvent(choices(), {
-        updateSelectInput(session, property, choices = choices())
+        updateSelectInput(session, property, choices = choices(),
+                          selected = selected)
       })
     } else {
-      updateSelectInput(session, property, choices = choices)
+      updateSelectInput(session, property, choices = choices,
+                        selected = selected)
     }
     reactive(input[[property]])
   })

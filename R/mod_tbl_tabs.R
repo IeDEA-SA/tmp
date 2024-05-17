@@ -133,21 +133,36 @@ mod_tbl_tabs_server <- function(id, tbls) {
         )
 
         if (tbl_name == session$userData$pk_tbl_name) {
-          log_debug("Subsetting {tbl_name} for primary key info.")
-          session$userData$pk_tbl <- subset_pk_tbl_cols(
-            tblBAS = combine_tbls(
-              current_tbl = tbls()[[tbl_name]]$current,
-              previous_tbl = tbls()[[tbl_name]]$previous,
-              tbl_name = tbl_name
-            ),
-            pk_col = session$userData$pk_col
-          )
-          showNotification(
-            glue::glue("Table {tbl_name} set as source of primary key info."),
-            type = "default"
-          )
-          print(session$userData$pk_tbl)
+          if (session$userData$pk_col %in% names(tbls()[[tbl_name]]$current)) {
+            log_debug("Subsetting {tbl_name} for primary key info.")
+            session$userData$pk_tbl <- subset_pk_tbl_cols(
+              tblBAS = combine_tbls(
+                current_tbl = tbls()[[tbl_name]]$current,
+                previous_tbl = tbls()[[tbl_name]]$previous,
+                tbl_name = tbl_name
+              ),
+              pk_col = session$userData$pk_col
+            )
+            showNotification(
+              glue::glue("Table {tbl_name} set as source of primary key info."),
+              type = "default"
+            )
+            print(session$userData$pk_tbl)
+          } else {
+            log_debug("Failed to subset {tbl_name} for primary key info.
+                      pk_col {session$userData$pk_col} missing.")
+            showNotification(
+              glue::glue(
+                "Expected primary key column '{session$userData$pk_col}' not found
+                in primary key table. Please check data or use `pk_col` argument
+                in `run_app` to re-configure primary key column."
+              ),
+              duration = NULL,
+              type = "error"
+            )
+          }
         }
+
         mod_tbl_plots_server(
           id = tab_id,
           tbl = clean_tbls[[tab_id]],

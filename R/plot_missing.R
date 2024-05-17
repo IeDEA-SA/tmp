@@ -7,15 +7,22 @@
 #' @return Missing value ggplot bar plot.
 #' @export
 plot_missing <- function(tbl, pk_tbl, exclude = NULL) {
-
   exclude <- c("tbl_name", exclude)
   join_pk(tbl, pk_tbl) %>%
     dplyr::select(-dplyr::any_of(exclude)) %>%
     dplyr::group_by(tbl) %>%
     naniar::miss_var_summary() %>%
-    ggplot(aes(y = variable, x = pct_miss, fill = tbl)) +
+    ggplot(
+      aes(
+        y = .data[["variable"]],
+        x = .data[["pct_miss"]],
+        fill = .data[["tbl"]]
+      )
+    ) +
     geom_bar(stat = "identity", position = "dodge") +
-    labs(title = "Missingness by Table",
-         x = "Percent Missing",
-         y = "Variable")
+    labs(
+      title = "Missingness by Table",
+      x = "Percent Missing",
+      y = "Variable"
+    )
 }
