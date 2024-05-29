@@ -17,6 +17,7 @@ app_server <- function(input, output, session) {
   session$userData$pk_tbl_name <- get_app_config("pk_tbl_name")
   session$userData$pk_col <- get_app_config("pk_col")
   session$userData$pk_tbl <- NULL
+  session$userData$pk <- list()
 
   log_info("Set pk_tbl_name: ", session$userData$pk_tbl_name)
   log_info("Set pk_col: ", session$userData$pk_col)

@@ -49,7 +49,8 @@ mod_tbl_tabs_server <- function(id, tbls) {
 
       selected_sources_lookup <- get_tbl_tabs_lookup(
         tbls(),
-        session$userData$tab_list)
+        session$userData$tab_list
+      )
 
       log_debug("Table tabs meta:")
       log_debug("{selected_sources_lookup}")
@@ -100,6 +101,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
         }
         tab_panel <- tabPanel(
           title = tbl_name,
+          mod_pk_column_ui(ns(tab_id)),
           mod_display_check_ui(ns(tab_id)),
           mod_tbl_plots_ui(ns(tab_id)),
           value = ns(tab_id),
@@ -139,7 +141,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
           if (session$userData$pk_col %in% names(tbls()[[tbl_name]]$current)) {
             log_debug("Subsetting {tbl_name} for primary key info.")
             session$userData$pk_tbl <- subset_pk_tbl_cols(
-              tblBAS = combine_tbls(
+              tbl = combine_tbls(
                 current_tbl = tbls()[[tbl_name]]$current,
                 previous_tbl = tbls()[[tbl_name]]$previous,
                 tbl_name = tbl_name
@@ -165,13 +167,30 @@ mod_tbl_tabs_server <- function(id, tbls) {
             )
           }
         }
-
+        mod_pk_column_server(id = tab_id,
+                             comb_tbl = combine_tbls(
+                               current_tbl = tbls()[[tbl_name]]$current,
+                               previous_tbl = tbls()[[tbl_name]]$previous,
+                               tbl_name = tbl_name
+                             ),
+                             tbl_name = tbl_name)
         mod_tbl_plots_server(
           id = tab_id,
           tbl = clean_tbls[[tab_id]],
           tbl_name = tbl_name
         )
       })
+      log_debug("Append summary tab at the end of the tab list.")
+      summary_panel <- tabPanel(
+        title = "summary",
+        value = ns("summary"),
+        icon = icon("rectangle-list")
+      )
+      appendTab(
+        inputId = "tab",
+        summary_panel,
+        select = FALSE
+      )
       session$userData$tab_list <- selected_sources_lookup
     }) %>%
       bindEvent(tbls())
