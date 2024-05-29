@@ -47,7 +47,10 @@ mod_tbl_tabs_server <- function(id, tbls) {
     observe({
       req(tbls())
 
-      selected_sources_lookup <- get_tbl_tabs_lookup(tbls(), session$userData$tab_list)
+      selected_sources_lookup <- get_tbl_tabs_lookup(
+        tbls(),
+        session$userData$tab_list)
+
       log_debug("Table tabs meta:")
       log_debug("{selected_sources_lookup}")
       remove_tabs <- session$userData$tab_list %>%
