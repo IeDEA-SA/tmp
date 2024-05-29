@@ -30,11 +30,16 @@ join_pk <- function(tbl, pk_tbl, pk_col = "patient", keep_pk = FALSE) {
     dplyr::select(-dplyr::any_of(rm_cols))
 }
 
-select_pk_col <- function(tbl, selected = c("patient", "mother_id"), add = NULL) {
+select_pk_col <- function(tbl, colnames,
+                          selected = c("patient", "mother_id"), add = NULL) {
 
+  rlang::check_exclusive(tbl, colnames)
+  if (rlang::is_missing(colnames)) {
+    colnames <- names(tbl)
+  }
   selected <- unique(c(add, selected))
 
-  selected_id <- names(tbl) %>%
+  selected_id <- colnames %>%
     match(selected) %>%
     na.omit() %>%
     sort() %>%

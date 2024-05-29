@@ -75,7 +75,9 @@ mod_tbl_tabs_server <- function(id, tbls) {
           remove_shiny_outputs(tbl_id_ns, output, parent_id = sprintf("%s-", ns(NULL)))
 
           session$userData$plots[[tbl_name]] <- NULL
+          session$userData$pk[[tbl_name]] <- NULL
           session$userData$add_plot_observers[[tab_id]]$destroy()
+
           if (tbl_name == session$userData$pk_tbl_name) {
             log_debug("Removing pk_tbl with primary key info from {tbl_name}.")
             session$userData$pk_tbl <- NULL
@@ -101,7 +103,11 @@ mod_tbl_tabs_server <- function(id, tbls) {
         }
         tab_panel <- tabPanel(
           title = tbl_name,
-          mod_pk_column_ui(ns(tab_id)),
+          mod_pk_column_ui(
+            ns(tab_id),
+            colnames = checks()[[tbl_name]]$check_coltypes$valid_cols,
+            add = session$userData$pk_col
+          ),
           mod_display_check_ui(ns(tab_id)),
           mod_tbl_plots_ui(ns(tab_id)),
           value = ns(tab_id),
@@ -121,7 +127,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
             ns()
 
           log_debug("Insert as tab after {target_tab}")
-          shiny::insertTab(
+          insertTab(
             inputId = "tab",
             target = target_tab,
             position = "after",
@@ -142,11 +148,12 @@ mod_tbl_tabs_server <- function(id, tbls) {
             log_debug("Subsetting {tbl_name} for primary key info.")
             session$userData$pk_tbl <- subset_pk_tbl_cols(
               tbl = combine_tbls(
-                current_tbl = tbls()[[tbl_name]]$current,
-                previous_tbl = tbls()[[tbl_name]]$previous,
+                current_tbl = clean_tbls[[tab_id]]()$current,
+                previous_tbl = clean_tbls[[tab_id]]()$previous,
                 tbl_name = tbl_name
               ),
-              pk_col = session$userData$pk_col
+              pk_col = session$userData$pk_col,
+              add_pk_col = TRUE
             )
             showNotification(
               glue::glue("Table {tbl_name} set as source of primary key info."),
@@ -167,13 +174,16 @@ mod_tbl_tabs_server <- function(id, tbls) {
             )
           }
         }
-        mod_pk_column_server(id = tab_id,
-                             comb_tbl = combine_tbls(
-                               current_tbl = tbls()[[tbl_name]]$current,
-                               previous_tbl = tbls()[[tbl_name]]$previous,
-                               tbl_name = tbl_name
-                             ),
-                             tbl_name = tbl_name)
+        mod_pk_column_server(
+          id = tab_id,
+          comb_tbl = combine_tbls(
+            current_tbl = clean_tbls[[tab_id]]()$current,
+            previous_tbl = clean_tbls[[tab_id]]()$previous,
+            tbl_name = tbl_name
+          ),
+          tbl_name = tbl_name
+        )
+
         mod_tbl_plots_server(
           id = tab_id,
           tbl = clean_tbls[[tab_id]],
@@ -181,6 +191,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
         )
       })
       log_debug("Append summary tab at the end of the tab list.")
+      print(session$userData$pk)
       summary_panel <- tabPanel(
         title = "summary",
         value = ns("summary"),
