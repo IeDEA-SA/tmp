@@ -41,7 +41,7 @@ select_pk_col <- function(tbl, colnames,
 
   selected_id <- colnames %>%
     match(selected) %>%
-    na.omit() %>%
+    stats::na.omit() %>%
     sort() %>%
     utils::head(1)
   pk_col <- selected[selected_id]
