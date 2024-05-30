@@ -26,20 +26,11 @@ mod_tbl_plots_ui <- function(id) {
 #' to compare.
 #' @param tbl_name Character string. The table name.
 #' @noRd
-mod_tbl_plots_server <- function(id, tbl, tbl_name) {
-  stopifnot(is.reactive(tbl))
+mod_tbl_plots_server <- function(id, comb_tbl) {
+
   log_debug("Creating tbl_plots module with add_plot_observer id: ", id)
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-
-    comb_tbl <- reactive({
-      req(tbl())
-      combine_tbls(
-        current_tbl = tbl()$current,
-        previous_tbl = tbl()$previous,
-        tbl_name = tbl_name
-      )
-    })
 
     session$userData$add_plot_observers[[id]] <- observeEvent(
       input$add_plot,
@@ -54,7 +45,7 @@ mod_tbl_plots_server <- function(id, tbl, tbl_name) {
         )
         mod_var_plot_modal_server(
           plot_id,
-          comb_tbl()
+          comb_tbl
         )
       },
       ignoreInit = TRUE,
