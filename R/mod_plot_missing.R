@@ -44,6 +44,7 @@ mod_plot_missing_ui <- function(id, x, y = NULL) {
 
 #' plot_missing Server Functions
 #'
+#' @param comb_tbl Data frame. Combined data frame with primary key column.
 #' @noRd
 mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
   moduleServer(id, function(input, output, session) {
