@@ -150,11 +150,17 @@ summary_tab <- function(ns, input, output, session) {
   summary_panel <- tabPanel(
     title = "summary",
     value = ns("summary"),
-    icon = icon("rectangle-list")
+    icon = icon("rectangle-list"),
+    mod_tbl_plots_ui(ns("summary"))
   )
   appendTab(
     inputId = "tab",
     summary_panel,
     select = FALSE
+  )
+
+  mod_tbl_plots_server(
+    id = "summary",
+    comb_tbl = NULL
   )
 }
