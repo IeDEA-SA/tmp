@@ -1,0 +1,17 @@
+test_that("plot_summary_complete works", {
+  pk <- purrr::map(
+    purrr::set_names(c("tblBAS", "tblART", "tblDIS")),
+    ~ subset_pk_tbl_cols(
+      load_comb_tbl(.x),
+      add_pk_col = TRUE)
+  )
+
+  expect_doppelganger(
+    title = "Summary completeness plot for tbls tblBAS tblART and tblDIS",
+    {
+      plot_summary_complete(pk)
+    }
+  )
+})
+
+

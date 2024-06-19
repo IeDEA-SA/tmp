@@ -39,6 +39,7 @@ Imports:
     skimr,
     stringr,
     tibble,
+    tidyr,
     uuid
 Encoding: UTF-8
 LazyData: true
