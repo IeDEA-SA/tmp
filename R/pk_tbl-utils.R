@@ -1,9 +1,13 @@
 # Subsets primary key (pk) column pk_col and tbl column from a table (or equivalent).
-subset_pk_tbl_cols <- function(tbl, pk_col = "patient", add_pk_col = FALSE) {
+subset_pk_tbl_cols <- function(tbl, pk_col = "patient", add_pk_col = FALSE,
+                               rename_pk_col = FALSE, session_pk_col = "patient") {
   out <- tbl[, c(pk_col, "tbl")]  %>%
     dplyr::distinct()
   if (add_pk_col) {
    out <- dplyr::mutate(out, pk = .data[[pk_col]])
+  }
+  if (rename_pk_col) {
+    names(out)[names(out) == pk_col] <- session_pk_col
   }
   out
 }
