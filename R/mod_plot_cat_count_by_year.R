@@ -56,7 +56,7 @@ mod_plot_cat_count_by_year_server <- function(id, comb_tbl, x, y){
     plot_id <- get_ns_plot_id(ns)
 
     generate_plot <- reactive({
-      req(input$n, input$mark_cutoff, !is.null(input$interactive))
+      req(input$n, !is.null(input$mark_cutoff), !is.null(input$interactive))
       plot_cat_count_by_year(comb_tbl, date_col = x, y = y,
                          n = input$n,
                          mark_cutoff = input$mark_cutoff
