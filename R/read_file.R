@@ -9,7 +9,7 @@
 read_file <- function(path) {
   extension <- fs::path_ext(path)
   tbl <- switch(extension,
-    csv = readr::read_csv(file = path, show_col_types = FALSE),
+    csv = data.table::fread(path) %>% convert_IDate(),
     rds = readRDS(file = path),
     dta = haven::read_dta(file = path),
     sav = haven::read_sav(file = path),
@@ -22,7 +22,17 @@ read_file <- function(path) {
       )
     )
   )
+
   readr::type_convert(tbl, guess_integer = TRUE) %>%
     suppressMessages() %>%
     tibble::as_tibble()
+}
+
+convert_IDate <- function(tbl) {
+  for (var in names(tbl)) {
+    if (inherits(tbl[[var]], "IDate")){
+      tbl[, var] <- as.Date(tbl[[var]])
+    }
+  }
+  tbl
 }

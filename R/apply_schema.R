@@ -12,8 +12,8 @@ apply_schema <- function(tbl, schema_config) {
   for (var_name in names(schema_config)) {
     var_type <- schema_config[[var_name]]()$var_type
     unknown <- schema_config[[var_name]]()$unknown
-    var_type_tbl_previous <- class(tbl$previous[[var_name]])
-    var_type_tbl_current <- class(tbl$current[[var_name]])
+    var_type_tbl_previous <- class(tbl$previous[[var_name]])[1]
+    var_type_tbl_current <- class(tbl$current[[var_name]])[1]
     coerce_both <- !is.null(var_type) && var_type_tbl_previous != var_type
     coerce_current <- isFALSE(coerce_both) && var_type_tbl_current != var_type_tbl_previous
 
