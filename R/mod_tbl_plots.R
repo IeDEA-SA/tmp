@@ -20,11 +20,10 @@ mod_tbl_plots_ui <- function(id) {
 
 #' tbl_plots Server Functions
 #'
-#' @param tbl a reactive list containing two elements:
+#' @param comb_tbl a reactive list containing two elements:
 #' - `previous`: a tibble of previous data
 #' - `current`: a tibble of current data
 #' to compare.
-#' @param tbl_name Character string. The table name.
 #' @noRd
 mod_tbl_plots_server <- function(id, comb_tbl) {
 
