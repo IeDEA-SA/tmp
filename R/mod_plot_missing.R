@@ -24,13 +24,6 @@ mod_plot_missing_ui <- function(id, x, y = NULL) {
           checkboxInput(ns("interactive"),
             label = "Display interactive plot",
             value = TRUE
-          ),
-          sliderInput(
-            inputId = ns("bins"),
-            label = "Number of bins:",
-            min = 1,
-            max = 100,
-            value = 30
           )
         ),
         uiOutput(ns("plot"))
