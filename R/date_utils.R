@@ -14,18 +14,18 @@ bin_count_by_date <- function(tbl, x, time_bin, mirror) {
     ))
 }
 
-get_date_floor <- function(tbl, x, time_bin) {
+get_date_ceiling <- function(tbl, x, time_bin) {
   x <- rlang::arg_match(x, values = names(tbl))
   checkmate::assert_class(tbl[[x]], "Date")
 
   if (!"tbl" %in% names(tbl)) {
     return({
       max(tbl[[x]]) %>%
-        lubridate::floor_date(unit = time_bin)
+        lubridate::ceiling_date(unit = time_bin)
     })
   }
 
   tbl[tbl[["tbl"]] == "previous", x, drop = TRUE] %>%
     max() %>%
-    lubridate::floor_date(unit = time_bin)
+    lubridate::ceiling_date(unit = time_bin)
 }
