@@ -29,3 +29,19 @@ get_date_ceiling <- function(tbl, x, time_bin) {
     max() %>%
     lubridate::ceiling_date(unit = time_bin)
 }
+
+
+# Function to create duration objects
+create_duration <- function(period_type, size = 0.5) {
+  switch(period_type,
+         day = lubridate::duration(1 * size, "day"),
+         week = lubridate::duration(7 * size, "day"),
+         month = lubridate::duration(1 * size, "month"),
+         bimonth = lubridate::duration(2 * size, "month"),
+         season = lubridate::duration(3 * size, "month"),
+         quarter = lubridate::duration(3 * size, "month"),
+         halfyear = lubridate::duration(6 * size, "month"),
+         year = lubridate::duration(1 * size, "year"),
+         stop("Unknown period type")
+  )
+}

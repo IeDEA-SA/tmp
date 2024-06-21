@@ -41,4 +41,12 @@ test_that("plot_count_by_date works", {
       plot_count_by_date(tbl_tblART, x = "art_sd", position = "diff")
     }
   )
+
+  expect_doppelganger(
+    title = "tbl_tblART art_comb dodge plot_count_by_date year",
+    {
+      plot_count_by_date(tbl_tblART, x = "art_sd", position = "dodge",
+                         time_bin = "year")
+    }
+  )
 })
