@@ -26,6 +26,9 @@ mod_pk_column_ui <- function(id, colnames, add = NULL) {
 mod_pk_column_server <- function(id, comb_tbl, tbl_name) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    if (isFALSE(is.reactive(comb_tbl))) {
+      stop("Input must be a reactive expression.")
+    }
 
     get_pk_col <- reactive({
       req(input$pk_col)
@@ -40,7 +43,7 @@ mod_pk_column_server <- function(id, comb_tbl, tbl_name) {
         NULL
       } else {
         log_debug("pk col for tbl {tbl_name} assigned.")
-        subset_pk_tbl_cols(comb_tbl, pk_col = input$pk_col,
+        subset_pk_tbl_cols(comb_tbl(), pk_col = input$pk_col,
                            add_pk_col = TRUE,
                            rename_pk_col = TRUE,
                            session_pk_col = session$userData$pk_col)

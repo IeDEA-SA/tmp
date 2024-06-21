@@ -12,3 +12,7 @@ get_ns_plot_id <- function(ns) {
 get_ns_tab_id <- function(ns) {
   strsplit(ns(NULL), ns.sep)[[1]][2]
 }
+
+is_summary_tab <- function(ns) {
+  get_ns_tbl_name(ns) == "summary"
+}

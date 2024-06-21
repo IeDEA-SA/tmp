@@ -16,10 +16,17 @@ mod_var_plot_modal_ui <- function(id) {
 
 #' var_plot_modal Server Functions
 #'
+#' @param comb_tbl a reactive list containing two elements:
+#' - `previous`: a tibble of previous data
+#' - `current`: a tibble of current data
+#' to compare.
 #' @noRd
 mod_var_plot_modal_server <- function(id, comb_tbl) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
+    if (!is_summary_tab(ns) && isFALSE(is.reactive(comb_tbl))) {
+      stop("Input must be a reactive expression.")
+    }
 
     output$select_plot_ui <- renderUI({
       req(input$select_plot)
@@ -35,8 +42,8 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
           output[[i]] <- selectInput(ns(sprintf("select_var_%s", var_name)),
             paste("Select", var_name, "variable", "to compare"),
             choices = setdiff(
-              names(comb_tbl)[
-                purrr::map_lgl(comb_tbl, ~ fn(.x))
+              names(comb_tbl())[
+                purrr::map_lgl(comb_tbl(), ~ fn(.x))
               ],
               c("tbl", "tbl_name")
             ),
@@ -94,10 +101,18 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
             "server",
             sep = "_"
           ))
-          plot_server_mod("card", comb_tbl,
-            x = input$select_var_x,
-            y = input$select_var_y
-          )
+          if (is_summary_tab(ns)) {
+            plot_server_mod("card", comb_tbl,
+                            x = input$select_var_x,
+                            y = input$select_var_y
+            )
+          } else {
+            plot_server_mod("card", comb_tbl(),
+                            x = input$select_var_x,
+                            y = input$select_var_y
+            )
+          }
+
         }
         mod_observer$destroy()
         removeModal()

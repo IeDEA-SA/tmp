@@ -27,10 +27,12 @@ mod_tbl_plots_ui <- function(id) {
 #' @noRd
 mod_tbl_plots_server <- function(id, comb_tbl) {
 
-  log_debug("Creating tbl_plots module with add_plot_observer id: ", id)
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-
+    if (!is_summary_tab(ns) && isFALSE(is.reactive(comb_tbl))) {
+      stop("Input must be a reactive expression.")
+    }
+    log_debug("Creating tbl_plots module with add_plot_observer id: ", id)
     session$userData$add_plot_observers[[id]] <- observeEvent(
       input$add_plot,
       {

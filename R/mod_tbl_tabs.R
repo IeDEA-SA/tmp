@@ -91,6 +91,7 @@ mod_tbl_tabs_server <- function(id, tbls) {
             )
 
             comb_tbl <- reactive({
+              log_debug("Clean tables combined for table: {tbl_name}")
               combine_tbls(
                 current_tbl = clean_tbls[[tab_id]]()$current,
                 previous_tbl = clean_tbls[[tab_id]]()$previous,

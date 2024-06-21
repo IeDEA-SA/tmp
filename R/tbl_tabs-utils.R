@@ -129,13 +129,13 @@ tbl_tab_server <- function(tab_id, tbl_name, comb_tbl) {
   }
   mod_pk_column_server(
     id = tab_id,
-    comb_tbl = comb_tbl(),
+    comb_tbl = comb_tbl,
     tbl_name = tbl_name
   )
 
   mod_tbl_plots_server(
     id = tab_id,
-    comb_tbl = comb_tbl()
+    comb_tbl = comb_tbl
   )
 }
 
