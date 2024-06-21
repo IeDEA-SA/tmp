@@ -17,8 +17,7 @@ plot_cat_count_by_year <- function(tbl, date_col, y,
                              n = 4L) {
 
   prev_cutoff <- lubridate::year(
-    get_date_floor(tbl, date_col, "year") +
-      lubridate::years(1)
+    get_date_ceiling(tbl, date_col, "year")
     )
 
   tbl <- tbl %>%

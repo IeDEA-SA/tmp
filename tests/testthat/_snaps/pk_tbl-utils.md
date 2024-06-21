@@ -18,6 +18,26 @@
       10 f5395985bb current f5395985bb
       # i 1,890 more rows
 
+---
+
+    Code
+      pk_tbl_nopk
+    Output
+      # A tibble: 1,900 x 2
+         patient    tbl    
+         <chr>      <fct>  
+       1 a9b144efd0 current
+       2 06645dd7c5 current
+       3 a77c80e964 current
+       4 475a7b0866 current
+       5 d09d6a72e5 current
+       6 77998ebea4 current
+       7 437fcd72d4 current
+       8 e5e7ca563f current
+       9 74d498c39b current
+      10 f5395985bb current
+      # i 1,890 more rows
+
 # join_pk works
 
     Code

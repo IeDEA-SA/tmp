@@ -12,8 +12,8 @@ apply_schema <- function(tbl, schema_config) {
   for (var_name in names(schema_config)) {
     var_type <- schema_config[[var_name]]()$var_type
     unknown <- schema_config[[var_name]]()$unknown
-    var_type_tbl_previous <- class(tbl$previous[[var_name]])
-    var_type_tbl_current <- class(tbl$current[[var_name]])
+    var_type_tbl_previous <- class(tbl$previous[[var_name]])[1]
+    var_type_tbl_current <- class(tbl$current[[var_name]])[1]
     coerce_both <- !is.null(var_type) && var_type_tbl_previous != var_type
     coerce_current <- isFALSE(coerce_both) && var_type_tbl_current != var_type_tbl_previous
 
@@ -25,10 +25,12 @@ apply_schema <- function(tbl, schema_config) {
       pre_NAs <- sum(is.na(tbl$previous[[var_name]]))
       tbl$previous[[var_name]] <- coerce_fn(tbl$previous[[var_name]])
       tbl$current[[var_name]] <- coerce_fn(tbl$current[[var_name]])
+      log_debug("Var {var_name} coerced to {var_type} from {var_type_tbl_previous} in both tables")
     }
     if (coerce_current) {
       coerce_fn <- get(sprintf("as.%s", var_type_tbl_previous))
       tbl$current[[var_name]] <- coerce_fn(tbl$current[[var_name]])
+      log_debug("Var {var_name} coerced to {var_type} from {var_type_tbl_previous} in current table")
     }
 
     if (any(coerce_both, coerce_current)) {
@@ -53,6 +55,7 @@ apply_schema <- function(tbl, schema_config) {
 
       make_NA <- as.character(tbl$current[[var_name]]) == unknown
       tbl$current[[var_name]][make_NA] <- NA
+      log_debug("Values {unknown} in var {var_name} set to NA")
     }
   }
   tbl

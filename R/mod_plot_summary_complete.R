@@ -1,16 +1,15 @@
-#' plot_missing UI Function
+#' plot_summary_complete UI Function
 #'
-#' @description Module for creating histogram plot card.
+#' @description Module for creating completeness summary plot card.
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
-#' @param x Character string. Name of primary key column.
-#' @param y Defaults to NULL. Not used in 1 variable plots but required for consistency
-#' with 2 var plots.
+#' @param x NULL. Not used in plot_summary_complete but required for consistency.
+#' @param y NULL. Not used in plot_summary_complete but required for consistency.
 #'
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_plot_missing_ui <- function(id, x, y = NULL) {
+mod_plot_summary_complete_ui <- function(id, x = NULL, y = NULL){
   ns <- NS(id)
   tagList(
     card(
@@ -22,44 +21,34 @@ mod_plot_missing_ui <- function(id, x, y = NULL) {
           title = "Configure plot",
           uiOutput(ns("exclude_ui")),
           checkboxInput(ns("interactive"),
-            label = "Display interactive plot",
-            value = TRUE
+                        label = "Display interactive plot",
+                        value = TRUE
           )
         ),
         uiOutput(ns("plot"))
       ),
       actionButton(ns("delete"),
-        label = "", icon = icon("trash")
+                   label = "", icon = icon("trash")
       )
     )
   )
 }
 
-#' plot_missing Server Functions
+#' plot_summary_complete Server Functions
 #'
-#' @param comb_tbl Data frame. Combined data frame with primary key column.
+#' @param comb_tbl NULL. Not used in plot_summary_complete but required for consistency.
 #' @noRd
-mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
-  moduleServer(id, function(input, output, session) {
+mod_plot_summary_complete_server <- function(id, comb_tbl = NULL, x = NULL, y = NULL){
+  moduleServer( id, function(input, output, session){
     ns <- session$ns
     tbl_name <- get_ns_tbl_name(ns)
     plot_id <- get_ns_plot_id(ns)
-    output$exclude_ui <- renderUI({
-      selectizeInput(ns("exclude"),
-        label = "Exclude columns",
-        choices = colnames(comb_tbl)[
-          colnames(comb_tbl) != c("tbl_name", "tbl")
-        ],
-        selected = NULL,
-        multiple = TRUE
-      )
-    })
 
     generate_plot <- reactive({
       req(!is.null(input$interactive))
-      plot_missing(
-        tbl = comb_tbl, pk_tbl = session$userData$pk_tbl,
-        exclude = input$exclude
+      plot_summary_complete(
+        pk = session$userData$pk,
+        pk_col = session$userData$pk_col
       )
     })
 
@@ -78,10 +67,10 @@ mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
 
     observe({
       session$userData$plots[[tbl_name]][[plot_id]] <- list(
-        x = x,
+        x = "summary",
         plot = generate_plot(),
         interactive = input$interactive,
-        plot_type = "missing"
+        plot_type = "completeness"
       )
     })
 
@@ -97,7 +86,7 @@ mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
 }
 
 ## To be copied in the UI
-# mod_plot_missing_ui("plot_missing_1")
+# mod_plot_summary_complete_ui("plot_summary_complete_1")
 
 ## To be copied in the server
-# mod_plot_missing_server("plot_missing_1")
+# mod_plot_summary_complete_server("plot_summary_complete_1")

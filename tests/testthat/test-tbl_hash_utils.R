@@ -47,3 +47,24 @@ test_that("'source_hash' attribute is correctly assigned", {
     expect_true(!is.null(attr(result, "source_hash")))
   })
 })
+
+
+test_that("'source_hash' attribute stays consistent when files are read by data.table", {
+    path_1 <-system.file("test-data", "csv", "01_previous", "tblART.csv",
+                         package = "MATCHA")
+    path_2 <-system.file("test-data", "csv", "02_current", "tblART.csv",
+                         package = "MATCHA")
+    source_files <- c(path_1, path_2)
+
+    # Create tbl list 1
+    tbl_list <- list(data.table::fread(path_1),
+                     data.table::fread(path_2))
+    hash_1 <- attr(set_source_hash(tbl_list, source_files), "source_hash")
+
+    # Reread tables and check that the same hash is generated
+    tbl_list <- list(data.table::fread(path_1),
+                     data.table::fread(path_2))
+    hash_2 <- attr(set_source_hash(tbl_list, source_files), "source_hash")
+
+    expect_equal(hash_1, hash_2)
+})

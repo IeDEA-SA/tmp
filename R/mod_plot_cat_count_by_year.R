@@ -20,14 +20,7 @@ mod_plot_cat_count_by_year_ui <- function(id, x, y) {
         fillable = TRUE,
         sidebar = sidebar(
           title = "Configure plot",
-          sliderInput(
-            inputId = ns("n"),
-            label = "Number of most common categories:",
-            min = 1L,
-            max = 12L,
-            step = 1L,
-            value = 4L
-          ),
+          uiOutput(ns("n_ui")),
           checkboxInput(ns("interactive"),
                         label = "Display interactive plot",
                         value = TRUE
@@ -55,8 +48,27 @@ mod_plot_cat_count_by_year_server <- function(id, comb_tbl, x, y){
     tbl_name <- get_ns_tbl_name(ns)
     plot_id <- get_ns_plot_id(ns)
 
+    output$n_ui <- renderUI({
+      value <- 4L
+      max_n <- length(unique(na.omit(comb_tbl[[y]])))
+      if (max_n > 12L) {
+        max_n <- 12L
+      }
+      if (4L > max_n) {
+        value <- max_n
+      }
+      sliderInput(
+        inputId = ns("n"),
+        label = "Number of most common categories:",
+        min = 1L,
+        max = max_n,
+        step = 1L,
+        value = value
+      )
+    })
+
     generate_plot <- reactive({
-      req(input$n, input$mark_cutoff, !is.null(input$interactive))
+      req(input$n, !is.null(input$mark_cutoff), !is.null(input$interactive))
       plot_cat_count_by_year(comb_tbl, date_col = x, y = y,
                          n = input$n,
                          mark_cutoff = input$mark_cutoff

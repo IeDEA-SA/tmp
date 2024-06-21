@@ -1,6 +1,6 @@
 Package: MATCHA
 Title: Data consistency report
-Version: 0.4.1
+Version: 0.5.0
 Authors@R: 
     person(given = "Anna",
            family = "Krystalli",
@@ -13,6 +13,7 @@ Imports:
     bslib (>= 0.6.1),
     checkmate,
     config (>= 0.3.1),
+    data.table,
     digest,
     dplyr (>= 1.1.0),
     forcats,
@@ -39,6 +40,7 @@ Imports:
     skimr,
     stringr,
     tibble,
+    tidyr,
     uuid
 Encoding: UTF-8
 LazyData: true

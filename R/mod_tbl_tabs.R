@@ -46,8 +46,11 @@ mod_tbl_tabs_server <- function(id, tbls) {
 
     observe({
       req(tbls())
+      selected_sources_lookup <- get_tbl_tabs_lookup(
+        tbls(),
+        session$userData$tab_list
+      )
 
-      selected_sources_lookup <- get_tbl_tabs_lookup(tbls(), session$userData$tab_list)
       log_debug("Table tabs meta:")
       log_debug("{selected_sources_lookup}")
       remove_tabs <- session$userData$tab_list %>%
@@ -56,119 +59,57 @@ mod_tbl_tabs_server <- function(id, tbls) {
       add_tabs <- selected_sources_lookup %>%
         anti_join(session$userData$tab_list, by = "source_hash")
 
+      # REMOVE TABS ----
       if (isTRUE(nrow(remove_tabs) > 0)) {
-        pwalk(remove_tabs, function(source_hash, tbl_name, tab_id) {
-          log_debug("remove tab {tbl_name}")
-          tbl_id_ns <- ns(tab_id)
-
-          removeUI(
-            selector = "div:has(> '#shiny-modal')",
-            multiple = TRUE
-          )
-
-          removeTab("tab", tbl_id_ns)
-          remove_shiny_inputs(tbl_id_ns, input, parent_id = sprintf("%s-", ns(NULL)))
-          remove_shiny_outputs(tbl_id_ns, output, parent_id = sprintf("%s-", ns(NULL)))
-
-          session$userData$plots[[tbl_name]] <- NULL
-          session$userData$add_plot_observers[[tab_id]]$destroy()
-          if (tbl_name == session$userData$pk_tbl_name) {
-            log_debug("Removing pk_tbl with primary key info from {tbl_name}.")
-            session$userData$pk_tbl <- NULL
-            showNotification(
-              glue::glue("Table {tbl_name} removed as source of primary key info."),
-              type = "default"
-            )
+        purrr::walk2(
+          .x = remove_tabs$tbl_name,
+          .y = remove_tabs$tab_id,
+          ~ {
+            remove_tbl_tab(.x, .y, ns, input, output, session)
+            remove_rv(clean_tbls, .y)
           }
-        })
+        )
+        log_debug("clean_tabs after removal: {names(clean_tbls)}")
       }
 
-      pwalk(add_tabs, function(source_hash, tbl_name, tab_id) {
-        log_debug("adding tab {tbl_name}")
-        tab_index <- which(names(tbls()) %in% tbl_name)
-        tab_icon <- if (checks()[[tbl_name]]$valid) {
-          if (tbl_name == session$userData$pk_tbl_name) {
-            icon("key")
-          } else {
-            icon("check")
-          }
-        } else {
-          icon("x")
-        }
-        tab_panel <- tabPanel(
-          title = tbl_name,
-          mod_display_check_ui(ns(tab_id)),
-          mod_tbl_plots_ui(ns(tab_id)),
-          value = ns(tab_id),
-          icon = tab_icon
-        )
-        if (tab_index == 1) {
-          log_debug("Prepend as first tab")
-          prependTab(
-            inputId = "tab",
-            tab_panel,
-            select = FALSE
-          )
-        } else {
-          target_tab <- selected_sources_lookup %>%
-            filter(tbl_name == names(tbls())[tab_index - 1]) %>%
-            pull(tab_id) %>%
-            ns()
+      # ADD TABS ----
+      if (isTRUE(nrow(add_tabs) > 0)) {
+        purrr::walk2(
+          .x = add_tabs$tbl_name,
+          .y = add_tabs$tab_id,
+          ~ {
+            tbl_name <- .x
+            tab_id <- .y
+            tbl_valid <- checks()[[tbl_name]]$valid
+            tbl_valid_cols <- checks()[[tbl_name]]$check_coltypes$valid_cols
 
-          log_debug("Insert as tab after {target_tab}")
-          shiny::insertTab(
-            inputId = "tab",
-            target = target_tab,
-            position = "after",
-            tab_panel,
-            select = FALSE
-          )
-        }
+            clean_tbls[[tab_id]] <- mod_display_check_server(
+              id = tab_id,
+              tbl = tbls()[[tbl_name]],
+              tbl_name = tbl_name,
+              check = checks()[[tbl_name]]
+            )
 
-        clean_tbls[[tab_id]] <- mod_display_check_server(
-          id = tab_id,
-          tbl = tbls()[[tbl_name]],
-          tbl_name = tbl_name,
-          check = checks()[[tbl_name]]
-        )
-
-        if (tbl_name == session$userData$pk_tbl_name) {
-          if (session$userData$pk_col %in% names(tbls()[[tbl_name]]$current)) {
-            log_debug("Subsetting {tbl_name} for primary key info.")
-            session$userData$pk_tbl <- subset_pk_tbl_cols(
-              tblBAS = combine_tbls(
-                current_tbl = tbls()[[tbl_name]]$current,
-                previous_tbl = tbls()[[tbl_name]]$previous,
+            comb_tbl <- reactive({
+              log_debug("Clean tables combined for table: {tbl_name}")
+              combine_tbls(
+                current_tbl = clean_tbls[[tab_id]]()$current,
+                previous_tbl = clean_tbls[[tab_id]]()$previous,
                 tbl_name = tbl_name
-              ),
-              pk_col = session$userData$pk_col
-            )
-            showNotification(
-              glue::glue("Table {tbl_name} set as source of primary key info."),
-              type = "default"
-            )
-            print(session$userData$pk_tbl)
-          } else {
-            log_debug("Failed to subset {tbl_name} for primary key info.
-                      pk_col {session$userData$pk_col} missing.")
-            showNotification(
-              glue::glue(
-                "Expected primary key column '{session$userData$pk_col}' not found
-                in primary key table. Please check data or use `pk_col` argument
-                in `run_app` to re-configure primary key column."
-              ),
-              duration = NULL,
-              type = "error"
-            )
-          }
-        }
+              )
+            })
 
-        mod_tbl_plots_server(
-          id = tab_id,
-          tbl = clean_tbls[[tab_id]],
-          tbl_name = tbl_name
+            tbl_tab_ui(
+              tbl_name, tab_id, ns, tbl_valid_cols, tbl_valid, clean_tbls,
+              session
+            )
+            tbl_tab_pk(tbl_name, comb_tbl, session, tbl_valid_cols)
+            tbl_tab_server(tab_id, tbl_name, comb_tbl)
+          }
         )
-      })
+      }
+      # Add Summary Tab ----
+      summary_tab(ns, input, output, session)
       session$userData$tab_list <- selected_sources_lookup
     }) %>%
       bindEvent(tbls())

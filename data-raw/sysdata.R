@@ -16,7 +16,8 @@ plot_meta <- list(
   ),
   plot_missing = list(
     x = "all"
-  )
+  ),
+  plot_summary_complete = NULL
 )
 
 usethis::use_data(plot_meta, internal = TRUE, overwrite = TRUE)

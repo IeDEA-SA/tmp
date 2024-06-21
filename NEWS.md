@@ -1,3 +1,7 @@
+# MATCHA 0.5.0
+
+* Added scaffolding for collecting primary key information from all open tables and making it available for use on a new summary tab.
+
 # MATCHA 0.2.0
 
 * Added the following new plot types with associated modules:

@@ -31,14 +31,7 @@ mod_plot_stacked_bar_ui <- function(id, x, y = NULL) {
                         label = "Display interactive plot",
                         value = TRUE
           ),
-          sliderInput(
-            inputId = ns("n"),
-            label = "Number of most common categories:",
-            min = 1L,
-            max = 20L,
-            step = 1L,
-            value = 8L
-          )
+          uiOutput(ns("n_ui"))
         ),
         uiOutput(ns("plot"))
       ),
@@ -58,6 +51,22 @@ mod_plot_stacked_bar_server <- function(id, comb_tbl, x, y = NULL) {
     ns <- session$ns
     tbl_name <- get_ns_tbl_name(ns)
     plot_id <- get_ns_plot_id(ns)
+
+    output$n_ui <- renderUI({
+      value <- 8L
+      max_n <- length(unique(na.omit(comb_tbl[[x]])))
+      if (8L > max_n) {
+        value <- max_n
+      }
+      sliderInput(
+        inputId = ns("n"),
+        label = "Number of most common categories:",
+        min = 1L,
+        max = max_n,
+        step = 1L,
+        value = value
+      )
+    })
 
     generate_plot <- reactive({
       req(input$position, input$n, !is.null(input$interactive))

@@ -1,8 +1,15 @@
-# Subsets primary key (pk) column pk_col and tbl column from tblBAS (or equivalent).
-subset_pk_tbl_cols <- function(tblBAS, pk_col = "patient") {
-  tblBAS[, c(pk_col, "tbl")] |>
-    dplyr::mutate(pk = .data[[pk_col]]) |>
+# Subsets primary key (pk) column pk_col and tbl column from a table (or equivalent).
+subset_pk_tbl_cols <- function(tbl, pk_col = "patient", add_pk_col = FALSE,
+                               rename_pk_col = FALSE, session_pk_col = "patient") {
+  out <- tbl[, c(pk_col, "tbl")]  %>%
     dplyr::distinct()
+  if (add_pk_col) {
+   out <- dplyr::mutate(out, pk = .data[[pk_col]])
+  }
+  if (rename_pk_col) {
+    names(out)[names(out) == pk_col] <- session_pk_col
+  }
+  out
 }
 
 # Join primary key (pk) IDs from the pk_tbl onto a table. Useful for detecting missing
@@ -27,8 +34,22 @@ join_pk <- function(tbl, pk_tbl, pk_col = "patient", keep_pk = FALSE) {
     dplyr::select(-dplyr::any_of(rm_cols))
 }
 
-select_pk_col <- function(tbl, selected = c("patient", "mother_id")) {
-  pk_col <- utils::head(names(tbl)[names(tbl) %in% selected], 1)
+select_pk_col <- function(tbl, colnames,
+                          selected = c("patient", "mother_id"), add = NULL) {
+
+  rlang::check_exclusive(tbl, colnames)
+  if (rlang::is_missing(colnames)) {
+    colnames <- names(tbl)
+  }
+  selected <- unique(c(add, selected))
+
+  selected_id <- colnames %>%
+    match(selected) %>%
+    stats::na.omit() %>%
+    sort() %>%
+    utils::head(1)
+  pk_col <- selected[selected_id]
+
   if (length(pk_col) == 0L) {
     return(NULL)
   } else {

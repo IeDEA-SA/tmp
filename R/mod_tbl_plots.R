@@ -20,27 +20,19 @@ mod_tbl_plots_ui <- function(id) {
 
 #' tbl_plots Server Functions
 #'
-#' @param tbl a reactive list containing two elements:
+#' @param comb_tbl a reactive list containing two elements:
 #' - `previous`: a tibble of previous data
 #' - `current`: a tibble of current data
 #' to compare.
-#' @param tbl_name Character string. The table name.
 #' @noRd
-mod_tbl_plots_server <- function(id, tbl, tbl_name) {
-  stopifnot(is.reactive(tbl))
-  log_debug("Creating tbl_plots module with add_plot_observer id: ", id)
+mod_tbl_plots_server <- function(id, comb_tbl) {
+
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-
-    comb_tbl <- reactive({
-      req(tbl())
-      combine_tbls(
-        current_tbl = tbl()$current,
-        previous_tbl = tbl()$previous,
-        tbl_name = tbl_name
-      )
-    })
-
+    if (!is_summary_tab(ns) && isFALSE(is.reactive(comb_tbl))) {
+      stop("Input must be a reactive expression.")
+    }
+    log_debug("Creating tbl_plots module with add_plot_observer id: ", id)
     session$userData$add_plot_observers[[id]] <- observeEvent(
       input$add_plot,
       {
@@ -54,7 +46,7 @@ mod_tbl_plots_server <- function(id, tbl, tbl_name) {
         )
         mod_var_plot_modal_server(
           plot_id,
-          comb_tbl()
+          comb_tbl
         )
       },
       ignoreInit = TRUE,

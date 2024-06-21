@@ -30,7 +30,10 @@ plot_count_by_date <- function(tbl, x,
   just <- ifelse(position == "dodge", 0.5, 0)
 
   if (mark_cutoff) {
-    prev_cutoff <- get_date_floor(tbl, x, time_bin)
+    prev_cutoff <- get_date_ceiling(tbl, x, time_bin)
+    if (position == "dodge") {
+      prev_cutoff <- as.Date(prev_cutoff - create_duration(time_bin, just))
+    }
   }
   if (plot_diff) {
     p <- tbl %>%
