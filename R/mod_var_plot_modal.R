@@ -70,10 +70,16 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
       bindEvent(input$ok)
 
     plotModal <- function() {
+      choices <- names(plot_meta)
+      if (is_summary_tab(ns)) {
+        choices <- grep("summary", choices, value = TRUE)
+      } else {
+        choices <- grep("summary", choices, value = TRUE, invert = TRUE)
+      }
       modalDialog(
         selectInput(ns("select_plot"),
           "Select plot type",
-          choices = names(plot_meta),
+          choices = choices,
           multiple = FALSE,
           selectize = TRUE
         ),
