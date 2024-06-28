@@ -141,10 +141,9 @@ check_tbl_coltypes <- function(x) {
     )
   } else {
     coerce_msg <- if (all_equal) "" else " (after coercion)"
-    vars <- glue::glue_collapse(valid_cols, sep = ", ")
     msg <- glue::glue(
       "{msg}
-      \u2714 Previous & current data CAN be row bound{coerce_msg} across variables: {vars}."
+      \u2714 Previous & current data CAN be row bound{coerce_msg} across some variables."
     )
   }
   list(
@@ -166,7 +165,7 @@ process_tbl <- function(x, clean_names = FALSE, select_vars) {
 
 col_rbind_error <- function(x, var) {
   purrr::map(x, ~ .x[, var]) %>%
-    try() %>%
     purrr::list_rbind() %>%
+    try(silent = TRUE) %>%
     inherits("try-error")
 }
