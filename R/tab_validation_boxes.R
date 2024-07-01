@@ -11,7 +11,7 @@
 tab_validation_boxes <- function(valid_vars, invalid_vars, coerced_vars) {
   layout_columns(
     value_box(
-      title = " ", value = paste(length(valid_vars), "Valid vars"),
+      title = " ", value = paste(length(valid_vars), "Valid"),
       markdown(
         paste0(
           "Variables that were shared and merged without coercion",
@@ -19,11 +19,11 @@ tab_validation_boxes <- function(valid_vars, invalid_vars, coerced_vars) {
         )
       ),
       theme = value_box_theme(bg = "#49F5BF", fg = "#000000"),
-      showcase = icon("square-check"), showcase_layout = "left center",
+      showcase = icon("square-check"), showcase_layout = "top right",
       full_screen = FALSE, fill = FALSE, height = NULL
     ),
     value_box(
-      title = " ", value = paste(length(coerced_vars), "Coerced vars"),
+      title = " ", value = paste(length(coerced_vars), "Coerced"),
       markdown(
         paste0(
           "Variables that required data type coercion to be merged",
@@ -31,11 +31,11 @@ tab_validation_boxes <- function(valid_vars, invalid_vars, coerced_vars) {
         )
       ),
       theme = value_box_theme(bg = "#DB865C", fg = "#000000"),
-      showcase = icon("circle-exclamation"), showcase_layout = "left center",
+      showcase = icon("circle-exclamation"), showcase_layout = "top right",
       full_screen = FALSE, fill = FALSE, height = NULL
     ),
     value_box(
-      title = " ", value = paste(length(invalid_vars), "Invalid vars"),
+      title = " ", value = paste(length(invalid_vars), "Invalid"),
       markdown(
         paste0(
           "Variables that cannot be merged because of conflicting data types",
@@ -43,7 +43,7 @@ tab_validation_boxes <- function(valid_vars, invalid_vars, coerced_vars) {
         )
       ),
       theme = value_box_theme(bg = "#F08787", fg = "#000000"),
-      showcase = icon("rectangle-xmark"), showcase_layout = "left center",
+      showcase = icon("rectangle-xmark"), showcase_layout = "top right",
       full_screen = FALSE, fill = FALSE, height = NULL
     )
   )
