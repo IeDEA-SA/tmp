@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <bslib-layout-columns class="bslib-grid grid bslib-mb-spacing html-fill-item" data-require-bs-caller="layout_columns()" data-require-bs-version="5">
           <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
-            <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box showcase-left-center" data-bslib-card-init data-require-bs-caller="card() value_box()" data-require-bs-version="5 5" style="color:#000000;background-color:#49F5BF;--bslib-color-fg:#000000;--bslib-color-bg:#49F5BF;">
+            <div class="card bslib-card bslib-mb-spacing html-fill-container bslib-value-box showcase-left-center" data-bslib-card-init data-require-bs-caller="card() value_box()" data-require-bs-version="5 5" style="color:#000000;background-color:#49F5BF;--bslib-color-fg:#000000;--bslib-color-bg:#49F5BF;">
               <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
                 <div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
                   <div class="value-box-showcase html-fill-item html-fill-container">
@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
-            <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box showcase-left-center" data-bslib-card-init data-require-bs-caller="card() value_box()" data-require-bs-version="5 5" style="color:#000000;background-color:#DB865C;--bslib-color-fg:#000000;--bslib-color-bg:#DB865C;">
+            <div class="card bslib-card bslib-mb-spacing html-fill-container bslib-value-box showcase-left-center" data-bslib-card-init data-require-bs-caller="card() value_box()" data-require-bs-version="5 5" style="color:#000000;background-color:#DB865C;--bslib-color-fg:#000000;--bslib-color-bg:#DB865C;">
               <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
                 <div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
                   <div class="value-box-showcase html-fill-item html-fill-container">
@@ -46,7 +46,7 @@
             </div>
           </div>
           <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
-            <div class="card bslib-card bslib-mb-spacing html-fill-item html-fill-container bslib-value-box showcase-left-center" data-bslib-card-init data-require-bs-caller="card() value_box()" data-require-bs-version="5 5" style="color:#000000;background-color:#F08787;--bslib-color-fg:#000000;--bslib-color-bg:#F08787;">
+            <div class="card bslib-card bslib-mb-spacing html-fill-container bslib-value-box showcase-left-center" data-bslib-card-init data-require-bs-caller="card() value_box()" data-require-bs-version="5 5" style="color:#000000;background-color:#F08787;--bslib-color-fg:#000000;--bslib-color-bg:#F08787;">
               <div class="card-body bslib-gap-spacing html-fill-item html-fill-container" style="margin-top:auto;margin-bottom:auto;flex:1 1 auto; padding:0;">
                 <div class="value-box-grid html-fill-item" style="--bslib-grid-height:auto;--bslib-grid-height-mobile:auto;---bslib-value-box-showcase-w:30%;---bslib-value-box-showcase-w-fs:1fr;---bslib-value-box-showcase-max-h:100px;---bslib-value-box-showcase-max-h-fs:67%;">
                   <div class="value-box-showcase html-fill-item html-fill-container">
