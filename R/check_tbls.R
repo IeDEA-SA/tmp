@@ -134,6 +134,9 @@ check_tbl_coltypes <- function(x) {
   )
   rbind_error <- all(col_rbind_errors)
   valid_cols <- names(col_rbind_errors[!col_rbind_errors])
+  invalid_cols <- names(col_rbind_errors[col_rbind_errors])
+  coerced_cols <- setdiff(cols, invalid_cols)
+
   if (rbind_error) {
     msg <- glue::glue(
       "{msg}
@@ -152,7 +155,9 @@ check_tbl_coltypes <- function(x) {
     msg = msg,
     equal = equal,
     all_equal = all_equal,
-    valid_cols = valid_cols
+    valid_cols = valid_cols,
+    invalid_cols = invalid_cols,
+    coerced_cols = coerced_cols
   )
 }
 
