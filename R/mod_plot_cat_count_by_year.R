@@ -21,6 +21,11 @@ mod_plot_cat_count_by_year_ui <- function(id, x, y) {
         sidebar = sidebar(
           title = "Configure plot",
           uiOutput(ns("n_ui")),
+          selectInput(ns("scales"),
+                      label = "Select Facet Scales:",
+                      choices = c("fixed", "free_y"),
+                      selected = "fixed"
+          ),
           checkboxInput(ns("interactive"),
                         label = "Display interactive plot",
                         value = TRUE
@@ -71,7 +76,8 @@ mod_plot_cat_count_by_year_server <- function(id, comb_tbl, x, y){
       req(input$n, !is.null(input$mark_cutoff), !is.null(input$interactive))
       plot_cat_count_by_year(comb_tbl, date_col = x, y = y,
                          n = input$n,
-                         mark_cutoff = input$mark_cutoff
+                         mark_cutoff = input$mark_cutoff,
+                         scales = input$scales
       )
     })
 
