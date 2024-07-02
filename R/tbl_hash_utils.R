@@ -39,12 +39,7 @@ get_tbl_tabs_lookup <- function(tbls, existing_tbl_tabs_lookup) {
 #'
 #' @noRd
 #'
-#' @importFrom purrr map2
-#' @importFrom digest digest
-#' @importFrom rlang is_list
 #' @importFrom fs file_exists
-#' @importFrom fs file_info
-#' @importFrom dplyr select all_of
 set_source_hash <- function(tbl_list, source_files) {
   stopifnot(
     "'source_files' length not match" = length(tbl_list) == length(source_files),
@@ -53,10 +48,17 @@ set_source_hash <- function(tbl_list, source_files) {
 
   tbl_list %>%
     structure(
-      source_hash = source_files %>%
-        file_info() %>%
-        # Select file attributes that do not change when the file is read by data.table
-        select(all_of(c("path", "type", "size", "modification_time", "birth_time"))) %>%
-        digest("xxhash32")
+      source_hash = create_source_hash(source_files)
     )
+}
+
+#' @importFrom fs file_info
+#' @importFrom dplyr select all_of
+#' @importFrom digest digest
+create_source_hash <- function(source_files) {
+  source_files %>%
+    file_info() %>%
+    # Select file attributes that do not change when the file is read by data.table
+    select(all_of(c("path", "type", "size", "modification_time", "birth_time"))) %>%
+    digest("xxhash32")
 }

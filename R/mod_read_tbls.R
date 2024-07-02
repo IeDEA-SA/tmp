@@ -39,36 +39,44 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
-    observe({
-      req(selected_tables)
-      purrr::map(
-        setdiff(selected_tables(), session$userData$tab_list$tbl_name),
-        ~ showNotification(
-          glue::glue("Table {.x} read successfully."),
-          type = "message"
-        )
-      )
-    }) %>% bindEvent(input$readBtn,
-      ignoreNULL = TRUE,
-      ignoreInit = TRUE
-    )
     reactive({
       req(selected_tables())
       log_debug("reading data from disk")
+      n <- length(selected_tables())
+      withProgress(message = "Reading data from disk...", {
       purrr::map(
         .x = purrr::set_names(selected_tables()),
         ~ {
+          log_debug("reading {.x} data")
           previous_file_path <- previous_dat()[.x]
           current_file_path <- current_dat()[.x]
 
-          list(
-            previous = read_file(previous_file_path),
-            current = read_file(current_file_path)
-          ) %>%
+          tbl_hash <- create_source_hash(
+            c(previous_file_path, current_file_path)
+          )
+
+          if (tbl_hash %in% session$userData$tab_list$source_hash) {
+            out <- list(
+              previous = NULL,
+              current = NULL
+            )
+          } else {
+            out <- list(
+              previous = read_file(previous_file_path),
+              current = read_file(current_file_path)
+            )
+            showNotification(
+              glue::glue("Table {.x} read from disk. Checking...."),
+              type = "message"
+            )
+          }
+          incProgress(1 / n)
+          out %>%
             set_source_hash(c(previous_file_path, current_file_path))
         }
       )
-    }) %>% bindEvent(input$readBtn,
+    })
+      }) %>% bindEvent(input$readBtn,
       ignoreNULL = TRUE,
       ignoreInit = TRUE
     )

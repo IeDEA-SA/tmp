@@ -8,6 +8,11 @@
 #' checks. The `valid` element states whether any columns in the two tables
 #' can be compared.
 check_tbls <- function(x) {
+
+  if (all(purrr::map_lgl(x, is.null))) {
+    return(NULL)
+  }
+
   check_names <- check_tbl_names(x)
 
   x <- process_tbl(x,
