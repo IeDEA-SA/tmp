@@ -7,8 +7,10 @@ plot_interactive <- function(p, interactive = TRUE) {
 
 make_uuid <- function(prefix = "plt") {
   checkmate::assert_string(prefix, null.ok = TRUE)
+  uuid <- sample(c(letters, 0:9), 16, replace = TRUE) %>%
+    paste0(collapse = "")
   ifelse(is.null(prefix),
-    digest::digest(uuid::UUIDgenerate(), "xxhash32"),
-    paste(prefix, digest::digest(uuid::UUIDgenerate(), "xxhash32"), sep = "_")
+    uuid,
+    paste(prefix, uuid, sep = "_")
   )
 }
