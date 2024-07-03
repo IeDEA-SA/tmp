@@ -64,9 +64,10 @@ apply_schema <- function(tbl, schema_config) {
 }
 
 get_var_type <- function(x) {
-    var_type <- class(x)
-    if (var_type == "numeric") {
+    if (inherits(x, "numeric")) {
       var_type <- typeof(x)
+    } else{
+      var_type <- class(x)
     }
     var_type
 }
