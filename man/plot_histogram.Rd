@@ -4,7 +4,13 @@
 \alias{plot_histogram}
 \title{Create histogram plot of numerical variable}
 \usage{
-plot_histogram(tbl, x, position = c("dodge", "mirror", "facet"), bins = 30L)
+plot_histogram(
+  tbl,
+  x,
+  position = c("dodge", "mirror", "facet"),
+  bins = 30L,
+  log = FALSE
+)
 }
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
@@ -14,6 +20,10 @@ plot_histogram(tbl, x, position = c("dodge", "mirror", "facet"), bins = 30L)
 \item{position}{Character string.  Bar position.}
 
 \item{bins}{Integer. Number of bins.}
+
+\item{log}{Logical. If TRUE, log transform x variable with \code{log(x + 1)}
+(to avoid returning \code{Inf} values) or \code{log(x + 1 -min(x))} if negative numbers
+exist in \code{x} (to avoid returning \code{NaN} values).}
 }
 \value{
 Histogram ggplot plot.

@@ -5,7 +5,10 @@
 * Added option to toggle between fixed and free_y axes in `plot_cat_count_by_year`.
 * Plot `plot_count_by_date` handles NAs properly (#73).
 * Coercion issues (i.e. creation of NAs) are propagated as warning pop ups in the schema widget.
-* `plot_count_by_date` and `plot_cat_count_by_year` plots are now available for integers.
+* `plot_count_by_date` and `plot_cat_count_by_year` plots are now available for integers also (#14 & #66).
+* Added an `na.rm` argument to `plot_stacked_bar` to allow users to control whether NAs are removed from the data before plotting.
+* Added a `log` argument to `plot_histogram` to allow users to log transform data before plotting.
+
 
 # MATCHA 0.5.0
 

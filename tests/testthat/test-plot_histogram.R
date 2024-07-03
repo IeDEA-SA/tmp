@@ -35,3 +35,28 @@ test_that("plot_histogram works", {
     }
   )
 })
+
+test_that("plot_histogram log works", {
+
+  tblLAB <- load_comb_tbl("tblLAB")
+  expect_doppelganger(
+    title = "tblLAB lab_v no-log histogram",
+    {
+      plot_histogram(tblLAB, x = "lab_v")
+    }
+  )
+  expect_doppelganger(
+    title = "tblLAB lab_v log histogram",
+    {
+      plot_histogram(tblLAB, x = "lab_v", log = TRUE)
+    }
+  )
+
+  tblLAB_CD4 <- load_comb_tbl("tblLAB_CD4")
+  expect_doppelganger(
+    title = "tblLAB_CD4 cd4_v log histogram",
+    {
+      plot_histogram(tblLAB_CD4, x = "cd4_v", log = TRUE)
+    }
+  )
+})
