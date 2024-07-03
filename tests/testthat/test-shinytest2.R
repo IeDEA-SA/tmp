@@ -21,8 +21,19 @@ test_that("{shinytest2} recording: MATCHA_INIT", {
 
 test_that("{shinytest2} SET_PREVIOUS_PATH", {
   app$run_js_delay("$('#access_prev_dat-folder').click()")
-  app$run_js_delay("$('.sF-content').find('.sF-expander').first().find('.glyphicon-triangle-right').click()")
-  app$run_js_delay("$('.sF-file-name').find('div:contains(\\\"01_previous\\\")').first().click()")
+  app$run_js_delay("
+    $('.sF-content')
+      .find('.sF-expander')
+      .first()
+      .find('.glyphicon-triangle-right')
+      .click()
+  ")
+  app$run_js_delay("
+    $('.sF-file-name')
+      .find('div:contains(\\\"01_previous\\\")')
+      .first()
+      .click()
+  ")
   app$run_js_delay("$('#sF-selectButton').click()")
 
   expect_match(
@@ -33,8 +44,19 @@ test_that("{shinytest2} SET_PREVIOUS_PATH", {
 
 test_that("{shinytest2} SET_CURRENT_PATH", {
   app$run_js_delay("$('#access_curr_dat-folder').click()")
-  app$run_js_delay("$('.sF-content').find('.sF-expander').first().find('.glyphicon-triangle-right').click()")
-  app$run_js_delay("$('.sF-file-name').find('div:contains(\\\"02_current\\\")').first().click()")
+  app$run_js_delay("
+    $('.sF-content')
+      .find('.sF-expander')
+      .first()
+      .find('.glyphicon-triangle-right')
+      .click()
+  ")
+  app$run_js_delay("
+    $('.sF-file-name')
+      .find('div:contains(\\\"02_current\\\")')
+      .first()
+      .click()
+  ")
   app$run_js_delay("$('#sF-selectButton').click()")
 
   expect_match(
@@ -56,7 +78,11 @@ test_that("{shinytest2} READ_TABLES", {
   app$click("read_tbls-readBtn")
   app$run_js_delay("$('#tbl_tab-tab').find('a').first().click()")
 
-  expect_snapshot(app$get_value(output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-valid_cols"))
+  valid_cols <- app$get_value(
+    output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-valid_cols"
+  )
+  expect_snapshot(valid_cols)
+
   expect_equal(
     app$get_value(input = "tbl_tab-tab"),
     "tbl_tab-tblBAS_4oncnyz0e01i28hz"
@@ -65,9 +91,14 @@ test_that("{shinytest2} READ_TABLES", {
 
 test_that("{shinytest2} GENERATE_PLOT", {
   app$run_js_delay("$('#tbl_tab-tblBAS_4oncnyz0e01i28hz-add_plot').click()")
-  app$run_js_delay("$('.modal-footer').find('button:contains(\\\"OK\\\")').click()", 2)
+  app$run_js_delay(
+    "$('.modal-footer').find('button:contains(\\\"OK\\\")').click()",
+    sys_sleep = 2
+  )
 
-  plot_class <- app$get_value(output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-plt_5y72ehlmr60yuoz4-card-plot") %>%
+  plot_class <- app$get_value(
+    output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-plt_5y72ehlmr60yuoz4-card-plot"
+  ) %>%
     purrr::chuck("html") %>%
     xml2::read_html() %>%
     xml2::xml_find_all(".//div") %>%
