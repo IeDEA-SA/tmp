@@ -22,7 +22,7 @@ mod_schema_var_config_ui <- function(id, var_name, selected_class) {
             choices = c("integer", "double", "character", "factor", "Date", "logical"),
             selected = selected_class
           ),
-          textInput(ns("unknown"), "Unknown Values", value = "")
+          textInput(ns("unknown"), "Unknown Value", value = "")
         )
       )
     )
