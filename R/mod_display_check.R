@@ -12,9 +12,16 @@
 mod_display_check_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    card(
-      card_header("Valid shared variables"),
-      card_body(strong(textOutput(ns("valid_cols"))))
+    waiter::useWaiter(),
+    layout_column_wrap(
+      width = 1 / 2,
+      card(
+        card_header("Valid shared variables"),
+        card_body(strong(textOutput(ns("valid_cols"))))
+      ),
+      card(
+        id = ns("spinner")
+      )
     ),
     accordion(
       accordion_panel(
@@ -41,6 +48,7 @@ mod_display_check_ui <- function(id) {
         )
       ),
       accordion_panel(
+        id = ns("schema_config_panel"),
         title = "Configure Table schema",
         icon = icon("table"),
         mod_schema_tbl_config_ui(ns("schema_config"))
@@ -83,8 +91,24 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
       "schema_config", tbl
     )
 
+    waiting_screen <- tagList(
+      waiter::spin_flower(),
+      h4("Applying schema changes...")
+    )
+
     # return table with schema applied, ready for plotting
     schema_tbl <- reactive({
+      w <- waiter::Waiter$new(
+        id = ns("spinner"),
+        html = waiting_screen, color = "maroon",
+        fadeout = TRUE,
+        hide_on_render = TRUE
+      )
+      w$show()
+      on.exit({
+        w$hide()
+      })
+
       schema_list <- schema_config %>%
         reactiveValuesToList()
       apply_schema(
