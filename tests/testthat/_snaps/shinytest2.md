@@ -5,7 +5,7 @@
 # {shinytest2} READ_TABLES
 
     Code
-      app$get_value(output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-valid_cols")
+      valid_cols
     Output
       [1] "merge_no, patient, program, birth_d, birth_d_a, enrol_d, enrol_d_a, sex, mode, mode_oth, naive_y, proph_y, recart_y, recart_d, recart_d_a, aids_y, aids_d, aids_d_a, hiv_pos_d, hiv_pos_d_a, center_enrol, center_last"
 

@@ -41,7 +41,6 @@ Imports:
     stringr,
     tibble,
     tidyr,
-    uuid,
     vctrs,
     waiter
 Encoding: UTF-8
