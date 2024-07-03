@@ -33,7 +33,7 @@ plot_histogram <- function(tbl, x,
       )) +
       geom_histogram(position = "stack", bins = bins) +
       scale_y_continuous(labels = abs) +
-      geom_hline(yintercept = 0) +
+      geom_hline(yintercept = 0, linewidth = 0.2) +
       ylab("count")
   }
   if (position == "facet") {

@@ -74,7 +74,7 @@ plot_count_by_date <- function(tbl, x,
       )) +
       geom_col(just = just, position = position) +
       scale_y_continuous(labels = abs) +
-      geom_hline(yintercept = 0, size = 0.2)
+      geom_hline(yintercept = 0, linewidth = 0.2)
   }
   p <- p +
     labs(
