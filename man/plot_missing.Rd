@@ -10,7 +10,7 @@ plot_missing(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE)
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
 
 \item{pk_tbl}{Tibble of primary key information. Usually stored in
-session$userData$pk[\link{session$userData$pk_tbl_name}].}
+\code{session$userData$pk[[session$userData$pk_tbl_name]]}.}
 
 \item{exclude}{Columns to exclude from plot.}
 

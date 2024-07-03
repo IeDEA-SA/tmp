@@ -2,7 +2,7 @@
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param pk_tbl Tibble of primary key information. Usually stored in
-#' session$userData$pk[[session$userData$pk_tbl_name]].
+#' `session$userData$pk[[session$userData$pk_tbl_name]]`.
 #' @param exclude Columns to exclude from plot.
 #' @param compare_pk Logical. Whether to compare table missing values to overall
 #' primary key values.
