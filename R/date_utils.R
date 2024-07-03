@@ -26,7 +26,7 @@ get_date_ceiling <- function(tbl, x, time_bin) {
   }
 
   tbl[tbl[["tbl"]] == "previous", x, drop = TRUE] %>%
-    max() %>%
+    max(na.rm = TRUE) %>%
     lubridate::ceiling_date(unit = time_bin)
 }
 
