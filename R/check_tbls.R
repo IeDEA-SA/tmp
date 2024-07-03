@@ -8,6 +8,11 @@
 #' checks. The `valid` element states whether any columns in the two tables
 #' can be compared.
 check_tbls <- function(x) {
+
+  if (all(purrr::map_lgl(x, is.null))) {
+    return(NULL)
+  }
+
   check_names <- check_tbl_names(x)
 
   x <- process_tbl(x,
@@ -134,6 +139,9 @@ check_tbl_coltypes <- function(x) {
   )
   rbind_error <- all(col_rbind_errors)
   valid_cols <- names(col_rbind_errors[!col_rbind_errors])
+  invalid_cols <- names(col_rbind_errors[col_rbind_errors])
+  coerced_cols <- setdiff(cols, invalid_cols)
+
   if (rbind_error) {
     msg <- glue::glue(
       "{msg}
@@ -141,10 +149,9 @@ check_tbl_coltypes <- function(x) {
     )
   } else {
     coerce_msg <- if (all_equal) "" else " (after coercion)"
-    vars <- glue::glue_collapse(valid_cols, sep = ", ")
     msg <- glue::glue(
       "{msg}
-      \u2714 Previous & current data CAN be row bound{coerce_msg} across variables: {vars}."
+      \u2714 Previous & current data CAN be row bound{coerce_msg} across some variables."
     )
   }
   list(
@@ -153,7 +160,9 @@ check_tbl_coltypes <- function(x) {
     msg = msg,
     equal = equal,
     all_equal = all_equal,
-    valid_cols = valid_cols
+    valid_cols = valid_cols,
+    invalid_cols = invalid_cols,
+    coerced_cols = coerced_cols
   )
 }
 
@@ -165,8 +174,10 @@ process_tbl <- function(x, clean_names = FALSE, select_vars) {
 }
 
 col_rbind_error <- function(x, var) {
-  purrr::map(x, ~ .x[, var]) %>%
-    try() %>%
-    purrr::list_rbind() %>%
+  # Use vctrs::df_ptype2 to check if columns can be row bound which is slightly
+  # faster but more memory efficient
+  vctrs::df_ptype2(x$previous[, var],
+                   x$current[, var]) %>%
+    try(silent = TRUE) %>%
     inherits("try-error")
 }

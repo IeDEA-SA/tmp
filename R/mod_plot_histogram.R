@@ -31,6 +31,10 @@ mod_plot_histogram_ui <- function(id, x, y = NULL) {
             label = "Display interactive plot",
             value = TRUE
           ),
+          checkboxInput(ns("log"),
+                        label = "Log transform variable",
+                        value = FALSE
+          ),
           sliderInput(
             inputId = ns("bins"),
             label = "Number of bins:",
@@ -63,7 +67,8 @@ mod_plot_histogram_server <- function(id, comb_tbl, x, y = NULL) {
       plot_histogram(
         tbl = comb_tbl, x = x,
         position = input$position,
-        bins = input$bins
+        bins = input$bins,
+        log = input$log
       )
     })
 

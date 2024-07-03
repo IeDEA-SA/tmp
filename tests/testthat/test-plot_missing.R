@@ -1,3 +1,5 @@
+library(vdiffr)
+
 test_that("plot_missing works", {
   tblBAS <- load_comb_tbl("tblBAS")
   pk_tbl <- subset_pk_tbl_cols(tblBAS, add_pk_col = TRUE)
@@ -12,6 +14,13 @@ test_that("plot_missing works", {
     title = "tbl_tblART missing plot",
     {
       plot_missing(tbl, pk_tbl)
+    }
+  )
+
+  expect_doppelganger(
+    title = "tbl_tblART missing plot + pk",
+    {
+      plot_missing(tbl, pk_tbl, compare_pk = TRUE)
     }
   )
 })

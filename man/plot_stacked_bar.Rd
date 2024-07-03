@@ -5,16 +5,20 @@
 \title{Create stacked bar plot of counts or percentages of n most common
 categories.}
 \usage{
-plot_stacked_bar(tbl, x, position = c("fill", "stack"), n = 8L)
+plot_stacked_bar(tbl, x, position = c("fill", "stack"), n = 8L, na.rm = TRUE)
 }
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
 
 \item{x}{Character string. Name of variable in table to plot.}
 
-\item{position}{Character string.  Bar position. Either "fill" (percentages) or "stack" (counts).}
+\item{position}{Character string.  Bar position. Either "fill" (percentages)
+or "stack" (counts).}
 
-\item{n}{Integer. Number of most common categories to display. All other categories recoded to "Other".}
+\item{n}{Integer. Number of most common categories to display. All other
+categories recoded to "Other".}
+
+\item{na.rm}{Logical. Remove NA values from the table.}
 }
 \value{
 Stacked Bar plot ggplot plot.

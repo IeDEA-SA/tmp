@@ -103,7 +103,9 @@ mod_tbl_tabs_server <- function(id, tbls) {
               tbl_name, tab_id, ns, tbl_valid_cols, tbl_valid, clean_tbls,
               session
             )
-            tbl_tab_pk(tbl_name, comb_tbl, session, tbl_valid_cols)
+            # TODO: move check for pk table outside loop. Check to ensure
+            # pk_tbl_name a member of selected tables
+            tbl_tab_pk(tbl_name, session, tbl_valid_cols)
             tbl_tab_server(tab_id, tbl_name, comb_tbl)
           }
         )

@@ -19,8 +19,7 @@ remove_tbl_tab <- function(tbl_name, tab_id, ns, input, output, session) {
   }
 
   if (tbl_name == session$userData$pk_tbl_name) {
-    log_debug("Removing pk_tbl with primary key info from {tbl_name}.")
-    session$userData$pk_tbl <- NULL
+    log_debug("Removing primary key table {tbl_name}.")
     showNotification(
       glue::glue("Table {tbl_name} removed as source of primary key info."),
       type = "default"
@@ -90,23 +89,14 @@ tbl_tab_ui <- function(tbl_name, tab_id, ns, tbl_valid_cols, tbl_valid, clean_tb
   }
 }
 
-tbl_tab_pk <- function(tbl_name, comb_tbl, session, tbl_valid_cols) {
-  if (isFALSE(is.reactive(comb_tbl))) {
-    stop("Input must be a reactive expression.")
-  }
+tbl_tab_pk <- function(tbl_name, session, tbl_valid_cols) {
+
   if (tbl_name == session$userData$pk_tbl_name) {
     if (session$userData$pk_col %in% tbl_valid_cols) {
-      log_debug("Subsetting {tbl_name} for primary key info.")
-      session$userData$pk_tbl <- subset_pk_tbl_cols(
-        tbl = comb_tbl(),
-        pk_col = session$userData$pk_col,
-        add_pk_col = TRUE
-      )
       showNotification(
         glue::glue("Table {tbl_name} set as source of primary key info."),
         type = "default"
       )
-      print(session$userData$pk_tbl)
     } else {
       log_debug("Failed to subset {tbl_name} for primary key info.
                       pk_col {session$userData$pk_col} missing.")

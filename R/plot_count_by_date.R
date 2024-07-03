@@ -29,6 +29,14 @@ plot_count_by_date <- function(tbl, x,
   position <- ifelse(position == "mirror", "stack", position)
   just <- ifelse(position == "dodge", 0.5, 0)
 
+  valid_rows <- stats::complete.cases(tbl[, c("tbl", x)])
+  if (any(!valid_rows)) {
+    caption <- glue::glue("{sum(!valid_rows)} rows containing NA values removed.")
+  } else{
+    caption <- NULL
+  }
+  tbl <- tbl[valid_rows, c("tbl", x)]
+
   if (mark_cutoff) {
     prev_cutoff <- get_date_ceiling(tbl, x, time_bin)
     if (position == "dodge") {
@@ -66,9 +74,13 @@ plot_count_by_date <- function(tbl, x,
       )) +
       geom_col(just = just, position = position) +
       scale_y_continuous(labels = abs) +
-      geom_hline(yintercept = 0)
+      geom_hline(yintercept = 0, linewidth = 0.2)
   }
-  p <- p + xlab(glue::glue("{x} (binned by {time_bin})"))
+  p <- p +
+    labs(
+      x = glue::glue("{x} (binned by {time_bin})"),
+      caption = caption)
+
   if (mark_cutoff) {
     p <- p + geom_vline(
       xintercept = as.numeric(prev_cutoff),

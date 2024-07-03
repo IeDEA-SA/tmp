@@ -9,11 +9,12 @@
 #' @return the updated `tbl` object coerced the user defined schema.
 #' @noRd
 apply_schema <- function(tbl, schema_config) {
+
   for (var_name in names(schema_config)) {
     var_type <- schema_config[[var_name]]()$var_type
     unknown <- schema_config[[var_name]]()$unknown
-    var_type_tbl_previous <- class(tbl$previous[[var_name]])[1]
-    var_type_tbl_current <- class(tbl$current[[var_name]])[1]
+    var_type_tbl_previous <- get_var_type(tbl$previous[[var_name]])[1]
+    var_type_tbl_current <- get_var_type(tbl$current[[var_name]])[1]
     coerce_both <- !is.null(var_type) && var_type_tbl_previous != var_type
     coerce_current <- isFALSE(coerce_both) && var_type_tbl_current != var_type_tbl_previous
 
@@ -40,7 +41,8 @@ apply_schema <- function(tbl, schema_config) {
         .f = function(x, y) {
           if (sum(is.na(tbl[[x]][[var_name]])) > y) {
             showNotification(
-              glue::glue("NAs introduced by coercion to column {var_name} in {x} data table"),
+              glue::glue("NAs introduced by coercion to column {var_name} in {x} table.
+                         '{var_type}' may not be an appropriate type for this column."),
               type = "warning"
             )
           }
@@ -59,4 +61,13 @@ apply_schema <- function(tbl, schema_config) {
     }
   }
   tbl
+}
+
+get_var_type <- function(x) {
+    if (inherits(x, "numeric")) {
+      var_type <- typeof(x)
+    } else{
+      var_type <- class(x)
+    }
+    var_type
 }

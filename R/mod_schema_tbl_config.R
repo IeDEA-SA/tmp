@@ -32,18 +32,18 @@ mod_schema_tbl_config_server <- function(id, tbl) {
         ~ mod_schema_var_config_ui(
           id = ns(.y),
           var_name = .y,
-          selected_class = class(.x)
+          selected_class = get_var_type(.x)
         )
       )
     })
 
-   schema <- reactiveValues()
-   for (var_name in shared_vars) {
-     schema[[var_name]] <- mod_schema_var_config_server(
-       id = var_name
-     )
-   }
-   schema
+    schema <- reactiveValues()
+    for (var_name in shared_vars) {
+      schema[[var_name]] <- mod_schema_var_config_server(
+        id = var_name
+      )
+    }
+    schema
   })
 }
 

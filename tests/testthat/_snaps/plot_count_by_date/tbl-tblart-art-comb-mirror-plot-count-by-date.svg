@@ -7785,7 +7785,7 @@
 <rect x='619.38' y='276.53' width='0.065' height='14.84' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BFC4;' />
 <rect x='619.45' y='269.11' width='0.065' height='22.26' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BFC4;' />
 <rect x='619.53' y='269.11' width='0.065' height='22.26' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BFC4;' />
-<line x1='32.79' y1='291.37' x2='647.53' y2='291.37' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<line x1='32.79' y1='291.37' x2='647.53' y2='291.37' style='stroke-width: 0.43; stroke-linecap: butt;' />
 <line x1='447.56' y1='545.11' x2='447.56' y2='22.78' style='stroke-width: 1.07; stroke-dasharray: 1.42,4.27; stroke-linecap: butt;' />
 <rect x='32.79' y='22.78' width='614.74' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>

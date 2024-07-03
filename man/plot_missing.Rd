@@ -4,14 +4,18 @@
 \alias{plot_missing}
 \title{Create bar plot of missing value (NA) counts across variables in a tbl}
 \usage{
-plot_missing(tbl, pk_tbl, exclude = NULL)
+plot_missing(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE)
 }
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
 
-\item{pk_tbl}{Tibble of primary key information. Usually stored in userData$pk_tbl.}
+\item{pk_tbl}{Tibble of primary key information. Usually stored in
+\code{session$userData$pk[[session$userData$pk_tbl_name]]}.}
 
 \item{exclude}{Columns to exclude from plot.}
+
+\item{compare_pk}{Logical. Whether to compare table missing values to overall
+primary key values.}
 }
 \value{
 Missing value ggplot bar plot.

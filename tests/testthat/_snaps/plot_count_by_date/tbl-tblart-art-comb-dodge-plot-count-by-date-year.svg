@@ -64,7 +64,7 @@
 <rect x='547.20' y='409.03' width='22.58' height='112.34' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BFC4;' />
 <rect x='572.29' y='425.68' width='22.58' height='95.69' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BFC4;' />
 <rect x='597.45' y='476.79' width='22.58' height='44.58' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BFC4;' />
-<line x1='42.58' y1='521.37' x2='647.53' y2='521.37' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<line x1='42.58' y1='521.37' x2='647.53' y2='521.37' style='stroke-width: 0.43; stroke-linecap: butt;' />
 <line x1='445.47' y1='545.11' x2='445.47' y2='22.78' style='stroke-width: 1.07; stroke-dasharray: 1.42,4.27; stroke-linecap: butt;' />
 <rect x='42.58' y='22.78' width='604.95' height='522.33' style='stroke-width: 1.07; stroke: #333333;' />
 </g>

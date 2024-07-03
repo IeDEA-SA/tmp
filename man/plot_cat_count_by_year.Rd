@@ -4,7 +4,14 @@
 \alias{plot_cat_count_by_year}
 \title{Create faceted bar plots of category counts per year}
 \usage{
-plot_cat_count_by_year(tbl, date_col, y, mark_cutoff = TRUE, n = 4L)
+plot_cat_count_by_year(
+  tbl,
+  date_col,
+  y,
+  mark_cutoff = TRUE,
+  n = 4L,
+  scales = c("fixed", "free_y")
+)
 }
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
@@ -18,6 +25,9 @@ counts per year will be plotted.}
 \item{mark_cutoff}{Logical. Whether to show temporal cut-off of previous data.}
 
 \item{n}{Integer. Number of most common categories to display. All other categories ignored.}
+
+\item{scales}{Should scales be fixed ("fixed", the default) or free in the
+y dimension ("free_y")?}
 }
 \value{
 Stacked Bar plot ggplot plot.

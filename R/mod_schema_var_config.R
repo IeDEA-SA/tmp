@@ -19,10 +19,10 @@ mod_schema_var_config_ui <- function(id, var_name, selected_class) {
         layout_column_wrap(
           width = 1 / 2,
           selectInput(ns("var_type"), "Variable Type",
-            choices = c("numeric", "character", "factor", "Date", "logical"),
+            choices = c("integer", "double", "character", "factor", "Date", "logical"),
             selected = selected_class
           ),
-          textInput(ns("unknown"), "Unknown Values", value = "")
+          textInput(ns("unknown"), "Unknown Value", value = "")
         )
       )
     )

@@ -12,21 +12,22 @@
 mod_display_check_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    card(
-      card_header("Valid shared variables"),
-      card_body(strong(textOutput(ns("valid_cols"))))
+    waiter::useWaiter(),
+    layout_column_wrap(
+      width = 1 / 2,
+      card(
+        card_header("Valid shared variables"),
+        card_body(strong(textOutput(ns("valid_cols"))))
+      ),
+      card(
+        id = ns("spinner")
+      )
     ),
     accordion(
       accordion_panel(
-        title = "Variable names",
+        title = "Variable validation",
         icon = icon("font"),
-        textOutput(ns("names_msg"))
-      ),
-      accordion_panel(
-        title = "Configure Table schema",
-        icon = icon("table"),
-        # textOutput(ns("coltypes_msg"))
-        mod_schema_tbl_config_ui(ns("schema_config"))
+        uiOutput(ns("tab_validation_boxes"))
       ),
       accordion_panel(
         "tbl Structure",
@@ -45,6 +46,12 @@ mod_display_check_ui <- function(id) {
             verbatimTextOutput(ns("tbl_skim_current"))
           )
         )
+      ),
+      accordion_panel(
+        id = ns("schema_config_panel"),
+        title = "Configure Table schema",
+        icon = icon("table"),
+        mod_schema_tbl_config_ui(ns("schema_config"))
       ),
       open = FALSE
     )
@@ -66,6 +73,13 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
 
     tbl <- validate_tbl(tbl, check)
 
+    output$tab_validation_boxes <- renderUI({
+      tab_validation_boxes(
+        valid_vars = check$check_coltypes$valid_cols,
+        invalid_vars = check$check_coltypes$invalid_cols,
+        coerced_vars = check$check_coltypes$coerced_cols)
+    })
+
     output$valid_cols <- renderText({
       glue::glue_collapse(
         check$check_coltypes$valid_cols,
@@ -73,14 +87,28 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
       )
     })
 
-    output$names_msg <- renderText(check$check_names$msg)
-    # output$coltypes_msg <- renderText(check$check_coltypes$msg)
     schema_config <- mod_schema_tbl_config_server(
       "schema_config", tbl
     )
 
+    waiting_screen <- tagList(
+      waiter::spin_flower(),
+      h4("Applying schema changes...")
+    )
+
     # return table with schema applied, ready for plotting
     schema_tbl <- reactive({
+      w <- waiter::Waiter$new(
+        id = ns("spinner"),
+        html = waiting_screen, color = "maroon",
+        fadeout = TRUE,
+        hide_on_render = TRUE
+      )
+      w$show()
+      on.exit({
+        w$hide()
+      })
+
       schema_list <- schema_config %>%
         reactiveValuesToList()
       apply_schema(
@@ -95,11 +123,8 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
     output$tbl_skim_previous <- renderPrint({
       skimr::skim(schema_tbl()$previous)
     })
-    output$valid <- renderText({
-      if (check$valid) "Tables are valid" else "Tables are invalid"
-    })
-    check_valid_cols <- check$check_coltypes$valid_cols
 
+    # Return the clean table with any schema changes applied
     schema_tbl
   })
 }
