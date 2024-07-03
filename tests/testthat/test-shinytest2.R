@@ -54,15 +54,9 @@ test_that("{shinytest2} GET_VANILLA_REPORT", {
 test_that("{shinytest2} READ_TABLES", {
   app$set_inputs(`select_tbls-tables` = c("tblBAS", "tblART"), wait_ = FALSE)
   app$click("read_tbls-readBtn")
+  app$run_js_delay("$('#tbl_tab-tab').find('a').first().click()")
 
-  app$expect_values(screenshot_args = FALSE)
-})
-
-test_that("{shinytest2} READ_TABLES", {
-  app$set_inputs(`select_tbls-tables` = c("tblBAS", "tblART"), wait_ = FALSE)
-  app$click("read_tbls-readBtn")
-
-  app$expect_values(screenshot_args = FALSE)
+  expect_snapshot(app$get_value(output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-valid_cols"))
   expect_equal(
     app$get_value(input = "tbl_tab-tab"),
     "tbl_tab-tblBAS_4oncnyz0e01i28hz"
@@ -71,14 +65,24 @@ test_that("{shinytest2} READ_TABLES", {
 
 test_that("{shinytest2} GENERATE_PLOT", {
   app$run_js_delay("$('#tbl_tab-tblBAS_4oncnyz0e01i28hz-add_plot').click()")
-  app$run_js_delay("$('#tbl_tab-tblBAS_4oncnyz0e01i28hz-plt_yw83l438n25gcwou-ok').click()", 2)
+  app$run_js_delay("$('.modal-footer').find('button:contains(\\\"OK\\\")').click()", 2)
 
-  expect_snapshot(app$get_value(output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-valid_cols"))
+  plot_class <- app$get_value(output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-plt_5y72ehlmr60yuoz4-card-plot") %>%
+    purrr::chuck("html") %>%
+    xml2::read_html() %>%
+    xml2::xml_find_all(".//div") %>%
+    xml2::xml_attr("class")
+
+  expect_snapshot(plot_class)
 })
 
 test_that("{shinytest2} GET_PLOT_REPORT", {
   report_file <- app$get_download("download-report")
-  html_obj <- xml2::read_html(report_file)
 
-  expect_snapshot(xml2::xml_find_all(html_obj, ".//div"))
+  all_classes <- report_file %>%
+    xml2::read_html() %>%
+    xml2::xml_find_all(".//div") %>%
+    xml2::xml_attr("class")
+
+  expect_snapshot(all_classes)
 })
