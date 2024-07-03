@@ -28,6 +28,10 @@ plot_stacked_bar <- function(tbl, x,
     tbl <- filter(tbl, !is.na(.data[[x]]))
   }
 
+  if (is.integer(tbl[[x]])) {
+    tbl[[x]] <- as.character(tbl[[x]])
+  }
+
   tbl[[x]] <- fct_infreq(tbl[[x]]) %>%
     fct_lump_n(n)
 

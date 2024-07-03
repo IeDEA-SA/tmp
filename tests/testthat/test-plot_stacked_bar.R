@@ -1,6 +1,6 @@
 library(vdiffr)
 
-test_that("plot_histogram works", {
+test_that("plot_stacked_bar works", {
   tblname <- "tblART"
   ext <- "csv"
   test_dir <- "csv"
@@ -48,6 +48,42 @@ test_that("plot_histogram works", {
     title = "tbl_tblART art_id count stacked bar plot",
     {
       plot_stacked_bar(tbl_tblART, x = "art_id", position = "stack")
+    }
+  )
+})
+
+
+
+test_that("plot_stacked_bar works with integers", {
+
+  tblBAS <- load_comb_tbl("tblBAS")
+  expect_error(plot_stacked_bar(tblBAS, x = "sex"))
+
+  tblBAS$sex <- as.integer(tblBAS$sex)
+  expect_doppelganger(
+    title = "tblBAS sex int stacked bar plot",
+    {
+      plot_stacked_bar(tblBAS, x = "sex")
+    }
+  )
+})
+
+test_that("plot_stacked_bar works handles NAs", {
+
+  tblBAS <- load_comb_tbl("tblBAS")
+  tblBAS$sex <- as.integer(tblBAS$sex)
+  tblBAS$sex[1:100] <- NA
+
+  expect_doppelganger(
+    title = "tblBAS stacked bar plot remove NAs",
+    {
+      plot_stacked_bar(tblBAS, x = "sex")
+    }
+  )
+  expect_doppelganger(
+    title = "tblBAS stacked bar plot with NAs",
+    {
+      plot_stacked_bar(tblBAS, x = "sex", na.rm = FALSE)
     }
   )
 })

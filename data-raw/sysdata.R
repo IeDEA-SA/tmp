@@ -8,11 +8,11 @@ plot_meta <- list(
     x = "Date"
   ),
   plot_stacked_bar = list(
-    x = "character_or_factor"
+    x = "character_or_factor_or_integer"
   ),
   plot_cat_count_by_year = list(
     x = "Date",
-    y = "character_or_factor"
+    y = "character_or_factor_or_integer"
   ),
   plot_missing = list(
     x = "all"

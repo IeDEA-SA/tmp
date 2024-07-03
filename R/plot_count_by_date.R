@@ -29,7 +29,7 @@ plot_count_by_date <- function(tbl, x,
   position <- ifelse(position == "mirror", "stack", position)
   just <- ifelse(position == "dodge", 0.5, 0)
 
-  valid_rows <- complete.cases(tbl[, c("tbl", x)])
+  valid_rows <- stats::complete.cases(tbl[, c("tbl", x)])
   if (any(!valid_rows)) {
     caption <- glue::glue("{sum(!valid_rows)} rows containing NA values removed.")
   } else{

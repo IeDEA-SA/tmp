@@ -19,6 +19,10 @@ plot_cat_count_by_year <- function(tbl, date_col, y,
                              n = 4L,
                              scales = c("fixed", "free_y")) {
 
+  if (is.integer(tbl[[y]])) {
+    tbl[[y]] <- as.character(tbl[[y]])
+  }
+
   scales <- rlang::arg_match(scales)
   prev_cutoff <- lubridate::year(
     get_date_ceiling(tbl, date_col, "year")
