@@ -1,6 +1,6 @@
 Package: MATCHA
 Title: Data consistency report
-Version: 0.5.0
+Version: 0.6.0
 Authors@R: 
     person(given = "Anna",
            family = "Krystalli",
