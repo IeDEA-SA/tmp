@@ -23,7 +23,7 @@
             </div>
             <div class="bslib-grid-item bslib-gap-spacing html-fill-container">
               <div class="form-group shiny-input-container">
-                <label class="control-label" id="x-unknown-label" for="x-unknown">Unknown Values</label>
+                <label class="control-label" id="x-unknown-label" for="x-unknown">Unknown Value</label>
                 <input id="x-unknown" type="text" class="shiny-input-text form-control" value=""/>
               </div>
             </div>

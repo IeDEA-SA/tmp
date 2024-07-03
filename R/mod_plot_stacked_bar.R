@@ -27,6 +27,10 @@ mod_plot_stacked_bar_ui <- function(id, x, y = NULL) {
                       )[["position"]]),
                       selected = "fill"
           ),
+          checkboxInput(ns("na.rm"),
+                        label = "Remove NA values",
+                        value = TRUE
+          ),
           checkboxInput(ns("interactive"),
                         label = "Display interactive plot",
                         value = TRUE
@@ -73,7 +77,8 @@ mod_plot_stacked_bar_server <- function(id, comb_tbl, x, y = NULL) {
       plot_stacked_bar(
         tbl = comb_tbl, x = x,
         position = input$position,
-        n = input$n
+        n = input$n,
+        na.rm = input$na.rm
       )
     })
 
