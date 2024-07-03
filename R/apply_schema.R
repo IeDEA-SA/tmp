@@ -9,6 +9,7 @@
 #' @return the updated `tbl` object coerced the user defined schema.
 #' @noRd
 apply_schema <- function(tbl, schema_config) {
+
   for (var_name in names(schema_config)) {
     var_type <- schema_config[[var_name]]()$var_type
     unknown <- schema_config[[var_name]]()$unknown
@@ -40,7 +41,8 @@ apply_schema <- function(tbl, schema_config) {
         .f = function(x, y) {
           if (sum(is.na(tbl[[x]][[var_name]])) > y) {
             showNotification(
-              glue::glue("NAs introduced by coercion to column {var_name} in {x} data table"),
+              glue::glue("NAs introduced by coercion to column {var_name} in {x} table.
+                         '{var_type}' may not be an appropriate type for this column."),
               type = "warning"
             )
           }
