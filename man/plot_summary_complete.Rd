@@ -8,7 +8,7 @@ plot_summary_complete(pk, pk_col = "patient")
 }
 \arguments{
 \item{pk}{List containing tibble of primary key information for each table loaded.
-Usually stored in userData$pk_tbl.}
+Usually stored in userData$pk.}
 
 \item{pk_col}{Column name of primary key in each table. Default is "patient".}
 }

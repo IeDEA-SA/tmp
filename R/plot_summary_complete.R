@@ -1,7 +1,7 @@
 #' Create bar plot of completeness of primary key ids across tables.
 #'
 #' @param pk  List containing tibble of primary key information for each table loaded.
-#' Usually stored in userData$pk_tbl.
+#' Usually stored in userData$pk.
 #' @param pk_col  Column name of primary key in each table. Default is "patient".
 #' @return Primary key completeness ggplot bar plot.
 #' @importFrom ggplot2 ggplot aes geom_bar labs theme facet_grid element_blank

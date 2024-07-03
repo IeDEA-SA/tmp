@@ -14,13 +14,17 @@ mod_plot_missing_ui <- function(id, x, y = NULL) {
   ns <- NS(id)
   tagList(
     card(
-      card_header(x),
+      card_header("Missingness plot"),
       full_screen = TRUE,
       layout_sidebar(
         fillable = TRUE,
         sidebar = sidebar(
           title = "Configure plot",
           uiOutput(ns("exclude_ui")),
+          checkboxInput(ns("pk"),
+                        label = "Compare to primary keys",
+                        value = FALSE
+          ),
           checkboxInput(ns("interactive"),
             label = "Display interactive plot",
             value = TRUE
@@ -58,8 +62,10 @@ mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
     generate_plot <- reactive({
       req(!is.null(input$interactive))
       plot_missing(
-        tbl = comb_tbl, pk_tbl = session$userData$pk_tbl,
-        exclude = input$exclude
+        tbl = comb_tbl,
+        pk_tbl = session$userData$pk[[session$userData$pk_tbl_name]],
+        exclude = input$exclude,
+        compare_pk = input$pk
       )
     })
 

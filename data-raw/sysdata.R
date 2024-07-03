@@ -14,9 +14,7 @@ plot_meta <- list(
     x = "Date",
     y = "character_or_factor_or_integer"
   ),
-  plot_missing = list(
-    x = "all"
-  ),
+  plot_missing = NULL,
   plot_summary_complete = NULL
 )
 
