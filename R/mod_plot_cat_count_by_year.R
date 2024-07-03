@@ -55,7 +55,7 @@ mod_plot_cat_count_by_year_server <- function(id, comb_tbl, x, y){
 
     output$n_ui <- renderUI({
       value <- 4L
-      max_n <- length(unique(na.omit(comb_tbl[[y]])))
+      max_n <- length(unique(stats::na.omit(comb_tbl[[y]])))
       if (max_n > 12L) {
         max_n <- 12L
       }

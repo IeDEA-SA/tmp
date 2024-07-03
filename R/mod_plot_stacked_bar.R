@@ -58,7 +58,7 @@ mod_plot_stacked_bar_server <- function(id, comb_tbl, x, y = NULL) {
 
     output$n_ui <- renderUI({
       value <- 8L
-      max_n <- length(unique(na.omit(comb_tbl[[x]])))
+      max_n <- length(unique(stats::na.omit(comb_tbl[[x]])))
       if (8L > max_n) {
         value <- max_n
       }

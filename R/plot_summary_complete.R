@@ -30,8 +30,8 @@ plot_summary_complete <- function(pk, pk_col = "patient") {
     # of the plot
     dplyr::mutate(
       tbl_name = forcats::fct_infreq(
-        .data$tbl_name,
-        w = .data$complete
+        .data[["tbl_name"]],
+        w = .data[["complete"]]
       ) %>%
         forcats::fct_rev()
     ) %>%
