@@ -1,3 +1,8 @@
+# MATCHA 0.6.1
+
+* Fixed issues with the plotly tooltip hover text and caption (#68 & #81).
+* Added button to close app
+
 # MATCHA 0.6.0
 
 * Streamlined and added progress bar to data set load module and a spinner to the schema widget (#76).

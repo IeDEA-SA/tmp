@@ -56,7 +56,7 @@ mod_plot_summary_complete_server <- function(id, comb_tbl = NULL, x = NULL, y = 
       if (input$interactive) {
         plotly::renderPlotly({
           generate_plot() %>%
-            plotly::ggplotly()
+            matcha_ggplotly()
         })
       } else {
         renderPlot({

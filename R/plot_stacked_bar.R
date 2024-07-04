@@ -9,7 +9,7 @@
 #' categories recoded to "Other".
 #' @param na.rm Logical. Remove NA values from the table.
 #'
-#' @importFrom ggplot2 ggplot aes geom_bar scale_fill_manual ylab scale_y_continuous
+#' @importFrom ggplot2 ggplot aes geom_bar scale_fill_manual labs scale_y_continuous
 #' @importFrom forcats fct_infreq fct_lump_n
 #' @importFrom scales percent
 #' @importFrom dplyr filter
@@ -25,7 +25,13 @@ plot_stacked_bar <- function(tbl, x,
   position <- arg_match(position)
   palette <- c(gg_color_hue(n), "grey")
   if (na.rm) {
+    na_rows <- is.na(tbl[[x]])
+    if (any(!na_rows)) {
+      caption <- glue::glue("{sum(!na_rows)} rows containing NA values removed.")
+    }
     tbl <- filter(tbl, !is.na(.data[[x]]))
+  } else {
+    caption <- NULL
   }
 
   if (is.integer(tbl[[x]])) {
@@ -41,12 +47,14 @@ plot_stacked_bar <- function(tbl, x,
       position = position,
       colour = "white"
     ) +
-    scale_fill_manual(values = palette)
+    scale_fill_manual(values = palette) +
+    labs(caption = caption)
 
   if (position == "fill") {
     p <- p +
       scale_y_continuous(labels = percent) +
-      ylab("Percentage")
+      labs(y = "Percentage",
+           caption = caption)
   }
   p
 }

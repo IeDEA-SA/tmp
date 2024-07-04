@@ -85,7 +85,7 @@ mod_plot_cat_count_by_year_server <- function(id, comb_tbl, x, y){
       if (input$interactive) {
         plotly::renderPlotly({
           generate_plot() %>%
-            plotly::ggplotly()
+            matcha_ggplotly()
         })
       } else {
         renderPlot({

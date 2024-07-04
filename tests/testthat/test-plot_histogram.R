@@ -34,6 +34,14 @@ test_that("plot_histogram works", {
       plot_histogram(tbl_tblART, x = "art_comb", position = "dodge")
     }
   )
+
+
+  expect_doppelganger(
+    title = "tbl_tblART art_rs NAs histogram",
+    {
+      plot_histogram(tbl_tblART, x = "art_rs", position = "dodge")
+    }
+  )
 })
 
 test_that("plot_histogram log works", {

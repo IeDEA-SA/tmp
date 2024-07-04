@@ -7,7 +7,7 @@ plot_title <- paste(c(x$x, x$y), collapse = " / ")
 
 ```{r, out.width="100%"}
 if (x$interactive) {
-  plotly::ggplotly(x$plot)
+  MATCHA::matcha_ggplotly(x$plot)
 } else {
     print(x$plot)
 }
