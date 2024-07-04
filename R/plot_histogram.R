@@ -20,6 +20,15 @@ plot_histogram <- function(tbl, x,
                            log = FALSE) {
   position <- rlang::arg_match(position)
 
+  # Remove NAs
+  valid_rows <- stats::complete.cases(tbl[, c("tbl", x)])
+  if (any(!valid_rows)) {
+    caption <- glue::glue("{sum(!valid_rows)} rows containing NA values removed.")
+  } else {
+    caption <- NULL
+  }
+  tbl <- tbl[valid_rows, c("tbl", x)]
+
   if (log) {
     any_neg <- any(tbl[[x]] < 0)
     if (any_neg) {
@@ -41,17 +50,23 @@ plot_histogram <- function(tbl, x,
     p <- tbl %>%
       ggplot(aes(
         x = .data[[x]],
-        y = after_stat(
-          ifelse(.data$group == 2L,
-            -.data$count, .data$count
-          )
-        ),
         fill = .data[["tbl"]]
       )) +
-      geom_histogram(position = "stack", bins = bins) +
-      scale_y_continuous(labels = abs) +
-      geom_hline(yintercept = 0, linewidth = 0.2) +
-      ylab("count")
+      suppressWarnings(
+        geom_histogram(
+          aes(
+            y = after_stat(
+              ifelse(.data$group == 2L,
+                -.data$count, .data$count
+              )
+            ),
+            text = paste("count:", after_stat(.data$count))
+          ),
+          position = "stack", bins = bins
+        )
+      ) +
+      scale_y_continuous(name = "count", labels = abs) +
+      geom_hline(yintercept = 0, linewidth = 0.2)
   }
   if (position == "facet") {
     p <- tbl %>%
@@ -62,5 +77,5 @@ plot_histogram <- function(tbl, x,
   if (log) {
     p <- p + xlab(x_label)
   }
-  p
+  p + labs(caption = caption)
 }
