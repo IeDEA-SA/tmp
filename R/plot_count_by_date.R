@@ -69,10 +69,9 @@ plot_count_by_date <- function(tbl, x,
       ggplot(aes(
         x = .data[["time_bin"]],
         y = .data[["count"]],
-        fill = .data$tbl,
-        group = .data$tbl
+        fill = .data$tbl
       )) +
-      geom_col(just = just, position = position) +
+      geom_bar(stat = "identity", just = just, position = position) +
       scale_y_continuous(labels = abs) +
       geom_hline(yintercept = 0, linewidth = 0.2)
   }
