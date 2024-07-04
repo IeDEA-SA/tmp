@@ -86,7 +86,7 @@ mod_plot_stacked_bar_server <- function(id, comb_tbl, x, y = NULL) {
       if (input$interactive) {
         plotly::renderPlotly({
           generate_plot() %>%
-            plotly::ggplotly()
+            matcha_ggplotly()
         })
       } else {
         renderPlot({
