@@ -45,4 +45,6 @@ app_server <- function(input, output, session) {
   mod_tbl_tabs_server("tbl_tab", tbls)
 
   mod_download_server("download")
+
+  mod_close_app_server("close_app")
 }

@@ -38,7 +38,8 @@ app_ui <- function(request) {
             mod_read_tbls_ui("read_tbls")
           )
         ),
-        mod_download_ui("download")
+        mod_download_ui("download"),
+        mod_close_app_ui("close_app")
       ),
       mod_tbl_tabs_ui("tbl_tab")
     )

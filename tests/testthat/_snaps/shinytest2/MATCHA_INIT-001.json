@@ -2,6 +2,7 @@
   "input": {
     "access_curr_dat-folder": 0,
     "access_prev_dat-folder": 0,
+    "close_app-close": 0,
     "read_tbls-readBtn": 0,
     "select_tbls-tables": null,
     "tbl_tab-tab": null
