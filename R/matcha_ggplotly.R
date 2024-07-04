@@ -10,6 +10,9 @@ matcha_ggplotly <- function(p) {
   } else {
     tooltip <- c("x", "y", "fill")
   }
+  if (p$labels$fill == p$labels$y) {
+    tooltip <- c("x", "fill")
+  }
   pltly <- plotly::ggplotly(p, tooltip = tooltip)
 
   if (!is.null(p$labels$caption)) {
