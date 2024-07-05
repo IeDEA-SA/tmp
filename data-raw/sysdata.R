@@ -14,6 +14,10 @@ plot_meta <- list(
     x = "Date",
     y = "character_or_factor_or_integer"
   ),
+  plot_events_by_year = list(
+    x = "Date",
+    y = "Date"
+  ),
   plot_missing = NULL,
   plot_summary_complete = NULL
 )

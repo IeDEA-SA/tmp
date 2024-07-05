@@ -1,5 +1,6 @@
 # MATCHA 0.6.1
 
+* Added a new `plot_events_by_year` plot type that allows users to superimpose and compare the counts of two variables recording dates of events by year.
 * Fixed issues with the plotly tooltip hover text and caption (#68 & #81).
 * Added button to close app
 
