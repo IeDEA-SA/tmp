@@ -11,9 +11,11 @@
 mod_tbl_plots_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    actionButton(ns("add_plot"), "Add plot",
-      icon = icon("plus"), width = "100%",
-      class = "btn-success"
+    card(
+      actionButton(ns("add_plot"), "Add plot",
+        icon = icon("plus"), width = "100%",
+        class = "btn-success"
+      )
     )
   )
 }
@@ -26,7 +28,6 @@ mod_tbl_plots_ui <- function(id) {
 #' to compare.
 #' @noRd
 mod_tbl_plots_server <- function(id, comb_tbl) {
-
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     if (!is_summary_tab(ns) && isFALSE(is.reactive(comb_tbl))) {
