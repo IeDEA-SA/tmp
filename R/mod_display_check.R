@@ -15,10 +15,7 @@ mod_display_check_ui <- function(id) {
     waiter::useWaiter(),
     layout_column_wrap(
       width = 1 / 2,
-      card(
-        card_header("Valid shared variables"),
-        card_body(strong(textOutput(ns("valid_cols"))))
-      ),
+      uiOutput(ns("valid_cols")),
       card(
         id = ns("spinner")
       )
@@ -73,18 +70,34 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
 
     tbl <- validate_tbl(tbl, check)
 
+
+    output$valid_cols <- renderUI({
+      card(
+        card_header("Valid shared variables", class = "bg-dark"),
+        card_body(
+          markdown(
+            paste(
+              "The following variables are valid and shared between the `previous` and `current` tables: \n\n",
+              vector_to_md_list(check$check_coltypes$valid_cols,
+                                sep =  ",", bold = TRUE)
+            )
+          )),
+        if (check$check_names$clean) {
+          card_footer(
+            icon("broom"),
+            " Name cleaning required to match variables between tables."
+          )
+        } else {
+          NULL
+        }
+      )
+    })
+
     output$tab_validation_boxes <- renderUI({
       tab_validation_boxes(
         valid_vars = check$check_coltypes$valid_cols,
         invalid_vars = check$check_coltypes$invalid_cols,
         coerced_vars = check$check_coltypes$coerced_cols)
-    })
-
-    output$valid_cols <- renderText({
-      glue::glue_collapse(
-        check$check_coltypes$valid_cols,
-        sep = ", "
-      )
     })
 
     schema_config <- mod_schema_tbl_config_server(

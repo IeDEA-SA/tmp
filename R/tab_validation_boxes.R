@@ -49,15 +49,25 @@ tab_validation_boxes <- function(valid_vars, invalid_vars, coerced_vars) {
   )
 }
 
-vector_to_md_list <- function(x, as_code = TRUE, sep = c("\n", ",")) {
+vector_to_md_list <- function(x, as_code = TRUE, bold = FALSE, sep = c("\n", ",")) {
   if (length(x) == 0L) {
     return(NULL)
   }
   sep <- rlang::arg_match(sep)
+  if (sep == ",") {
+    bullet <- NULL
+  } else {
+    bullet <- "- "
+  }
   glue::glue(
     "\n\n",
     paste0(
-      "- ", ifelse(as_code, "`", ""), x, ifelse(as_code, "`", ""),
+      bullet,
+      ifelse(bold, "**", ""),
+      ifelse(as_code, "`", ""),
+      x,
+      ifelse(as_code, "`", ""),
+      ifelse(bold, "**", ""),
       collapse = sep
     )
   )
