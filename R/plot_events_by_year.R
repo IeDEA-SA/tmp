@@ -29,9 +29,9 @@ plot_events_by_year <- function(tbl, event1, event2, t0_tally = TRUE,
   if (t0_tally) {
     tbl <- tbl %>%
       mutate(
-        year_1 = lubridate::year(.data[[event1]]),
-        year_2 = case_when(
-          !is.na(.data[[event2]]) ~ .data[["year_1"]],
+        event1 := lubridate::year(.data[[event1]]),
+        event2 := case_when(
+          !is.na(.data[[event2]]) ~ .data[[event1]],
           TRUE ~ NA
         )
       )
@@ -41,8 +41,8 @@ plot_events_by_year <- function(tbl, event1, event2, t0_tally = TRUE,
   } else {
     tbl <- tbl %>%
       mutate(
-        year_1 = lubridate::year(.data[[event1]]),
-        year_2 = lubridate::year(.data[[event2]])
+        event1 := lubridate::year(.data[[event1]]),
+        event2 := lubridate::year(.data[[event2]])
       )
     prev_cutoff <- lubridate::year(
       max(get_date_ceiling(tbl, event1, "year"),
@@ -58,8 +58,8 @@ plot_events_by_year <- function(tbl, event1, event2, t0_tally = TRUE,
     suppressWarnings(
       geom_bar(
         aes(
-          x = .data[["year_1"]],
-          text = paste0(event1, ": ", .data[["year_1"]]),
+          x = .data[[event1]],
+          text = paste0(event1, ": ", .data[[event1]]),
           alpha = event1
         ),
         position = position_dodge2(
@@ -72,8 +72,8 @@ plot_events_by_year <- function(tbl, event1, event2, t0_tally = TRUE,
     suppressWarnings(
       geom_bar(
         aes(
-          x = .data[["year_2"]],
-          text = paste0(event2, ": ", .data[["year_2"]]),
+          x = .data[[event2]],
+          text = paste0(event2, ": ", .data[[event2]]),
           alpha = event2
         ),
         position = position_dodge2(preserve = "single"),
