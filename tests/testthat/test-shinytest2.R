@@ -86,25 +86,25 @@ test_that("{shinytest2} READ_TABLES", {
   app$run_js_delay("$('#tbl_tab-tab').find('a').first().click()")
 
   valid_cols <- app$get_value(
-    output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-valid_cols"
-  )
+    output = "tbl_tab-tblBAS_4oncnyz0-valid_cols"
+  )$html
   expect_snapshot(valid_cols)
 
   expect_equal(
     app$get_value(input = "tbl_tab-tab"),
-    "tbl_tab-tblBAS_4oncnyz0e01i28hz"
+    "tbl_tab-tblBAS_4oncnyz0"
   )
 })
 
 test_that("{shinytest2} GENERATE_PLOT", {
-  app$run_js_delay("$('#tbl_tab-tblBAS_4oncnyz0e01i28hz-add_plot').click()")
+  app$run_js_delay("$('#tbl_tab-tblBAS_4oncnyz0-add_plot').click()")
   app$run_js_delay(
     "$('.modal-footer').find('button:contains(\\\"OK\\\")').click()",
     sys_sleep = 2
   )
 
   plot_class <- app$get_value(
-    output = "tbl_tab-tblBAS_4oncnyz0e01i28hz-plt_5y72ehlmr60yuoz4-card-plot"
+    output = "tbl_tab-tblBAS_4oncnyz0-plt_gis9nqlo-card-plot"
   ) %>%
     purrr::chuck("html") %>%
     xml2::read_html() %>%
