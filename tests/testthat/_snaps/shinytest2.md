@@ -34,3 +34,10 @@
       [3] "section level2"                    "section level3"                   
       [5] "plotly html-widget html-fill-item"
 
+# {shinytest2} SUMMARY_TAB
+
+    Code
+      selected_summary_plot
+    Output
+      [1] "plot_summary_complete"
+
