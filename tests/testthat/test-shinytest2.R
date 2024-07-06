@@ -70,7 +70,14 @@ test_that("{shinytest2} SET_CURRENT_PATH", {
 })
 
 test_that("{shinytest2} GET_VANILLA_REPORT", {
-  app$expect_download("download-report", compare = testthat::compare_file_text)
+  report_file <- app$get_download("download-report")
+
+  all_classes <- report_file %>%
+    xml2::read_html() %>%
+    xml2::xml_find_all(".//div") %>%
+    xml2::xml_attr("class")
+
+  expect_snapshot(all_classes)
 })
 
 test_that("{shinytest2} READ_TABLES", {

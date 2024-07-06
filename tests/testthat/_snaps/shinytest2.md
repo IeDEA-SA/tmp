@@ -1,6 +1,6 @@
 # {shinytest2} GET_VANILLA_REPORT
 
-    "report_2024-07-03.html"
+    "report_2024-07-05.html"
 
 # {shinytest2} READ_TABLES
 
