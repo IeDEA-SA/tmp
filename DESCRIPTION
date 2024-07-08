@@ -23,7 +23,6 @@ Imports:
     golem (>= 0.4.1),
     grDevices,
     haven,
-    here,
     janitor,
     logger,
     lubridate,

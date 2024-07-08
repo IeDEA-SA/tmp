@@ -1,6 +1,7 @@
 # MATCHA 0.6.2
 
 * Minor bug fixes
+* `"."` in the directory drop down menu now returns the working directory instead of the result of `here::here()`.
 
 # MATCHA 0.6.1
 
