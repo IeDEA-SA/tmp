@@ -24,14 +24,13 @@ plot_stacked_bar <- function(tbl, x,
                              na.rm = TRUE) {
   position <- arg_match(position)
   palette <- c(gg_color_hue(n), "grey")
+  caption <- NULL
   if (na.rm) {
     na_rows <- is.na(tbl[[x]])
-    if (any(!na_rows)) {
-      caption <- glue::glue("{sum(!na_rows)} rows containing NA values removed.")
+    if (any(na_rows)) {
+      caption <- glue::glue("{sum(na_rows)} rows containing NA values removed.")
+      tbl <- filter(tbl, !is.na(.data[[x]]))
     }
-    tbl <- filter(tbl, !is.na(.data[[x]]))
-  } else {
-    caption <- NULL
   }
 
   if (is.integer(tbl[[x]])) {
