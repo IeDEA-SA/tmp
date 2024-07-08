@@ -13,6 +13,10 @@ matcha_ggplotly <- function(p) {
   if (p$labels$fill == p$labels$y) {
     tooltip <- c("x", "fill")
   }
+  # Used to correct the tooltip for the event by year plot
+  if (isTRUE(grepl("event[1:2]", p$labels$text))){
+    tooltip <- c("fill", "text")
+  }
   pltly <- plotly::ggplotly(p, tooltip = tooltip)
 
   if (!is.null(p$labels$caption)) {

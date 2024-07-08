@@ -1,3 +1,7 @@
+# MATCHA 0.6.2
+
+* Minor bug fixes
+
 # MATCHA 0.6.1
 
 * Added a new `plot_events_by_year` plot type that allows users to superimpose and compare the counts of two variables recording dates of events by year.
