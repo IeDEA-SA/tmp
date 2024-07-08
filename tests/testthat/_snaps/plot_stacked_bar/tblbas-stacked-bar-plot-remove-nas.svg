@@ -59,6 +59,6 @@
 <text x='709.63' y='279.32' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>2</text>
 <text x='709.63' y='296.60' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>1</text>
 <text x='45.51' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='213.54px' lengthAdjust='spacingAndGlyphs'>tblBAS stacked bar plot remove NAs</text>
-<text x='675.91' y='568.69' text-anchor='end' style='font-size: 8.80px; font-family: sans;' textLength='164.87px' lengthAdjust='spacingAndGlyphs'>1800 rows containing NA values removed.</text>
+<text x='675.91' y='568.69' text-anchor='end' style='font-size: 8.80px; font-family: sans;' textLength='159.98px' lengthAdjust='spacingAndGlyphs'>100 rows containing NA values removed.</text>
 </g>
 </svg>
