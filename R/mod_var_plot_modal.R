@@ -33,9 +33,9 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
       if (!is.null(input$select_plot)) {
 
         output <- tagList()
-        for (i in seq_along(plot_meta[[input$select_plot]])) {
-          var_type <- plot_meta[[input$select_plot]][[i]]
-          var_name <- names(plot_meta[[input$select_plot]])[i]
+        for (i in seq_along(plot_meta[[input$select_plot]]$args)) {
+          var_type <- plot_meta[[input$select_plot]]$args[[i]]
+          var_name <- names(plot_meta[[input$select_plot]]$args)[i]
           id <- sprintf("select_var_%s", var_name)
           fn <- var_type_fn(var_type)
 
@@ -71,6 +71,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
 
     plotModal <- function() {
       choices <- names(plot_meta)
+      names(choices) <- purrr::map_chr(plot_meta, ~ .x$label)
       if (is_summary_tab(ns)) {
         choices <- grep("summary", choices, value = TRUE)
       } else {

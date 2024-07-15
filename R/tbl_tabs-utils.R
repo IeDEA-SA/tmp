@@ -138,7 +138,7 @@ summary_tab <- function(ns, input, output, session) {
 
   log_debug("Append summary tab at the end of the tab list.")
   summary_panel <- tabPanel(
-    title = "summary",
+    title = "Data Completeness",
     value = ns("summary"),
     icon = icon("rectangle-list"),
     mod_tbl_plots_ui(ns("summary"))
