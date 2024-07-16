@@ -21,6 +21,7 @@ app_ui <- function(request) {
       ) %>%
         # Rule to allow overflow in cards with dropdown menus
         bs_add_rules(".card-dropdown {overflow: visible !important;}"),
+      waiter::useWaiter(),
       title = "MATCHA",
       # Select source for dataset 1 (previous)
       sidebar = sidebar(
