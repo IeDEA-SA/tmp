@@ -108,6 +108,9 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
             "server",
             sep = "_"
           ))
+
+          w <- add_waiter(msg = "Generating plot...")
+
           if (is_summary_tab(ns)) {
             plot_server_mod("card", comb_tbl,
                             x = input$select_var_x,
