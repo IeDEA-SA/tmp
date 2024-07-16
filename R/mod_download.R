@@ -26,9 +26,12 @@ mod_download_server <- function(id) {
         paste0("report_", Sys.Date(), ".html")
       },
       content = function(file) {
+        w <- add_waiter(msg = "Generating report...")
+
         tempReport <- file.path(tempdir(), "report.Rmd")
         report_path <- system.file("report.Rmd", package = "MATCHA")
         file.copy(report_path, tempReport, overwrite = TRUE)
+
 
         rmarkdown::render(
           input = tempReport,
