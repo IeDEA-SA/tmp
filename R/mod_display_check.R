@@ -12,14 +12,7 @@
 mod_display_check_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    waiter::useWaiter(),
-    layout_column_wrap(
-      width = 1 / 2,
-      uiOutput(ns("valid_cols")),
-      card(
-        id = ns("spinner")
-      )
-    ),
+    uiOutput(ns("valid_cols")),
     accordion(
       accordion_panel(
         title = "Variable validation",
@@ -73,15 +66,18 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
 
     output$valid_cols <- renderUI({
       card(
+        id = ns("display-spinner"),
         card_header("Valid shared variables", class = "bg-dark"),
         card_body(
           markdown(
             paste(
               "The following variables are valid and shared between the `previous` and `current` tables: \n\n",
               vector_to_md_list(check$check_coltypes$valid_cols,
-                                sep =  ",", bold = TRUE)
+                sep = ",", bold = TRUE
+              )
             )
-          )),
+          )
+        ),
         if (check$check_names$clean) {
           card_footer(
             icon("broom"),
@@ -97,30 +93,20 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
       tab_validation_boxes(
         valid_vars = check$check_coltypes$valid_cols,
         invalid_vars = check$check_coltypes$invalid_cols,
-        coerced_vars = check$check_coltypes$coerced_cols)
+        coerced_vars = check$check_coltypes$coerced_cols
+      )
     })
 
     schema_config <- mod_schema_tbl_config_server(
       "schema_config", tbl
     )
 
-    waiting_screen <- tagList(
-      waiter::spin_flower(),
-      h4("Applying schema changes...")
-    )
-
     # return table with schema applied, ready for plotting
     schema_tbl <- reactive({
-      w <- waiter::Waiter$new(
-        id = ns("spinner"),
-        html = waiting_screen, color = "maroon",
-        fadeout = TRUE,
-        hide_on_render = TRUE
+      w <- add_waiter(
+        msg = "Applying schema changes...",
+        id = ns("display-spinner")
       )
-      w$show()
-      on.exit({
-        w$hide()
-      })
 
       schema_list <- schema_config %>%
         reactiveValuesToList()
