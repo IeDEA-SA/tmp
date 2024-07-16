@@ -2,7 +2,11 @@
 title: "Data consistency report"
 author: ""
 date: '`r format(Sys.Date(), "%B %d, %Y")`'
-output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
 params:
     plots: NULL         
 ---
