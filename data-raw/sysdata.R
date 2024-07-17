@@ -17,6 +17,12 @@ plot_meta <- list(
     ),
     label = "Value Distribution/Histogram"
   ),
+  plot_boxplot = list(
+    args = list(
+      x = "numeric"
+    ),
+    label = "Value Distribution/Boxplot"
+  ),
   plot_stacked_bar = list(
     args = list(
       x = "character_or_factor_or_integer"
