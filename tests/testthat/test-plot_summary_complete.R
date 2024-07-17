@@ -12,6 +12,10 @@ test_that("plot_summary_complete works", {
       plot_summary_complete(pk)
     }
   )
+
+  pltly <- plot_summary_complete(pk) %>%
+    matcha_ggplotly()
+  expect_snapshot(pltly$x$data)
 })
 
 

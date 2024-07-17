@@ -58,6 +58,27 @@ mod_access_data_server <- function(id) {
       names(file_paths) <- fs::path_file(file_paths) %>%
         fs::path_ext_remove()
 
+      if (any(duplicated(names(file_paths)))) {
+        dup_names <- names(file_paths)[duplicated(names(file_paths))]
+        showNotification(
+          ui = markdown(glue::glue(
+            "### Duplicate File names
+
+            Duplicate file names {vector_to_md_list(dup_names, as_code = TRUE, bold = TRUE, sep = ',')}
+            detected in: `{parseDirPath(roots, folder)}`."
+          )),
+          action = markdown(
+            "
+            ***
+
+            Please close app,
+            ensure all files in source directories have unique names,
+            **regardless of file extension** and try again."
+          ),
+          duration = NULL,
+          type = "error")
+      }
+
       file_paths
     })
   })

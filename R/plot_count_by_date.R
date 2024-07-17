@@ -7,7 +7,7 @@
 #' @param plot_diff Logical. Whether to plot diff between previous and current.
 #' @param mark_cutoff Logical. Whether to show temporal cut-off of previous data.
 #'
-#' @importFrom ggplot2 ggplot aes geom_col ylab theme xlab geom_vline scale_y_continuous geom_hline
+#' @importFrom ggplot2 ggplot aes geom_col ylab theme xlab geom_vline scale_y_continuous geom_hline scale_fill_viridis_d scale_x_date
 #' @return Count by date ggplot plot.
 #' (if `interactive` = TRUE).
 #' @export
@@ -29,10 +29,21 @@ plot_count_by_date <- function(tbl, x,
   position <- ifelse(position == "mirror", "stack", position)
   just <- ifelse(position == "dodge", 0.5, 0)
 
+  date_label <- switch (time_bin,
+    day = "%d %b %Y",
+    week = "%d %b %Y",
+    month = "%b %Y",
+    bimonth = "%b %Y",
+    quarter = "%b %Y",
+    season = "%b %Y",
+    halfyear = "%b %Y",
+    year = "%Y"
+  )
+
   valid_rows <- stats::complete.cases(tbl[, c("tbl", x)])
   if (any(!valid_rows)) {
     caption <- glue::glue("{sum(!valid_rows)} rows containing NA values removed.")
-  } else{
+  } else {
     caption <- NULL
   }
   tbl <- tbl[valid_rows, c("tbl", x)]
@@ -59,7 +70,8 @@ plot_count_by_date <- function(tbl, x,
       )) +
       geom_col(just = just, position = "stack") +
       ylab("current count - previous count") +
-      theme(legend.position = "none")
+      theme(legend.position = "none") +
+      scale_fill_viridis_d()
   } else {
     p <- tbl %>%
       bin_count_by_date(
@@ -78,7 +90,9 @@ plot_count_by_date <- function(tbl, x,
   p <- p +
     labs(
       x = glue::glue("{x} (binned by {time_bin})"),
-      caption = caption)
+      caption = caption
+    ) +
+    scale_x_date(minor_breaks = "year", date_labels = date_label)
 
   if (mark_cutoff) {
     p <- p + geom_vline(

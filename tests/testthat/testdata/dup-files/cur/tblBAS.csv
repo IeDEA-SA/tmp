@@ -1,0 +1,11 @@
+"","merge_no","patient","program","birth_d","birth_d_a","enrol_d","enrol_d_a","sex","mode","mode_oth","naive_y","proph_y","recart_y","recart_d","recart_d_a","aids_y","aids_d","aids_d_a","hiv_pos_d","hiv_pos_d_a","center_enrol","center_last"
+"1",11,"a9b144efd0","af59e5fd21",1973-01-02,NA,2012-06-19,"D",2,NA,NA,1,NA,1,2012-09-27,"D",1,2012-09-27,"D",NA,"U",NA,NA
+"2",11,"06645dd7c5","af59e5fd21",1982-01-12,NA,2010-09-22,"D",2,NA,NA,1,NA,1,2012-04-30,"D",1,2012-04-30,"D",NA,"U",NA,NA
+"3",11,"a77c80e964","af59e5fd21",1990-05-01,NA,2012-08-08,"D",2,NA,NA,1,NA,0,NA,"U",0,NA,"U",NA,"U",NA,NA
+"4",11,"475a7b0866","af59e5fd21",1985-12-26,NA,2012-06-20,"D",2,NA,NA,1,NA,0,NA,"U",0,NA,"U",NA,"U",NA,NA
+"5",11,"d09d6a72e5","af59e5fd21",1969-07-25,NA,2012-06-19,"D",2,NA,NA,1,NA,0,NA,"U",0,NA,"U",NA,"U",NA,NA
+"6",11,"77998ebea4","af59e5fd21",1974-04-28,NA,2012-03-22,"D",2,NA,NA,1,NA,1,2012-04-24,"D",0,NA,"U",NA,"U",NA,NA
+"7",11,"437fcd72d4","af59e5fd21",1973-12-26,NA,2012-08-08,"D",2,NA,NA,1,NA,1,2013-06-26,"D",1,2013-06-26,"D",NA,"U",NA,NA
+"8",11,"e5e7ca563f","af59e5fd21",1972-07-18,NA,2012-03-22,"D",2,NA,NA,1,NA,0,NA,"U",0,NA,"U",NA,"U",NA,NA
+"9",11,"74d498c39b","af59e5fd21",1983-12-01,NA,2012-06-19,"D",2,NA,NA,1,NA,1,2012-07-04,"D",1,2012-07-04,"D",NA,"U",NA,NA
+"10",11,"f5395985bb","af59e5fd21",1975-11-01,NA,2012-03-22,"D",2,NA,NA,1,NA,0,NA,"U",0,NA,"U",NA,"U",NA,NA
