@@ -8,6 +8,7 @@
 #' @param mark_cutoff Logical. Whether to show temporal cut-off of previous data.
 #'
 #' @importFrom ggplot2 ggplot aes geom_bar ylab theme xlab geom_vline scale_y_continuous geom_hline scale_fill_viridis_d scale_x_date
+#' @importFrom scales breaks_extended breaks_pretty label_date_short
 #' @return Count by date ggplot plot.
 #' (if `interactive` = TRUE).
 #' @export
@@ -25,7 +26,7 @@ plot_count_by_date <- function(tbl, x,
   time_bin <- rlang::arg_match(time_bin)
   position <- rlang::arg_match(position)
   plot_diff <- ifelse(position == "diff", TRUE, FALSE)
-  mirror <- ifelse(position == "mirror", TRUE, FALSE)
+  mirror <- ifelse(position == "mirror" || plot_diff, TRUE, FALSE)
   position <- ifelse(position == "mirror", "stack", position)
   just <- ifelse(position == "dodge", 0.5, 0)
   width <- get_temporal_bar_width(time_bin)
@@ -45,12 +46,13 @@ plot_count_by_date <- function(tbl, x,
       prev_cutoff <- as.Date(prev_cutoff - create_duration(time_bin, just))
     }
   }
+  time_bins <- tbl %>%
+    bin_count_by_date(
+      x = x, time_bin = time_bin,
+      mirror = mirror
+    )
   if (plot_diff) {
-    p <- tbl %>%
-      bin_count_by_date(
-        x = x, time_bin = time_bin,
-        mirror = TRUE
-      ) %>%
+    p <-  time_bins %>%
       dplyr::group_by(.data[["time_bin"]]) %>%
       dplyr::summarise(diff = sum(.data[["count"]])) %>%
       dplyr::mutate(count_diff = diff < 0) %>%
@@ -63,13 +65,12 @@ plot_count_by_date <- function(tbl, x,
       geom_bar(stat = "identity", just = just, position = "stack") +
       ylab("current count - previous count") +
       theme(legend.position = "none") +
+      scale_y_continuous(breaks = breaks_extended(
+        get_y_breaks(time_bins))
+        ) +
       scale_fill_viridis_d()
   } else {
-    p <- tbl %>%
-      bin_count_by_date(
-        x = x, time_bin = time_bin,
-        mirror = mirror
-      ) %>%
+    p <- time_bins %>%
       ggplot(aes(
         x = .data[["time_bin"]],
         y = .data[["count"]],
@@ -77,7 +78,9 @@ plot_count_by_date <- function(tbl, x,
         width = width
       )) +
       geom_bar(stat = "identity", just = just, position = position) +
-      scale_y_continuous(labels = abs) +
+      scale_y_continuous(labels = abs,
+                         breaks = breaks_extended(
+                           get_y_breaks(time_bins))) +
       geom_hline(yintercept = 0, linewidth = 0.2)
   }
   p <- p +
@@ -86,8 +89,8 @@ plot_count_by_date <- function(tbl, x,
       caption = caption
     ) +
     scale_x_date(minor_breaks = "year",
-                 breaks = scales::breaks_pretty(n = n_breaks),
-                 labels = scales::label_date_short())
+                 breaks = breaks_pretty(n = n_breaks),
+                 labels = label_date_short())
 
   if (mark_cutoff) {
     p <- p + geom_vline(
@@ -117,3 +120,15 @@ get_time_bin_breaks <- function(tbl, x,  time_bin, n_max = 10) {
 }
 
 
+get_y_breaks <- function(time_bins, n_max = 5L) {
+  count_range <- range(time_bins[["count"]], na.rm = TRUE)
+  if (all(count_range) >= 0L) {
+    count_range[1] <- 0L
+  }
+  breaks_n <- diff(count_range) + 1L
+  if (breaks_n < n_max) {
+    return(breaks_n)
+  } else {
+    return(n_max)
+  }
+}
