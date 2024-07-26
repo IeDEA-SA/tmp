@@ -1,5 +1,9 @@
 ```{r}
-plot_title <- paste(c(x$x, x$y), collapse = " / ")
+if (x$x == "summary") {
+  plot_title <- " "
+} else {
+  plot_title <- paste(c(x$x, x$y), collapse = " / ")
+}
 ```
 
 

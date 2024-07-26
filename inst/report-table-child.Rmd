@@ -1,4 +1,12 @@
-## `r tbl_name`
+```{r, echo=FALSE}
+if (tbl_name == "summary"){
+  section_title <- "Data Completeness"
+} else {
+  section_title <- tbl_name
+}
+```
+
+## `r section_title`
 
 
 ```{r, results='asis'}
