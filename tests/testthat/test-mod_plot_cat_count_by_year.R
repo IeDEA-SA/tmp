@@ -3,8 +3,8 @@ library(vdiffr)
 test_that("mod_plot_cat_count_by_year_ui generates expected html", {
   html <- mod_plot_cat_count_by_year_ui(
     id = "foo_id",
-    x = "weigh",
-    y = "gender_ident"
+    x = "art_sd",
+    y = "art_id"
   ) %>%
     as.character()
 
