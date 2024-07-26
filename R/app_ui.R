@@ -26,6 +26,7 @@ app_ui <- function(request) {
       # Select source for dataset 1 (previous)
       sidebar = sidebar(
         open = "open", width = 350,
+        h5("Select datasets to compare"),
         mod_access_data_ui("access_prev_dat", dataset = "Previous"),
         # Select source for dataset 2 (current)
         mod_access_data_ui("access_curr_dat", dataset = "Current"),
