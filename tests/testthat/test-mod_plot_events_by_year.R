@@ -47,7 +47,7 @@ test_that("mod_plot_events_by_year_server works", {
 
       expect_equal(
         session_plot_list$x,
-        "art_sd"
+        "enrol_d"
       )
 
       expect_s3_class(
