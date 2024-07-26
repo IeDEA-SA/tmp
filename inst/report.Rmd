@@ -7,6 +7,7 @@ output:
     toc: true
     toc_depth: 2
     toc_float: true
+    theme: !expr MATCHA::matcha_theme()
   pdf_document:
     toc: true
     toc_depth: 2
