@@ -6,7 +6,7 @@ plot_title <- paste(c(x$x, x$y), collapse = " / ")
 ### `r plot_title`
 
 ```{r, out.width="100%"}
-if (x$interactive) {
+if (x$interactive && knitr::is_html_output()) {
   MATCHA::matcha_ggplotly(x$plot)
 } else {
     print(x$plot)
