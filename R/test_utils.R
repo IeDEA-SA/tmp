@@ -20,3 +20,12 @@ get_test_combined_data <- function() {
   )
 }
 
+init_app_driver <- function(...) {
+  app_driver <- shinytest2::AppDriver
+  app_driver$set("public", "run_js_delay", function(js_string, sys_sleep = 1) {
+    self$run_js(js_string)
+    Sys.sleep(sys_sleep)
+  }, overwrite = TRUE)
+
+  app_driver$new(run_app(), ...)
+}

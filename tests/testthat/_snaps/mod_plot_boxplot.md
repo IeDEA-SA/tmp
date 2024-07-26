@@ -1,4 +1,4 @@
-# multiplication works
+# mod_plot_boxplot_server works
 
     Code
       plot_output_div

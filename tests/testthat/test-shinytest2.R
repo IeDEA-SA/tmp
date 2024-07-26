@@ -1,13 +1,6 @@
 library(shinytest2)
 
-app_driver <- AppDriver
-app_driver$set("public", "run_js_delay", function(js_string, sys_sleep = 1) {
-  self$run_js(js_string)
-  Sys.sleep(sys_sleep)
-}, overwrite = TRUE)
-
-app <- app_driver$new(
-  MATCHA::run_app(),
+app <- init_app_driver(
   variant = FALSE,
   name = "MATCHA_INIT",
   height = 899,
