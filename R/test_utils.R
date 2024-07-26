@@ -1,7 +1,4 @@
-get_test_combined_data <- function() {
-  tblname <- "tblVIS"
-  ext <- "csv"
-  test_dir <- "csv"
+get_test_combined_data <- function(tblname = "tblVIS", ext = "csv", test_dir = "csv") {
   file <- fs::path(tblname, ext = ext)
   set.seed(1)
 
