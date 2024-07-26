@@ -28,17 +28,8 @@ plot_count_by_date <- function(tbl, x,
   mirror <- ifelse(position == "mirror", TRUE, FALSE)
   position <- ifelse(position == "mirror", "stack", position)
   just <- ifelse(position == "dodge", 0.5, 0)
-
-  date_label <- switch (time_bin,
-    day = "%d %b %Y",
-    week = "%d %b %Y",
-    month = "%b %Y",
-    bimonth = "%b %Y",
-    quarter = "%b %Y",
-    season = "%b %Y",
-    halfyear = "%b %Y",
-    year = "%Y"
-  )
+  width <- get_temporal_bar_width(time_bin)
+  n_breaks <- get_time_bin_breaks(tbl, x, time_bin)
 
   valid_rows <- stats::complete.cases(tbl[, c("tbl", x)])
   if (any(!valid_rows)) {
@@ -66,7 +57,8 @@ plot_count_by_date <- function(tbl, x,
       ggplot(aes(
         x = .data[["time_bin"]],
         y = .data[["diff"]],
-        fill = .data[["count_diff"]]
+        fill = .data[["count_diff"]],
+        width = width
       )) +
       geom_bar(stat = "identity", just = just, position = "stack") +
       ylab("current count - previous count") +
@@ -81,7 +73,8 @@ plot_count_by_date <- function(tbl, x,
       ggplot(aes(
         x = .data[["time_bin"]],
         y = .data[["count"]],
-        fill = .data$tbl
+        fill = .data$tbl,
+        width = width
       )) +
       geom_bar(stat = "identity", just = just, position = position) +
       scale_y_continuous(labels = abs) +
@@ -92,7 +85,9 @@ plot_count_by_date <- function(tbl, x,
       x = glue::glue("{x} (binned by {time_bin})"),
       caption = caption
     ) +
-    scale_x_date(minor_breaks = "year", date_labels = date_label)
+    scale_x_date(minor_breaks = "year",
+                 breaks = scales::breaks_pretty(n = n_breaks),
+                 labels = scales::label_date_short())
 
   if (mark_cutoff) {
     p <- p + geom_vline(
@@ -102,3 +97,23 @@ plot_count_by_date <- function(tbl, x,
   }
   p
 }
+
+get_temporal_bar_width <- function(time_bin, scale = 0.9) {
+  create_duration(time_bin, scale)/lubridate::ddays(1)
+}
+
+# Function to calculate how many time_bins are within the time series range.
+#  Use this to determine the number of breaks to use in the x-axis.
+get_time_bin_breaks <- function(tbl, x,  time_bin, n_max = 10) {
+  time_range <- range(tbl[[x]], na.rm = TRUE)
+  # create a duration using lubridate and a date range vector
+  breaks_n <- lubridate::interval(time_range[1],
+                      time_range[2]) %/% create_duration(time_bin) + 1
+  if (breaks_n < n_max) {
+    return(breaks_n)
+  } else {
+    return(n_max)
+  }
+}
+
+
