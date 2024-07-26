@@ -65,10 +65,7 @@ test_that("{shinytest2} SET_CURRENT_PATH", {
 test_that("{shinytest2} GET_VANILLA_REPORT", {
   report_file <- app$get_download("download-report")
 
-  all_classes <- report_file %>%
-    xml2::read_html() %>%
-    xml2::xml_find_all(".//div") %>%
-    xml2::xml_attr("class")
+  all_classes <- get_html_classes(report_file)
 
   expect_snapshot(all_classes)
 })
@@ -101,9 +98,7 @@ test_that("{shinytest2} GENERATE_PLOT", {
     output = "tbl_tab-tblBAS_4oncnyz0-plt_gis9nqlo-card-plot"
   ) %>%
     purrr::chuck("html") %>%
-    xml2::read_html() %>%
-    xml2::xml_find_all(".//div") %>%
-    xml2::xml_attr("class")
+    get_html_classes()
 
   expect_snapshot(plot_class)
 })
@@ -111,10 +106,7 @@ test_that("{shinytest2} GENERATE_PLOT", {
 test_that("{shinytest2} GET_PLOT_REPORT", {
   report_file <- app$get_download("download-report")
 
-  all_classes <- report_file %>%
-    xml2::read_html() %>%
-    xml2::xml_find_all(".//div") %>%
-    xml2::xml_attr("class")
+  all_classes <- get_html_classes(report_file)
 
   expect_snapshot(all_classes)
 })

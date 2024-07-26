@@ -29,3 +29,11 @@ init_app_driver <- function(...) {
 
   app_driver$new(run_app(), ...)
 }
+
+get_html_classes <- function(html) {
+  html %>%
+    xml2::read_html() %>%
+    xml2::xml_find_all(".//div") %>%
+    xml2::xml_attr("class")
+}
+
