@@ -11,12 +11,25 @@
 mod_download_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    downloadButton(ns("report"), "Generate report", class = "btn-secondary"),
-    awesomeRadio(ns("format"), "Select report format:",
-                 choices = c("html", "pdf"),
-                 selected = "html",
-                 inline = TRUE,
-                 checkbox = TRUE)
+    card(
+      card_header(
+        class = "d-flex justify-content-between",
+        "Format",
+        awesomeRadio(ns("format"),
+          label = "",
+          choices = c("HTML" = "html", "PDF" = "pdf"),
+          selected = "html",
+          inline = TRUE,
+          checkbox = TRUE
+        )
+      ),
+      card_body(
+        downloadButton(ns("report"),
+          "Generate report",
+          class = "btn-secondary"
+        )
+      )
+    )
   )
 }
 
@@ -30,7 +43,6 @@ mod_download_server <- function(id) {
     output$report <- downloadHandler(
       filename = function() {
         glue::glue("report_{Sys.Date()}.{input$format}")
-        #paste0("report_", Sys.Date(), ".html")
       },
       content = function(file) {
         w <- add_waiter(msg = "Generating report...")
@@ -40,8 +52,9 @@ mod_download_server <- function(id) {
         file.copy(report_path, tempReport, overwrite = TRUE)
 
         format <- switch(input$format,
-                         html = "html_document",
-                         pdf = "pdf_document")
+          html = "html_document",
+          pdf = "pdf_document"
+        )
 
         rmarkdown::render(
           input = tempReport,
