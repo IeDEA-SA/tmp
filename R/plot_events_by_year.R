@@ -19,6 +19,7 @@
 #' @return Nested Dodge Bar plot ggplot plot.
 #' @export
 #' @importFrom dplyr select all_of filter mutate case_when
+#' @importFrom rlang :=
 #' @importFrom ggplot2 ggplot aes geom_bar geom_vline guides guide_axis position_dodge2 labs scale_alpha_manual
 plot_events_by_year <- function(tbl, event1, event2, t0_tally = TRUE,
                                 mark_cutoff = TRUE) {
