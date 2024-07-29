@@ -8,7 +8,8 @@ matcha_theme <- function() {
   fg = "#494544",
   primary = "maroon",
   base_font = font_google("Montserrat"),
-  version = 5
+  version = 5,
+  spacer = "0.4rem"
 ) %>%
   # Rule to allow overflow in cards with dropdown menus
   bs_add_rules(".card-dropdown {overflow: visible !important;}")
