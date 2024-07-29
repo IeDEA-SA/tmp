@@ -52,8 +52,10 @@ plot_stacked_bar <- function(tbl, x,
   if (position == "fill") {
     p <- p +
       scale_y_continuous(labels = percent) +
-      labs(y = "Percentage",
-           caption = caption)
+      labs(
+        y = "Percentage",
+        caption = caption
+      )
   }
   p
 }

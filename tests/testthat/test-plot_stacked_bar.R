@@ -40,7 +40,7 @@ test_that("plot_stacked_bar works", {
     {
       tbl_tblART %>%
         dplyr::mutate(art_id = as.factor(.data[["art_id"]])) %>%
-      plot_stacked_bar(x = "art_id", n = 4)
+        plot_stacked_bar(x = "art_id", n = 4)
     }
   )
 
@@ -55,7 +55,6 @@ test_that("plot_stacked_bar works", {
 
 
 test_that("plot_stacked_bar works with integers", {
-
   tblBAS <- load_comb_tbl("tblBAS")
   expect_error(plot_stacked_bar(tblBAS, x = "sex"))
 
@@ -69,7 +68,6 @@ test_that("plot_stacked_bar works with integers", {
 })
 
 test_that("plot_stacked_bar works handles NAs", {
-
   tblBAS <- load_comb_tbl("tblBAS")
   tblBAS$sex <- as.integer(tblBAS$sex)
   tblBAS$sex[1:100] <- NA

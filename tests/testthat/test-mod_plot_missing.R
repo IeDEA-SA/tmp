@@ -35,7 +35,8 @@ test_that("mod_plot_missing_server works", {
       x = "deaf_var",
       y = NULL
     ),
-    session = mock_session, {
+    session = mock_session,
+    {
       # exclude ui is generated
       exclude_ui_selectise <- output$exclude_ui$html
 
@@ -85,5 +86,6 @@ test_that("mod_plot_missing_server works", {
         delete = 1
       )
       expect_error(session$userData$plots[[1]][[1]], regexp = "subscript out of bounds")
-    })
+    }
+  )
 })

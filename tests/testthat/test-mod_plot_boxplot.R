@@ -12,7 +12,9 @@ test_that("mod_plot_boxplot_server works", {
     mod_plot_boxplot_server,
     args = list(
       x = "weigh",
-      comb_tbl = load_comb_tbl(tblname = "tblVIS", ext = "csv", test_dir = "csv")[1:20, ],
+      comb_tbl = load_comb_tbl(
+        tblname = "tblVIS", ext = "csv", test_dir = "csv"
+      )[1:20, ],
       y = NULL
     ),
     {

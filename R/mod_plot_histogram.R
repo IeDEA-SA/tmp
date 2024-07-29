@@ -32,8 +32,8 @@ mod_plot_histogram_ui <- function(id, x, y = NULL) {
             value = TRUE
           ),
           checkboxInput(ns("log"),
-                        label = "Log transform variable",
-                        value = FALSE
+            label = "Log transform variable",
+            value = FALSE
           ),
           sliderInput(
             inputId = ns("bins"),

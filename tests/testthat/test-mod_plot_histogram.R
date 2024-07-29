@@ -20,7 +20,8 @@ test_that("mod_plot_histogram_server works", {
       x = "art_comb",
       comb_tbl = comb_tbl,
       y = NULL
-    ), {
+    ),
+    {
       session$setInputs(
         position = "dodge",
         bins = 30L,
@@ -65,5 +66,6 @@ test_that("mod_plot_histogram_server works", {
         delete = 1
       )
       expect_error(session$userData$plots[[1]][[1]], regexp = "subscript out of bounds")
-    })
+    }
+  )
 })

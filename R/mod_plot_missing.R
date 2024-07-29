@@ -22,8 +22,8 @@ mod_plot_missing_ui <- function(id, x, y = NULL) {
           title = "Configure plot",
           uiOutput(ns("exclude_ui")),
           checkboxInput(ns("pk"),
-                        label = "Compare to primary keys",
-                        value = FALSE
+            label = "Compare to primary keys",
+            value = FALSE
           ),
           checkboxInput(ns("interactive"),
             label = "Display interactive plot",

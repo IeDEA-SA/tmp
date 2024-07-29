@@ -19,10 +19,11 @@ test_that("mod_plot_events_by_year_server works", {
   testServer(
     mod_plot_events_by_year_server,
     args = list(
-      x = event1, #date column
+      x = event1, # date column
       comb_tbl = tblBAS,
       y = event2
-    ), {
+    ),
+    {
       session$setInputs(
         n = 4L,
         mark_cutoff = TRUE,
@@ -67,5 +68,6 @@ test_that("mod_plot_events_by_year_server works", {
         delete = 1
       )
       expect_error(session$userData$plots[[1]][[1]], regexp = "subscript out of bounds")
-    })
+    }
+  )
 })

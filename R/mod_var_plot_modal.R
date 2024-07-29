@@ -31,7 +31,6 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
     output$select_plot_ui <- renderUI({
       req(input$select_plot)
       if (!is.null(input$select_plot)) {
-
         output <- tagList()
         for (i in seq_along(plot_meta[[input$select_plot]]$args)) {
           var_type <- plot_meta[[input$select_plot]]$args[[i]]
@@ -113,16 +112,15 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
 
           if (is_summary_tab(ns)) {
             plot_server_mod("card", comb_tbl,
-                            x = input$select_var_x,
-                            y = input$select_var_y
+              x = input$select_var_x,
+              y = input$select_var_y
             )
           } else {
             plot_server_mod("card", comb_tbl(),
-                            x = input$select_var_x,
-                            y = input$select_var_y
+              x = input$select_var_x,
+              y = input$select_var_y
             )
           }
-
         }
         mod_observer$destroy()
         removeModal()

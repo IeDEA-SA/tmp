@@ -14,8 +14,10 @@ mod_access_data_ui <- function(id, dataset) {
   ns <- NS(id)
   tagList(
     card(
-      card_header(paste(dataset, "dataset"),
-                  file_access_info),
+      card_header(
+        paste(dataset, "dataset"),
+        file_access_info
+      ),
       shinyDirButton(
         id = ns("folder"), label = "Select a folder",
         title = "Please select a folder",
@@ -78,7 +80,8 @@ mod_access_data_server <- function(id) {
             **regardless of file extension** and try again."
           ),
           duration = NULL,
-          type = "error")
+          type = "error"
+        )
       }
 
       file_paths

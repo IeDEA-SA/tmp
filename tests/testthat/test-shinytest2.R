@@ -84,7 +84,6 @@ test_that("{shinytest2} READ_TABLES", {
     app$get_value(input = "tbl_tab-tab"),
     "tbl_tab-tblBAS_4oncnyz0"
   )
-
 })
 
 test_that("{shinytest2} GENERATE_PLOT", {
@@ -112,7 +111,6 @@ test_that("{shinytest2} GET_PLOT_REPORT", {
 })
 
 test_that("{shinytest2} SUMMARY_TAB", {
-
   app$run_js_delay("$('#tbl_tab-tab').find('[data-value=tbl_tab-summary]').click()")
   app$run_js_delay("$('#tbl_tab-summary-add_plot').click()")
 
@@ -120,5 +118,4 @@ test_that("{shinytest2} SUMMARY_TAB", {
     input = "tbl_tab-summary-plt_5gijw0g0-select_plot"
   )
   expect_snapshot(selected_summary_plot)
-
 })

@@ -36,12 +36,16 @@ mod_dynamic_select_server <- function(id, property, choices, selected = NULL) {
 
     if (is.reactive(choices)) {
       observeEvent(choices(), {
-        updateSelectInput(session, property, choices = choices(),
-                          selected = selected)
+        updateSelectInput(session, property,
+          choices = choices(),
+          selected = selected
+        )
       })
     } else {
-      updateSelectInput(session, property, choices = choices,
-                        selected = selected)
+      updateSelectInput(session, property,
+        choices = choices,
+        selected = selected
+      )
     }
     reactive(input[[property]])
   })

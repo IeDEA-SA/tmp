@@ -16,7 +16,7 @@ test_that("get_tbl_tabs_lookup correctly processes input list", {
   expect_s3_class(result, "tbl")
   expect_equal(names(result), c("source_hash", "tbl_name", "tab_id"))
 
-  #it does not recalculate existing tab ids
+  # it does not recalculate existing tab ids
   existing_tbl_tabs_lookup <- tibble(
     source_hash = "hash1",
     tbl_name = "tbl_pair1",
@@ -31,8 +31,10 @@ test_that("Error when 'tbl_list' and 'source_files' lengths do not match", {
   tbl_list <- list(df1)
   source_files <- c("file1.txt", "file2.txt")
 
-  expect_error(set_source_hash(tbl_list, source_files),
-               "'source_files' length not match")
+  expect_error(
+    set_source_hash(tbl_list, source_files),
+    "'source_files' length not match"
+  )
 })
 
 test_that("'source_hash' attribute is correctly assigned", {
@@ -50,21 +52,27 @@ test_that("'source_hash' attribute is correctly assigned", {
 
 
 test_that("'source_hash' attribute stays consistent when files are read by data.table", {
-    path_1 <-system.file("test-data", "csv", "01_previous", "tblART.csv",
-                         package = "MATCHA")
-    path_2 <-system.file("test-data", "csv", "02_current", "tblART.csv",
-                         package = "MATCHA")
-    source_files <- c(path_1, path_2)
+  path_1 <- system.file("test-data", "csv", "01_previous", "tblART.csv",
+    package = "MATCHA"
+  )
+  path_2 <- system.file("test-data", "csv", "02_current", "tblART.csv",
+    package = "MATCHA"
+  )
+  source_files <- c(path_1, path_2)
 
-    # Create tbl list 1
-    tbl_list <- list(data.table::fread(path_1),
-                     data.table::fread(path_2))
-    hash_1 <- attr(set_source_hash(tbl_list, source_files), "source_hash")
+  # Create tbl list 1
+  tbl_list <- list(
+    data.table::fread(path_1),
+    data.table::fread(path_2)
+  )
+  hash_1 <- attr(set_source_hash(tbl_list, source_files), "source_hash")
 
-    # Reread tables and check that the same hash is generated
-    tbl_list <- list(data.table::fread(path_1),
-                     data.table::fread(path_2))
-    hash_2 <- attr(set_source_hash(tbl_list, source_files), "source_hash")
+  # Reread tables and check that the same hash is generated
+  tbl_list <- list(
+    data.table::fread(path_1),
+    data.table::fread(path_2)
+  )
+  hash_2 <- attr(set_source_hash(tbl_list, source_files), "source_hash")
 
-    expect_equal(hash_1, hash_2)
+  expect_equal(hash_1, hash_2)
 })

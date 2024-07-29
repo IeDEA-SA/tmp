@@ -50,17 +50,16 @@ test_that("plot_cat_count_by_year works", {
 })
 
 test_that("plot_cat_count_by_year works with integers", {
-
   tblBAS <- load_comb_tbl("tblBAS")
   expect_error(
-    plot_cat_count_by_year(tblBAS, date_col = "birth_d",  y = "sex")
-    )
+    plot_cat_count_by_year(tblBAS, date_col = "birth_d", y = "sex")
+  )
 
   tblBAS$sex <- as.integer(tblBAS$sex)
   expect_doppelganger(
     title = "tblBAS sex int cat count year plot",
     {
-      plot_cat_count_by_year(tblBAS, date_col = "birth_d",  y = "sex")
+      plot_cat_count_by_year(tblBAS, date_col = "birth_d", y = "sex")
     }
   )
 })

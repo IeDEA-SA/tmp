@@ -8,7 +8,6 @@
 #' checks. The `valid` element states whether any columns in the two tables
 #' can be compared.
 check_tbls <- function(x) {
-
   if (all(purrr::map_lgl(x, is.null))) {
     return(NULL)
   }
@@ -176,8 +175,10 @@ process_tbl <- function(x, clean_names = FALSE, select_vars) {
 col_rbind_error <- function(x, var) {
   # Use vctrs::df_ptype2 to check if columns can be row bound which is slightly
   # faster but more memory efficient
-  vctrs::df_ptype2(x$previous[, var],
-                   x$current[, var]) %>%
+  vctrs::df_ptype2(
+    x$previous[, var],
+    x$current[, var]
+  ) %>%
     try(silent = TRUE) %>%
     inherits("try-error")
 }

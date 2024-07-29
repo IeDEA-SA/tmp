@@ -3,7 +3,8 @@ test_that("plot_summary_complete works", {
     purrr::set_names(c("tblBAS", "tblART", "tblDIS")),
     ~ subset_pk_tbl_cols(
       load_comb_tbl(.x),
-      add_pk_col = TRUE)
+      add_pk_col = TRUE
+    )
   )
 
   expect_doppelganger(
@@ -17,5 +18,3 @@ test_that("plot_summary_complete works", {
     matcha_ggplotly()
   expect_snapshot(pltly$x$data)
 })
-
-

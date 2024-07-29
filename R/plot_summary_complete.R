@@ -24,7 +24,8 @@ plot_summary_complete <- function(pk, pk_col = "patient") {
     dplyr::group_by(tbl) %>%
     # Calculate percentage pk completeness for each table group by current/previous
     dplyr::summarise_all(
-      list( ~ (length(.) - sum(is.na(.))) / length(.) * 100)) %>%
+      list(~ (length(.) - sum(is.na(.))) / length(.) * 100)
+    ) %>%
     tidyr::gather(key = "tbl_name", value = "complete", -"tbl") %>%
     # Order factor levels by frequency so most complete table (pk_tbl) will appear at the top
     # of the plot

@@ -20,10 +20,11 @@ test_that("mod_plot_cat_count_by_year_server works", {
   testServer(
     mod_plot_cat_count_by_year_server,
     args = list(
-      x = "art_sd", #date column
+      x = "art_sd", # date column
       comb_tbl = test_data,
       y = "art_id"
-    ), {
+    ),
+    {
       session$setInputs(
         n = 4L,
         mark_cutoff = TRUE,
@@ -68,5 +69,6 @@ test_that("mod_plot_cat_count_by_year_server works", {
         delete = 1
       )
       expect_error(session$userData$plots[[1]][[1]], regexp = "subscript out of bounds")
-    })
+    }
+  )
 })

@@ -80,6 +80,6 @@ plot_boxplot <- function(tbl, x,
   if (log) {
     p <- p + ylab(y_label)
   }
-  #attributes(p) <- list(type = "boxplot", remove_outliers = !show_outliers)
+  # attributes(p) <- list(type = "boxplot", remove_outliers = !show_outliers)
   p + labs(caption = caption)
 }

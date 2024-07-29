@@ -31,7 +31,8 @@ get_shared_nms_rct <- function(previous, current, pk_tbl_name) {
           glue::glue(
             "Expected primary key table '{pk_tbl_name}' not found
             in shared tables. Please check data or use `pk_tbl_name` argument
-            in `run_app` to re-configure primary key table."),
+            in `run_app` to re-configure primary key table."
+          ),
           duration = NULL,
           type = "error"
         )

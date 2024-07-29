@@ -9,7 +9,6 @@
 #' @return the updated `tbl` object coerced the user defined schema.
 #' @noRd
 apply_schema <- function(tbl, schema_config) {
-
   for (var_name in names(schema_config)) {
     var_type <- schema_config[[var_name]]()$var_type
     unknown <- schema_config[[var_name]]()$unknown
@@ -64,10 +63,10 @@ apply_schema <- function(tbl, schema_config) {
 }
 
 get_var_type <- function(x) {
-    if (inherits(x, "numeric")) {
-      var_type <- typeof(x)
-    } else{
-      var_type <- class(x)
-    }
-    var_type
+  if (inherits(x, "numeric")) {
+    var_type <- typeof(x)
+  } else {
+    var_type <- class(x)
+  }
+  var_type
 }

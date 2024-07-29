@@ -24,7 +24,9 @@ matcha_ggplotly <- function(p) {
   # 1. Change the color of the boxplot outliers to match the ggplot object
   if (any(is_boxplot(p))) {
     pltly$x$data <- lapply(pltly$x$data, FUN = function(x) {
-      if(x$type != "box") return(x)
+      if (x$type != "box") {
+        return(x)
+      }
       x$marker$outliercolor <- x$line$color # When creating plot p with ggplot if you specify fill = cut use x$fill$color instead of $line$color
       x$marker$color <- x$line$color # When creating plot p with ggplot if you specify fill = cut use x$fill$color instead $line$color
       x$marker$line <- x$line$color # When creating plot p with ggplot if you specify fill = cut use x$fill$color instead $line$color
@@ -63,14 +65,15 @@ matcha_ggplotly <- function(p) {
 is_boxplot <- function(p) {
   purrr::map_lgl(
     p$layers,
-    ~inherits(.x$geom, "GeomBoxplot")
+    ~ inherits(.x$geom, "GeomBoxplot")
   )
 }
 
 #' @importFrom ggplot2 ggplot_build
 has_outliers <- function(p) {
   params <- ggplot_build(p)$data[[which(is_boxplot(p))]] %>%
-    names() %>% suppressWarnings()
+    names() %>%
+    suppressWarnings()
 
   "outliers" %in% params
-  }
+}

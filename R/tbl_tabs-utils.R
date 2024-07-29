@@ -90,7 +90,6 @@ tbl_tab_ui <- function(tbl_name, tab_id, ns, tbl_valid_cols, tbl_valid, clean_tb
 }
 
 tbl_tab_pk <- function(tbl_name, session, tbl_valid_cols) {
-
   if (tbl_name == session$userData$pk_tbl_name) {
     if (session$userData$pk_col %in% tbl_valid_cols) {
       showNotification(
@@ -130,7 +129,6 @@ tbl_tab_server <- function(tab_id, tbl_name, comb_tbl) {
 }
 
 summary_tab <- function(ns, input, output, session) {
-
   remove_tbl_tab(
     "summary", "summary",
     ns, input, output, session

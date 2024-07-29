@@ -45,7 +45,6 @@ test_that("plot_histogram works", {
 })
 
 test_that("plot_histogram log works", {
-
   tblLAB <- load_comb_tbl("tblLAB")
   expect_doppelganger(
     title = "tblLAB lab_v no-log histogram",

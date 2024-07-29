@@ -30,7 +30,7 @@ read_file <- function(path) {
 
 convert_IDate <- function(tbl) {
   for (var in names(tbl)) {
-    if (inherits(tbl[[var]], "IDate")){
+    if (inherits(tbl[[var]], "IDate")) {
       tbl[, var] <- as.Date(tbl[[var]])
     }
   }

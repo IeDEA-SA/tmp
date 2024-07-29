@@ -1,5 +1,4 @@
 load_comb_tbl <- function(tblname, ext = "dta", test_dir = "stata") {
-
   file <- fs::path(tblname, ext = ext)
 
   combine_tbls(

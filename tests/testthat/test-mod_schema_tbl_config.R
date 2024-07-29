@@ -16,18 +16,19 @@ test_that("mod_schema_tbl_config_server works correctly", {
   testServer(
     mod_schema_tbl_config_server,
     args = list(tbl = tbl),
-  {
-    # Test shared_vars are correctly identified
-    expect_equal(shared_vars, c("a", "b", "c"))
+    {
+      # Test shared_vars are correctly identified
+      expect_equal(shared_vars, c("a", "b", "c"))
 
-    # Test schema_widget classes
-    schema_widget_classes <- output$schema_widget$html %>%
-      get_html_classes()
+      # Test schema_widget classes
+      schema_widget_classes <- output$schema_widget$html %>%
+        get_html_classes()
 
-    expect_snapshot(schema_widget_classes)
+      expect_snapshot(schema_widget_classes)
 
-    # Test schema reactiveValues are correctly set
-    expect_true(is.reactivevalues(schema))
-    expect_equal(names(schema), c("a", "b", "c"))
-  })
+      # Test schema reactiveValues are correctly set
+      expect_true(is.reactivevalues(schema))
+      expect_equal(names(schema), c("a", "b", "c"))
+    }
+  )
 })
