@@ -62,7 +62,7 @@
 <rect x='659.20' y='280.89' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BFC4;' />
 <text x='681.25' y='274.57' style='font-size: 8.80px; font-family: sans;' textLength='33.27px' lengthAdjust='spacingAndGlyphs'>previous</text>
 <text x='681.25' y='291.85' style='font-size: 8.80px; font-family: sans;' textLength='27.39px' lengthAdjust='spacingAndGlyphs'>current</text>
-<text x='27.90' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='231.22px' lengthAdjust='spacingAndGlyphs'>hiv_pos_d dodge count_by_date month</text>
+<text x='27.90' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='269.31px' lengthAdjust='spacingAndGlyphs'>Observation Frequency Timeline of hiv_pos_d</text>
 <text x='647.53' y='568.69' text-anchor='end' style='font-size: 8.80px; font-family: sans;' textLength='164.87px' lengthAdjust='spacingAndGlyphs'>1897 rows containing NA values removed.</text>
 </g>
 </svg>

@@ -92,7 +92,7 @@ plot_events_by_year <- function(tbl, event1, event2, t0_tally = TRUE,
       geom_vline(xintercept = prev_cutoff - 0.5, linetype = "dashed")
   }
   p + labs(
-    title = paste("Counts of", event1, "Vs", event2, "by year"),
+    title = paste("Yearly Event Comparison of", event1, "Vs", event2),
     x = "year"
   )
 }

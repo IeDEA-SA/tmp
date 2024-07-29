@@ -42,6 +42,7 @@ plot_summary_complete <- function(pk, pk_col = "patient") {
     geom_bar(stat = "identity") +
     theme(axis.title.y = element_blank()) +
     facet_grid(~tbl) +
-    labs(title = "ID Completeness by table", x = "% Completeness") +
+    labs(title = "Study Subject Data Completeness by table",
+         x = "% Completeness") +
     theme(legend.position = "none")
 }

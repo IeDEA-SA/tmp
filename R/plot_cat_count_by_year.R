@@ -49,5 +49,5 @@ plot_cat_count_by_year <- function(tbl, date_col, y,
     p <- p +
       geom_vline(xintercept = prev_cutoff - 0.5, linetype = "dashed")
   }
-  p
+  p + labs(title = glue::glue("Categorical Frequency Timeline of {y} across {date_col}"))
 }

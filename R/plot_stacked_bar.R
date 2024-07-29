@@ -54,7 +54,10 @@ plot_stacked_bar <- function(tbl, x,
       scale_y_continuous(labels = percent) +
       labs(
         y = "Percentage",
-        caption = caption
+        caption = caption,
+        title = glue::glue(
+          "Categorical Distribution of {x} across top {n} categories")
+
       )
   }
   p

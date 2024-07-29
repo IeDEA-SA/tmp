@@ -77,5 +77,8 @@ plot_histogram <- function(tbl, x,
   if (log) {
     p <- p + xlab(x_label)
   }
-  p + labs(caption = caption)
+  p + labs(
+    caption = caption,
+    title = glue::glue("Value Distribution / Histogram of {x}")
+  )
 }

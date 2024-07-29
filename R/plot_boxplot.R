@@ -81,5 +81,8 @@ plot_boxplot <- function(tbl, x,
     p <- p + ylab(y_label)
   }
   # attributes(p) <- list(type = "boxplot", remove_outliers = !show_outliers)
-  p + labs(caption = caption)
+  p + labs(
+    caption = caption,
+    title = glue::glue("Value Distribution / Boxplot of {x}")
+  )
 }

@@ -77,6 +77,6 @@
 <rect x='666.53' y='287.29' width='12.96' height='8.64' style='stroke-width: 1.07; stroke: #F8766D; stroke-linecap: butt; stroke-linejoin: miter; fill: #F8766D; fill-opacity: 0.30;' />
 <polyline points='666.53,291.61 679.49,291.61 ' style='stroke-width: 1.07; stroke: #F8766D; stroke-linecap: butt; stroke-linejoin: miter;' />
 <text x='687.13' y='294.64' style='font-size: 8.80px; font-family: sans;' textLength='27.39px' lengthAdjust='spacingAndGlyphs'>current</text>
-<text x='42.58' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='101.27px' lengthAdjust='spacingAndGlyphs'>plot_boxplot-mod</text>
+<text x='42.58' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='211.33px' lengthAdjust='spacingAndGlyphs'>Value Distribution / Boxplot of weigh</text>
 </g>
 </svg>

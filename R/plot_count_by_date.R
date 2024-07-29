@@ -103,7 +103,7 @@ plot_count_by_date <- function(tbl, x,
       linetype = 3, linewidth = 0.5
     )
   }
-  p
+  p + labs(title = glue::glue("Observation Frequency Timeline of {x}"))
 }
 
 get_temporal_bar_width <- function(time_bin, scale = 0.9) {
