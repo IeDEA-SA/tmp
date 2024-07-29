@@ -14,53 +14,52 @@ test_that("mod_plot_boxplot_server works", {
       x = "weigh",
       comb_tbl = get_test_combined_data()[1:20, ],
       y = NULL
-    ), {
-    session$setInputs(
-      include_violin = FALSE,
-      interactive = TRUE,
-      varwidth = TRUE,
-      show_outliers = TRUE,
-      log = FALSE,
-      include_points = TRUE
-    )
+    ),
+    {
+      set.seed(123)
+      session$setInputs(
+        include_violin = FALSE,
+        interactive = TRUE,
+        varwidth = TRUE,
+        show_outliers = TRUE,
+        log = FALSE,
+        include_points = TRUE
+      )
 
-    # generates a plot
-    box_plot <- generate_plot()
+      # creates a plotly html output
+      plot_output_div <- get_html_classes(output$plot$html)
+      expect_snapshot(plot_output_div)
 
-    expect_doppelganger(
-      title = "plot_boxplot log",
-      box_plot
-    )
+      # adds plot metadata to user session
+      session_plot_list <- session$userData$plots[[1]][[1]]
 
-    # creates a plotly html output
-    plot_output_div <- get_html_classes(output$plot$html)
-    expect_snapshot(plot_output_div)
+      expect_equal(
+        session_plot_list$x,
+        "weigh"
+      )
 
-    # adds plot metadata to user session
-    session_plot_list <- session$userData$plots[[1]][[1]]
+      expect_s3_class(
+        session_plot_list$plot,
+        "ggplot"
+      )
 
-    expect_equal(
-      session_plot_list$x,
-      "weigh"
-    )
+      expect_doppelganger(
+        title = "plot_boxplot-mod",
+        session_plot_list$plot
+      )
 
-    expect_s3_class(
-      session_plot_list$plot,
-      "ggplot"
-    )
+      expect_true(session_plot_list$interactive)
 
-    expect_true(session_plot_list$interactive)
+      expect_equal(
+        session_plot_list$plot_type,
+        "boxplot"
+      )
 
-    expect_equal(
-      session_plot_list$plot_type,
-      "boxplot"
-    )
-
-    # delete plot cleans user session data
-    session$setInputs(
-      delete = 1
-    )
-    expect_error(session$userData$plots[[1]][[1]], regexp = "subscript out of bounds")
-  })
-
+      # delete plot cleans user session data
+      session$setInputs(
+        delete = 1
+      )
+      expect_error(session$userData$plots[[1]][[1]], regexp = "subscript out of bounds")
+    }
+  )
 })
