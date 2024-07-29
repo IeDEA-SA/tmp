@@ -12,7 +12,7 @@ test_that("mod_plot_cat_count_by_year_ui generates expected html", {
 })
 
 test_that("mod_plot_cat_count_by_year_server works", {
-  test_data <- get_test_combined_data(
+  test_data <- load_comb_tbl(
     tblname = "tblART",
     ext = "dta",
     test_dir = "stata"

@@ -1,8 +1,8 @@
 library(vdiffr)
 
 test_that("plot_boxplot works", {
-  tbl <- get_test_combined_data()
   set.seed(123)
+  tbl <- load_comb_tbl(tblname = "tblVIS", ext = "csv", test_dir = "csv")
   tbl[tbl == 999] <- NA
 
   expect_doppelganger(
