@@ -3,6 +3,7 @@
     "access_curr_dat-folder": 0,
     "access_prev_dat-folder": 0,
     "close_app-close": 0,
+    "download-format": "html",
     "read_tbls-readBtn": 0,
     "select_tbls-tables": null,
     "tbl_tab-tab": null

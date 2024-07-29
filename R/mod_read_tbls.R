@@ -67,6 +67,7 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
             )
             showNotification(
               glue::glue("Table {.x} read from disk. Checking...."),
+              duration = 2,
               type = "message"
             )
           }

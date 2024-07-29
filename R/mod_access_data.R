@@ -9,11 +9,13 @@
 #'
 #' @importFrom shiny NS tagList fileInput
 #' @importFrom shinyFiles shinyDirButton
+#' @importFrom bslib card card_header tooltip
 mod_access_data_ui <- function(id, dataset) {
   ns <- NS(id)
   tagList(
     card(
-      card_header(paste(dataset, "dataset")),
+      card_header(paste(dataset, "dataset"),
+                  file_access_info),
       shinyDirButton(
         id = ns("folder"), label = "Select a folder",
         title = "Please select a folder",
