@@ -61,7 +61,8 @@ mod_download_server <- function(id) {
           output_file = file,
           output_format = format,
           params = list(
-            plots = session$userData$plots
+            plots = session$userData$plots,
+            skims = session$userData$skims
           )
         )
       }

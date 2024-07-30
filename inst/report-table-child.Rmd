@@ -1,5 +1,7 @@
+
+
 ```{r, echo=FALSE}
-if (tbl_name == "summary"){
+if (tbl_name == "summary") {
   section_title <- "Data Completeness"
 } else {
   section_title <- tbl_name
@@ -8,15 +10,36 @@ if (tbl_name == "summary"){
 
 ## `r section_title`
 
-
-```{r, results='asis'}
-res <- purrr::map(x, 
-                   function(x) {
-  knitr::knit_child(
-    system.file('report-plot-child.Rmd', package = 'MATCHA'),
-    envir = environment(), quiet = TRUE
-  )
-})
-cat(unlist(res), sep = '\n')
+```{r}
+skim_child <- system.file("report-skim-child.Rmd", package = "MATCHA")
+show_skim <- tbl_name != "summary"
 ```
 
+
+<details>
+<summary>Click for Table Summary</summary>
+
+```{r, child = if (show_skim) skim_child}
+
+```
+
+</details>
+
+### Plots
+
+```{r, results='asis'}
+res <- purrr::map(
+  x,
+  function(x) {
+    knitr::knit_child(
+      system.file("report-plot-child.Rmd", package = "MATCHA"),
+      envir = environment(), quiet = TRUE
+    )
+  }
+)
+cat(unlist(res), sep = "\n")
+```
+
+***
+
+</div>
