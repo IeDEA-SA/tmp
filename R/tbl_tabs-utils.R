@@ -59,12 +59,15 @@ tbl_tab_ui <- function(tbl_name, tab_id, ns, tbl_valid_cols, tbl_valid, clean_tb
 
   tab_panel <- tabPanel(
     title = tbl_name,
+    br(),
     mod_pk_column_ui(
       ns(tab_id),
       colnames = tbl_valid_cols,
       add = session$userData$pk_col
     ),
+    br(),
     mod_display_check_ui(ns(tab_id)),
+    br(),
     mod_tbl_plots_ui(ns(tab_id)),
     value = ns(tab_id),
     icon = tab_icon
@@ -139,6 +142,7 @@ summary_tab <- function(ns, input, output, session) {
     title = "Data Completeness",
     value = ns("summary"),
     icon = icon("rectangle-list"),
+    br(),
     mod_tbl_plots_ui(ns("summary"))
   )
   appendTab(

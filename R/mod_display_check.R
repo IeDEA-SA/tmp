@@ -67,7 +67,7 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
     output$valid_cols <- renderUI({
       card(
         id = ns("display-spinner"),
-        card_header("Valid shared variables", class = "bg-dark"),
+        card_header("Valid shared variables", class = "bg-secondary"),
         card_body(
           markdown(
             paste(
@@ -116,14 +116,29 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
       )
     })
 
-    output$tbl_skim_current <- renderPrint({
-      skimr::skim(schema_tbl()$current)
-    })
-    output$tbl_skim_previous <- renderPrint({
-      skimr::skim(schema_tbl()$previous)
+
+    skim_tables <- reactive({
+      skim_tables <- list(
+        current = skimr::skim(schema_tbl()$current),
+        previous = skimr::skim(schema_tbl()$previous)
+      )
+      skim_tables
     })
 
-    # Return the clean table with any schema changes applied
+    output$tbl_skim_current <- renderPrint({
+      session$userData$skims[[tbl_name]]$current <- skim_tables()$current
+      skim_tables()$current
+    })
+
+    output$tbl_skim_previous <- renderPrint({
+      session$userData$skims[[tbl_name]]$previous <- skim_tables()$previous
+      skim_tables()$previous
+    })
+    # Force the output to be executed even if it's not visible
+    outputOptions(output, "tbl_skim_current", suspendWhenHidden = FALSE)
+    outputOptions(output, "tbl_skim_previous", suspendWhenHidden = FALSE)
+
+     # Return the clean table with any schema changes applied
     schema_tbl
   })
 }

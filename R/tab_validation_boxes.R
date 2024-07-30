@@ -18,7 +18,7 @@ tab_validation_boxes <- function(valid_vars, invalid_vars, coerced_vars) {
           vector_to_md_list(valid_vars)
         )
       ),
-      theme = value_box_theme(bg = "#49F5BF", fg = "#000000"),
+      theme = value_box_theme(bg =  "#54C9A4", fg = "#000000"),
       showcase = icon("square-check"), showcase_layout = "top right",
       full_screen = FALSE, fill = FALSE, height = NULL
     ),
