@@ -2,3 +2,25 @@ url: ~
 template:
   bootstrap: 5
 
+reference:
+- title: "Run app"
+  desc: "Function used to run app"
+  contents:
+  - run_app
+
+- title: "Plot functions"
+  desc: "Functions used to create plots"
+  contents:
+  - starts_with("plot_")
+  - matcha_ggplotly
+
+- title: "Application theme"
+  desc: "Function used to theme app."
+  contents:
+  - matcha_theme
+
+- title: "Utilities"
+  desc: "Miscellaneous utility functions"
+  contents:
+  - starts_with("check_")
+  - starts_with("combine_")
