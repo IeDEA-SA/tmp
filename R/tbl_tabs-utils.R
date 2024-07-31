@@ -96,17 +96,26 @@ tbl_tab_pk <- function(tbl_name, session, tbl_valid_cols) {
   if (tbl_name == session$userData$pk_tbl_name) {
     if (session$userData$pk_col %in% tbl_valid_cols) {
       showNotification(
-        glue::glue("Table {tbl_name} set as source of primary key info."),
+        markdown(
+        glue::glue(
+          "**Table `{tbl_name}` set as source of primary key info**.")
+        ),
         type = "default"
       )
     } else {
       log_debug("Failed to subset {tbl_name} for primary key info.
                       pk_col {session$userData$pk_col} missing.")
       showNotification(
-        glue::glue(
-          "Expected primary key column '{session$userData$pk_col}' not found
-                in primary key table. Please check data or use `pk_col` argument
-                in `run_app` to re-configure primary key column."
+        markdown(
+          glue::glue(
+            "**Expected primary key column `{session$userData$pk_col}` not found
+                in primary key table**.
+
+            Please check data, use `pk_col` argument
+            in `run_app()` or use `pk_col` dropdown menu on
+            {session$userData$pk_tbl_name} tab to re-configure
+            primary key column in primary key table."
+          )
         ),
         duration = NULL,
         type = "error"

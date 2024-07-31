@@ -17,21 +17,27 @@ get_shared_nms_rct <- function(previous, current, pk_tbl_name) {
     )
     if (length(shared) == 0L) {
       showNotification(
-        glue::glue("No shared tables detected! No data to compare."),
+        markdown("**No shared tables detected!** No data to compare."),
         type = "error"
       )
     } else {
       showNotification(
-        glue::glue("{length(shared)} shared tables detected:
-                   {glue::glue_collapse(shared, sep = ', ')}"),
+        markdown(
+          glue::glue("**{length(shared)} shared tables detected**:
+                   {vector_to_md_list(shared)}")
+        ),
         type = "message"
       )
       if (!pk_tbl_name %in% shared) {
         showNotification(
-          glue::glue(
-            "Expected primary key table '{pk_tbl_name}' not found
-            in shared tables. Please check data or use `pk_tbl_name` argument
-            in `run_app` to re-configure primary key table."
+          markdown(
+            glue::glue(
+              "**Expected primary key table `{pk_tbl_name}` not found
+            in shared tables**.
+
+            Please check data or use `pk_tbl_name` argument
+            in `run_app()` to re-configure primary key table."
+            )
           ),
           duration = NULL,
           type = "error"
