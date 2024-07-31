@@ -35,7 +35,9 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
 
         plot_name <- input$select_plot
         plot_args <- get_plot_arg_names(plot_name)
-        if (length(plot_args) == 0L) {shinyjs::enable(id = "ok")}
+        if (length(plot_args) == 0L) {
+          shinyjs::enable(id = "ok")
+        }
         plot_arg_ids <- create_arg_ids(plot_args)
 
         for (i in seq_along(plot_args)) {
@@ -46,7 +48,10 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
           validate(
             need(
               length(arg_choices) > 0,
-              glue::glue("No valid variable to select for arg {arg_name}.")
+              glue::glue(
+                "No valid variable of type `{arg_type}` to select for arg `{arg_name}`.
+                Please select another plot type."
+              )
             )
           )
 
