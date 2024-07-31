@@ -9,3 +9,6 @@ $run_dev.*
 ^attic$
 ^\.github$
 _\.new\.png$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
