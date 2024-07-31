@@ -5,6 +5,7 @@
 #' @param pk_col  Column name of primary key in each table. Default is "patient".
 #' @return Primary key completeness ggplot bar plot.
 #' @importFrom ggplot2 ggplot aes geom_bar labs theme facet_grid element_blank
+#' @importFrom dplyr full_join group_by summarise_all select mutate all_of
 #' @export
 plot_summary_complete <- function(pk, pk_col = "patient") {
   # Inner join all tables on pk
@@ -17,19 +18,19 @@ plot_summary_complete <- function(pk, pk_col = "patient") {
   ) %>%
     purrr::reduce(
       function(x, y) {
-        dplyr::full_join(x, y, by = c("tbl", "pk"))
+        full_join(x, y, by = c("tbl", "pk"))
       }
     ) %>%
-    dplyr::select(-"pk") %>%
-    dplyr::group_by(tbl) %>%
+    select(-"pk") %>%
+    group_by(.data[["tbl"]]) %>%
     # Calculate percentage pk completeness for each table group by current/previous
-    dplyr::summarise_all(
+    summarise_all(
       list(~ (length(.) - sum(is.na(.))) / length(.) * 100)
     ) %>%
     tidyr::gather(key = "tbl_name", value = "complete", -"tbl") %>%
     # Order factor levels by frequency so most complete table (pk_tbl) will appear at the top
     # of the plot
-    dplyr::mutate(
+    mutate(
       tbl_name = forcats::fct_infreq(
         .data[["tbl_name"]],
         w = .data[["complete"]]
@@ -38,7 +39,9 @@ plot_summary_complete <- function(pk, pk_col = "patient") {
     ) %>%
     # Plot missing values.
     # Remove legend for tbl_name
-    ggplot(aes(y = tbl_name, x = complete, fill = tbl_name)) +
+    ggplot(aes(y = .data[["tbl_name"]],
+               x = .data[["complete"]],
+               fill = .data[["tbl_name"]])) +
     geom_bar(stat = "identity") +
     theme(axis.title.y = element_blank()) +
     facet_grid(~tbl) +

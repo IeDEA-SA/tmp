@@ -1,3 +1,5 @@
+library(vdiffr)
+
 test_that("plot_summary_complete works", {
   pk <- purrr::map(
     purrr::set_names(c("tblBAS", "tblART", "tblDIS")),
@@ -8,7 +10,7 @@ test_that("plot_summary_complete works", {
   )
 
   expect_doppelganger(
-    title = "Summary completeness plot for tbls tblBAS tblART and tblDIS",
+    title = "tblBAS tblART tblDIS",
     {
       plot_summary_complete(pk)
     }
