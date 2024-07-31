@@ -16,7 +16,7 @@ mod_var_plot_modal_ui <- function(id) {
 
 #' var_plot_modal Server Functions
 #'
-#' @param comb_tbl a reactive list containing two elements:
+#' @param comb_tbl a reactive tbl_df object. The output of [`combine_tbls`:
 #' - `previous`: a tibble of previous data
 #' - `current`: a tibble of current data
 #' to compare.
@@ -32,24 +32,33 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
       req(input$select_plot)
       if (!is.null(input$select_plot)) {
         output <- tagList()
-        for (i in seq_along(plot_meta[[input$select_plot]]$args)) {
-          var_type <- plot_meta[[input$select_plot]]$args[[i]]
-          var_name <- names(plot_meta[[input$select_plot]]$args)[i]
-          id <- sprintf("select_var_%s", var_name)
-          fn <- var_type_fn(var_type)
 
-          output[[i]] <- selectInput(ns(sprintf("select_var_%s", var_name)),
-            paste("Select", var_name, "variable", "to compare"),
-            choices = setdiff(
-              names(comb_tbl())[
-                purrr::map_lgl(comb_tbl(), ~ fn(.x))
-              ],
-              c("tbl", "tbl_name")
-            ),
+        plot_name <- input$select_plot
+        plot_args <- get_plot_arg_names(plot_name)
+        if (length(plot_args) == 0L) {shinyjs::enable(id = "ok")}
+        plot_arg_ids <- create_arg_ids(plot_args)
+
+        for (i in seq_along(plot_args)) {
+          arg_name <- plot_args[i]
+          arg_type <- get_plot_arg_type(plot_name, arg_name)
+          id <- plot_arg_ids[i]
+          arg_choices <- get_arg_choices(arg_type, comb_tbl)
+          validate(
+            need(
+              length(arg_choices) > 0,
+              glue::glue("No valid variable to select for arg {arg_name}.")
+            )
+          )
+
+          output[[i]] <- selectInput(ns(id),
+            paste("Select", arg_name, "variable", "to compare"),
+            choices = arg_choices,
             multiple = FALSE,
             selected = NULL,
             selectize = TRUE
           )
+          # browser()
+          validate_ok_button(input, plot_arg_ids)
         }
         output
       }
@@ -86,7 +95,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
         uiOutput(ns("select_plot_ui")),
         footer = tagList(
           modalButton("Cancel"),
-          actionButton(ns("ok"), "OK")
+          shinyjs::disabled(actionButton(ns("ok"), "OK"))
         )
       )
     }
@@ -135,3 +144,46 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
 
 ## To be copied in the server
 # mod_var_plot_modal_server("var_plot_modal_1")
+
+
+create_arg_ids <- function(args) {
+  purrr::map_chr(
+    args,
+    ~ sprintf(
+      "select_var_%s",
+      .x
+    )
+  )
+}
+
+get_plot_args_values <- function(input, args) {
+  purrr::map_chr(
+    args,
+    ~ input[[sprintf("select_var_%s", .x)]]
+  )
+}
+get_plot_arg_names <- function(plot_name) {
+  names(plot_meta[[plot_name]]$args)
+}
+
+get_plot_arg_type <- function(plot_name, arg_name) {
+  plot_meta[[plot_name]]$args[[arg_name]]
+}
+
+get_arg_choices <- function(arg_type, comb_tbl) {
+  fn <- var_type_fn(arg_type)
+  arg_choices <- setdiff(
+    names(comb_tbl())[purrr::map_lgl(comb_tbl(), ~ fn(.x))],
+    c("tbl", "tbl_name")
+  )
+}
+
+validate_ok_button <- function(input, plot_arg_ids) {
+  plot_args_valid <- purrr::map_lgl(
+    plot_arg_ids,
+    ~ !(is.null(input[[.x]]) || input[[.x]] == "")
+  ) |> all()
+  if (plot_args_valid) {
+    shinyjs::enable(id = "ok")
+  }
+}

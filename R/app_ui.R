@@ -13,6 +13,7 @@ app_ui <- function(request) {
     page_sidebar(
       theme = matcha_theme(),
       waiter::useWaiter(),
+      shinyjs::useShinyjs(),
       title = "MATCHA",
       # Select source for dataset 1 (previous)
       sidebar = sidebar(
