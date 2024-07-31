@@ -8,7 +8,7 @@
 #' event is complete, is displayed as a solid, narrower bar within.
 #' Note that if `t0_tally` is `TRUE`, all records of the second event (`event2`) are counted
 #'  in the year `event1` is recorded for a given record. Counting them in the same year
-#'  (regardless of when `event2` actually occured) allows for the correct display
+#'  (regardless of when `event2` actually occurred) allows for the correct display
 #'  of the proportion of `event1` records for which a record of `event2` also exists.
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param event1 Character string. Name of Date variable containing records of occurrence of the first event.

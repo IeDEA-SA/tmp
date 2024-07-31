@@ -30,6 +30,6 @@ the second event, \code{event2}, which expected to always occur once the first
 event is complete, is displayed as a solid, narrower bar within.
 Note that if \code{t0_tally} is \code{TRUE}, all records of the second event (\code{event2}) are counted
 in the year \code{event1} is recorded for a given record. Counting them in the same year
-(regardless of when \code{event2} actually occured) allows for the correct display
+(regardless of when \code{event2} actually occurred) allows for the correct display
 of the proportion of \code{event1} records for which a record of \code{event2} also exists.
 }

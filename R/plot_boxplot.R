@@ -5,7 +5,7 @@
 #' @param log Logical. If TRUE, log transform x variable with `log(x + 1)`
 #' (to avoid returning `Inf` values) or `log(x + 1 -min(x))` if negative numbers
 #' exist in `x` (to avoid returning `NaN` values).
-#' @param include_violin Logical. Include a violing plot?
+#' @param include_violin Logical. Include a violin plot?
 #' @param include_points Logical. Include points in the plot?
 #' @param varwidth Logical. If TRUE, width of boxplot is proportional to the
 #' square root of the number of observations in each tbl.

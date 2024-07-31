@@ -19,7 +19,7 @@ plot_boxplot(
 
 \item{x}{Character string. Name of variable in table to plot.}
 
-\item{include_violin}{Logical. Include a violing plot?}
+\item{include_violin}{Logical. Include a violin plot?}
 
 \item{include_points}{Logical. Include points in the plot?}
 

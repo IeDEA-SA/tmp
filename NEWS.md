@@ -3,7 +3,7 @@
 * Added boxplot
 * Named and ordered plot types in the drop down menu
 * Added spinners when plotting and downloading the report.
-* Various plot and layout improvements (eg. #88, #87)
+* Various plot and layout improvements (e.g. #88, #87)
 
 # MATCHA 0.6.2
 
