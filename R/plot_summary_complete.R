@@ -3,12 +3,18 @@
 #' @param pk  List containing tibble of primary key information for each table loaded.
 #' Usually stored in userData$pk.
 #' @param pk_col  Column name of primary key in each table. Default is "patient".
+#' @param pk_table_name  Name of primary key table. Default is "tblBAS".
 #' @return Primary key completeness ggplot bar plot.
 #' @importFrom ggplot2 ggplot aes geom_bar labs theme facet_grid element_blank
 #' @importFrom dplyr full_join group_by summarise_all select mutate all_of
 #' @export
-plot_summary_complete <- function(pk, pk_col = "patient") {
+plot_summary_complete <- function(pk, pk_col = "patient", pk_table_name = "tblBAS") {
   # Inner join all tables on pk
+  if (!pk_table_name %in% names(pk)) {
+    caption <- "Primary key table not found in pk list. Completeness not compared to dataset primary keys."
+  } else {
+    caption <- ""
+  }
   purrr::imap(
     pk,
     function(x, idx) {
@@ -46,6 +52,7 @@ plot_summary_complete <- function(pk, pk_col = "patient") {
     theme(axis.title.y = element_blank()) +
     facet_grid(~tbl) +
     labs(title = "Study Subject Data Completeness by table",
-         x = "% Completeness") +
+         x = "% Completeness",
+         caption = caption) +
     theme(legend.position = "none")
 }

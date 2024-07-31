@@ -21,10 +21,10 @@ mod_plot_missing_ui <- function(id, x, y = NULL) {
         sidebar = sidebar(
           title = "Configure plot",
           uiOutput(ns("exclude_ui")),
-          checkboxInput(ns("pk"),
+          shinyjs::disabled(checkboxInput(ns("pk"),
             label = "Compare to primary keys",
             value = FALSE
-          ),
+          )),
           checkboxInput(ns("interactive"),
             label = "Display interactive plot",
             value = TRUE
@@ -48,6 +48,7 @@ mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
     ns <- session$ns
     tbl_name <- get_ns_tbl_name(ns)
     plot_id <- get_ns_plot_id(ns)
+
     output$exclude_ui <- renderUI({
       selectizeInput(ns("exclude"),
         label = "Exclude columns",
@@ -70,6 +71,11 @@ mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
     })
 
     output$plot <- renderUI({
+      pk_null <- is.null(
+        session$userData$pk[[session$userData$pk_tbl_name]]
+        )
+      if (!pk_null) {shinyjs::enable(id = "pk")}
+
       if (input$interactive) {
         plotly::renderPlotly({
           generate_plot() %>%

@@ -10,7 +10,7 @@
        [5] "shiny-html-output"                                                  
        [6] "sidebar-content bslib-gap-spacing"                                  
        [7] "shiny-html-output"                                                  
-       [8] "form-group shiny-input-container"                                   
+       [8] "form-group shiny-input-container shinyjs-disabled"                  
        [9] "checkbox"                                                           
       [10] "form-group shiny-input-container"                                   
       [11] "checkbox"                                                           

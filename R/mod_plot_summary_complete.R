@@ -48,7 +48,8 @@ mod_plot_summary_complete_server <- function(id, comb_tbl = NULL, x = NULL, y = 
       req(!is.null(input$interactive))
       plot_summary_complete(
         pk = session$userData$pk,
-        pk_col = session$userData$pk_col
+        pk_col = session$userData$pk_col,
+        pk_table_name = session$userData$pk_tbl_name
       )
     })
 

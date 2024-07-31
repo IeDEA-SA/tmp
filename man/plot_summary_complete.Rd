@@ -4,13 +4,15 @@
 \alias{plot_summary_complete}
 \title{Study Subject Data Completeness.}
 \usage{
-plot_summary_complete(pk, pk_col = "patient")
+plot_summary_complete(pk, pk_col = "patient", pk_table_name = "tblBAS")
 }
 \arguments{
 \item{pk}{List containing tibble of primary key information for each table loaded.
 Usually stored in userData$pk.}
 
 \item{pk_col}{Column name of primary key in each table. Default is "patient".}
+
+\item{pk_table_name}{Name of primary key table. Default is "tblBAS".}
 }
 \value{
 Primary key completeness ggplot bar plot.
