@@ -14,7 +14,13 @@ matcha_theme <- function() {
     spacer = "0.4rem"
   ) %>%
     # Rule to allow overflow in cards with dropdown menus
-    bs_add_rules(".card-dropdown {overflow: visible !important;}") %>%
-    bs_theme_update(success = "#54C9A4", info = "#25A9A5",
-                    warning = "#DB865C", danger = "#F08787")
+    bs_add_rules(
+      list(
+        ".card-dropdown {overflow: visible !important;}"
+      )
+    ) %>%
+    bs_theme_update(
+      success = "#54C9A4", info = "#25A9A5",
+      warning = "#DB865C", danger = "#F08787"
+    )
 }
