@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_events_by_year.R
 \name{plot_events_by_year}
 \alias{plot_events_by_year}
-\title{Create nested bar plots of counts of two date variables per year.}
+\title{Yearly Event Comparison plot}
 \usage{
 plot_events_by_year(tbl, event1, event2, t0_tally = TRUE, mark_cutoff = TRUE)
 }

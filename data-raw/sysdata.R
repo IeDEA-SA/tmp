@@ -15,13 +15,13 @@ plot_meta <- list(
     args = list(
       x = "numeric"
     ),
-    label = "Value Distribution/Histogram"
+    label = "Value Distribution / Histogram"
   ),
   plot_boxplot = list(
     args = list(
       x = "numeric"
     ),
-    label = "Value Distribution/Boxplot"
+    label = "Value Distribution / Boxplot"
   ),
   plot_stacked_bar = list(
     args = list(

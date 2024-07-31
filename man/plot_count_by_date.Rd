@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_count_by_date.R
 \name{plot_count_by_date}
 \alias{plot_count_by_date}
-\title{Create count by date plot of Date variable}
+\title{Observation Frequency Timeline plot}
 \usage{
 plot_count_by_date(
   tbl,
@@ -32,5 +32,5 @@ Count by date ggplot plot.
 (if \code{interactive} = TRUE).
 }
 \description{
-Create count by date plot of Date variable
+Observation Frequency Timeline plot
 }

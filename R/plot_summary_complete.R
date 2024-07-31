@@ -1,4 +1,4 @@
-#' Create bar plot of completeness of primary key ids across tables.
+#' Study Subject Data Completeness.
 #'
 #' @param pk  List containing tibble of primary key information for each table loaded.
 #' Usually stored in userData$pk.

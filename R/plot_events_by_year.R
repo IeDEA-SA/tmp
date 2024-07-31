@@ -1,4 +1,4 @@
-#' Create nested bar plots of counts of two date variables per year.
+#' Yearly Event Comparison plot
 #'
 #' Primarily used to compare `recart_d` to `enrol_d` but can be used to compare
 #' the relative completion of two related events, completion of which is recorded

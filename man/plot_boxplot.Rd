@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_boxplot.R
 \name{plot_boxplot}
 \alias{plot_boxplot}
-\title{Create boxplot plot of numerical variable}
+\title{Value Distribution / Boxplot plot}
 \usage{
 plot_boxplot(
   tbl,
@@ -36,5 +36,5 @@ exist in \code{x} (to avoid returning \code{NaN} values).}
 Histogram ggplot plot.
 }
 \description{
-Create boxplot plot of numerical variable
+Value Distribution / Boxplot plot
 }

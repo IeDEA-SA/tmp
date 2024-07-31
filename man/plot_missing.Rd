@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_missing.R
 \name{plot_missing}
 \alias{plot_missing}
-\title{Create bar plot of missing value (NA) counts across variables in a tbl}
+\title{Missing Values plot}
 \usage{
 plot_missing(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE)
 }
@@ -21,5 +21,5 @@ primary key values.}
 Missing value ggplot bar plot.
 }
 \description{
-Create bar plot of missing value (NA) counts across variables in a tbl
+Missing Values plot
 }

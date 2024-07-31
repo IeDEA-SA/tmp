@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_summary_complete.R
 \name{plot_summary_complete}
 \alias{plot_summary_complete}
-\title{Create bar plot of completeness of primary key ids across tables.}
+\title{Study Subject Data Completeness.}
 \usage{
 plot_summary_complete(pk, pk_col = "patient")
 }
@@ -16,5 +16,5 @@ Usually stored in userData$pk.}
 Primary key completeness ggplot bar plot.
 }
 \description{
-Create bar plot of completeness of primary key ids across tables.
+Study Subject Data Completeness.
 }

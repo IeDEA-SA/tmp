@@ -1,5 +1,4 @@
-#' Create stacked bar plot of counts or percentages of n most common
-#'  categories.
+#' Categorical Distribution plot
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param x Character string. Name of variable in table to plot.

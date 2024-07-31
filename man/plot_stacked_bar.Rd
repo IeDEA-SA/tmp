@@ -2,8 +2,7 @@
 % Please edit documentation in R/plot_stacked_bar.R
 \name{plot_stacked_bar}
 \alias{plot_stacked_bar}
-\title{Create stacked bar plot of counts or percentages of n most common
-categories.}
+\title{Categorical Distribution plot}
 \usage{
 plot_stacked_bar(tbl, x, position = c("fill", "stack"), n = 8L, na.rm = TRUE)
 }
@@ -24,6 +23,5 @@ categories recoded to "Other".}
 Stacked Bar plot ggplot plot.
 }
 \description{
-Create stacked bar plot of counts or percentages of n most common
-categories.
+Categorical Distribution plot
 }

@@ -1,4 +1,4 @@
-#' Create bar plot of missing value (NA) counts across variables in a tbl
+#' Missing Values plot
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param pk_tbl Tibble of primary key information. Usually stored in

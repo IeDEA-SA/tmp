@@ -1,4 +1,4 @@
-#' Create histogram plot of numerical variable
+#' Value Distribution / Histogram plot
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param x Character string. Name of variable in table to plot.

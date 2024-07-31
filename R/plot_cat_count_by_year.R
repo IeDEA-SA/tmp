@@ -1,4 +1,4 @@
-#' Create faceted bar plots of category counts per year
+#' Categorical Frequency Timeline plot
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param date_col Character string. Name of Date variable associated with `y`
