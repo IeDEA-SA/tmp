@@ -9,7 +9,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_plot_summary_complete_ui <- function(id, x = NULL, y = NULL){
+mod_plot_summary_complete_ui <- function(id, x = NULL, y = NULL) {
   ns <- NS(id)
   tagList(
     card(
@@ -21,14 +21,14 @@ mod_plot_summary_complete_ui <- function(id, x = NULL, y = NULL){
           title = "Configure plot",
           uiOutput(ns("exclude_ui")),
           checkboxInput(ns("interactive"),
-                        label = "Display interactive plot",
-                        value = TRUE
+            label = "Display interactive plot",
+            value = TRUE
           )
         ),
         uiOutput(ns("plot"))
       ),
       actionButton(ns("delete"),
-                   label = "", icon = icon("trash")
+        label = "", icon = icon("trash")
       )
     )
   )
@@ -38,8 +38,8 @@ mod_plot_summary_complete_ui <- function(id, x = NULL, y = NULL){
 #'
 #' @param comb_tbl NULL. Not used in plot_summary_complete but required for consistency.
 #' @noRd
-mod_plot_summary_complete_server <- function(id, comb_tbl = NULL, x = NULL, y = NULL){
-  moduleServer( id, function(input, output, session){
+mod_plot_summary_complete_server <- function(id, comb_tbl = NULL, x = NULL, y = NULL) {
+  moduleServer(id, function(input, output, session) {
     ns <- session$ns
     tbl_name <- get_ns_tbl_name(ns)
     plot_id <- get_ns_plot_id(ns)
@@ -48,7 +48,8 @@ mod_plot_summary_complete_server <- function(id, comb_tbl = NULL, x = NULL, y = 
       req(!is.null(input$interactive))
       plot_summary_complete(
         pk = session$userData$pk,
-        pk_col = session$userData$pk_col
+        pk_col = session$userData$pk_col,
+        pk_table_name = session$userData$pk_tbl_name
       )
     })
 

@@ -21,26 +21,26 @@ mod_plot_stacked_bar_ui <- function(id, x, y = NULL) {
         sidebar = sidebar(
           title = "Configure plot",
           selectInput(ns("position"),
-                      label = "Select bar position",
-                      choices = eval(rlang::fn_fmls(
-                        plot_stacked_bar
-                      )[["position"]]),
-                      selected = "fill"
+            label = "Select bar position",
+            choices = eval(rlang::fn_fmls(
+              plot_stacked_bar
+            )[["position"]]),
+            selected = "fill"
           ),
           checkboxInput(ns("na.rm"),
-                        label = "Remove NA values",
-                        value = TRUE
+            label = "Remove NA values",
+            value = TRUE
           ),
           checkboxInput(ns("interactive"),
-                        label = "Display interactive plot",
-                        value = TRUE
+            label = "Display interactive plot",
+            value = TRUE
           ),
           uiOutput(ns("n_ui"))
         ),
         uiOutput(ns("plot"))
       ),
       actionButton(ns("delete"),
-                   label = "", icon = icon("trash")
+        label = "", icon = icon("trash")
       )
     )
   )

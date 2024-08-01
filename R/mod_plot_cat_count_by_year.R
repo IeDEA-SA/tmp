@@ -22,23 +22,23 @@ mod_plot_cat_count_by_year_ui <- function(id, x, y) {
           title = "Configure plot",
           uiOutput(ns("n_ui")),
           selectInput(ns("scales"),
-                      label = "Select Facet Scales:",
-                      choices = c("fixed", "free_y"),
-                      selected = "fixed"
+            label = "Select Facet Scales:",
+            choices = c("fixed", "free_y"),
+            selected = "fixed"
           ),
           checkboxInput(ns("interactive"),
-                        label = "Display interactive plot",
-                        value = TRUE
+            label = "Display interactive plot",
+            value = TRUE
           ),
           checkboxInput(ns("mark_cutoff"),
-                        label = "Show previous dataset temporal cut-off",
-                        value = TRUE
+            label = "Show previous dataset temporal cut-off",
+            value = TRUE
           )
         ),
         uiOutput(ns("plot"))
       ),
       actionButton(ns("delete"),
-                   label = "", icon = icon("trash")
+        label = "", icon = icon("trash")
       )
     )
   )
@@ -47,7 +47,7 @@ mod_plot_cat_count_by_year_ui <- function(id, x, y) {
 #' plot_cat_count_by_year Server Functions
 #'
 #' @noRd
-mod_plot_cat_count_by_year_server <- function(id, comb_tbl, x, y){
+mod_plot_cat_count_by_year_server <- function(id, comb_tbl, x, y) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     tbl_name <- get_ns_tbl_name(ns)
@@ -74,10 +74,11 @@ mod_plot_cat_count_by_year_server <- function(id, comb_tbl, x, y){
 
     generate_plot <- reactive({
       req(input$n, !is.null(input$mark_cutoff), !is.null(input$interactive))
-      plot_cat_count_by_year(comb_tbl, date_col = x, y = y,
-                         n = input$n,
-                         mark_cutoff = input$mark_cutoff,
-                         scales = input$scales
+      plot_cat_count_by_year(comb_tbl,
+        date_col = x, y = y,
+        n = input$n,
+        mark_cutoff = input$mark_cutoff,
+        scales = input$scales
       )
     })
 

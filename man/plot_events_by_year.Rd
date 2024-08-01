@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_events_by_year.R
 \name{plot_events_by_year}
 \alias{plot_events_by_year}
-\title{Create nested bar plots of counts of two date variables per year.}
+\title{Yearly Event Comparison plot}
 \usage{
 plot_events_by_year(tbl, event1, event2, t0_tally = TRUE, mark_cutoff = TRUE)
 }
@@ -30,6 +30,6 @@ the second event, \code{event2}, which expected to always occur once the first
 event is complete, is displayed as a solid, narrower bar within.
 Note that if \code{t0_tally} is \code{TRUE}, all records of the second event (\code{event2}) are counted
 in the year \code{event1} is recorded for a given record. Counting them in the same year
-(regardless of when \code{event2} actually occured) allows for the correct display
+(regardless of when \code{event2} actually occurred) allows for the correct display
 of the proportion of \code{event1} records for which a record of \code{event2} also exists.
 }

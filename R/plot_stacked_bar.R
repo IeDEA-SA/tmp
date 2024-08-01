@@ -1,5 +1,4 @@
-#' Create stacked bar plot of counts or percentages of n most common
-#'  categories.
+#' Categorical Distribution plot
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param x Character string. Name of variable in table to plot.
@@ -52,8 +51,13 @@ plot_stacked_bar <- function(tbl, x,
   if (position == "fill") {
     p <- p +
       scale_y_continuous(labels = percent) +
-      labs(y = "Percentage",
-           caption = caption)
+      labs(
+        y = "Percentage",
+        caption = caption,
+        title = glue::glue(
+          "Categorical Distribution of {x} across top {n} categories")
+
+      )
   }
   p
 }

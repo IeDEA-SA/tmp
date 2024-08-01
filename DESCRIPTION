@@ -1,6 +1,6 @@
 Package: MATCHA
 Title: Data consistency report
-Version: 0.7.0
+Version: 1.0.0
 Authors@R: 
     person(given = "Anna",
            family = "Krystalli",
@@ -36,6 +36,8 @@ Imports:
     scales,
     shiny (>= 1.7.4),
     shinyFiles,
+    shinyjs,
+    shinyWidgets,
     skimr,
     stringr,
     tibble,
@@ -58,4 +60,4 @@ Suggests:
 Config/testthat/edition: 3
 Language: en-US
 Depends: 
-    R (>= 2.10)
+    R (>= 4.4)

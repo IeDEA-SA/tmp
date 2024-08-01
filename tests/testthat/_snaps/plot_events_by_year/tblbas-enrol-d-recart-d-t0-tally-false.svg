@@ -113,6 +113,6 @@
 <rect x='659.20' y='322.75' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BFC4;' />
 <text x='681.25' y='316.43' style='font-size: 8.80px; font-family: sans;' textLength='33.27px' lengthAdjust='spacingAndGlyphs'>previous</text>
 <text x='681.25' y='333.71' style='font-size: 8.80px; font-family: sans;' textLength='27.39px' lengthAdjust='spacingAndGlyphs'>current</text>
-<text x='37.69' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='222.35px' lengthAdjust='spacingAndGlyphs'>Counts of enrol_d Vs recart_d by year</text>
+<text x='37.69' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='283.25px' lengthAdjust='spacingAndGlyphs'>Yearly Event Comparison of enrol_d Vs recart_d</text>
 </g>
 </svg>

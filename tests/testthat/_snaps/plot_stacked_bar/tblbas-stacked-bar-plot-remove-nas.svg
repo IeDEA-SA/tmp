@@ -58,7 +58,7 @@
 <rect x='687.58' y='285.64' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: #FFFFFF; stroke-linecap: butt; stroke-linejoin: miter; fill: #CD9600;' />
 <text x='709.63' y='279.32' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>2</text>
 <text x='709.63' y='296.60' style='font-size: 8.80px; font-family: sans;' textLength='4.89px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='45.51' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='213.54px' lengthAdjust='spacingAndGlyphs'>tblBAS stacked bar plot remove NAs</text>
+<text x='45.51' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='315.53px' lengthAdjust='spacingAndGlyphs'>Categorical Distribution of sex across top 8 categories</text>
 <text x='675.91' y='568.69' text-anchor='end' style='font-size: 8.80px; font-family: sans;' textLength='159.98px' lengthAdjust='spacingAndGlyphs'>100 rows containing NA values removed.</text>
 </g>
 </svg>

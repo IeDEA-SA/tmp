@@ -23,7 +23,9 @@ get_tbl_tabs_lookup <- function(tbls, existing_tbl_tabs_lookup) {
     left_join(existing_tbl_tabs_lookup, by = c("source_hash", "tbl_name")) %>%
     rowwise() %>%
     mutate(
-      tab_id = if_else(is.na(tab_id), make_uuid(tbl_name), tab_id)
+      tab_id = if_else(is.na(.data[["tab_id"]]),
+                       make_uuid(.data[["tbl_name"]]),
+                       .data[["tab_id"]])
     ) %>%
     ungroup()
 }

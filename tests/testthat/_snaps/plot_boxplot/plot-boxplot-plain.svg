@@ -1827,7 +1827,7 @@
 <polyline points='660.65,293.57 673.61,293.57 ' style='stroke-width: 1.07; stroke: #00BFC4; stroke-linecap: butt; stroke-linejoin: miter;' />
 <text x='681.25' y='279.32' style='font-size: 8.80px; font-family: sans;' textLength='33.27px' lengthAdjust='spacingAndGlyphs'>previous</text>
 <text x='681.25' y='296.60' style='font-size: 8.80px; font-family: sans;' textLength='27.39px' lengthAdjust='spacingAndGlyphs'>current</text>
-<text x='37.69' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='102.75px' lengthAdjust='spacingAndGlyphs'>plot_boxplot plain</text>
+<text x='37.69' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='211.33px' lengthAdjust='spacingAndGlyphs'>Value Distribution / Boxplot of weigh</text>
 <text x='647.53' y='568.69' text-anchor='end' style='font-size: 8.80px; font-family: sans;' textLength='164.87px' lengthAdjust='spacingAndGlyphs'>3330 rows containing NA values removed.</text>
 </g>
 </svg>

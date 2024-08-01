@@ -12,6 +12,10 @@ run_app <- function(onStart = NULL,
                     enableBookmarking = NULL,
                     uiPattern = "/",
                     ...) {
+  # Set app to launch in browser
+  # Source: https://stackoverflow.com/questions/35311318/opening-shiny-app-directly-in-the-default-browser
+  options <- c(options, launch.browser = TRUE)
+
   with_golem_options(
     app = shinyApp(
       ui = app_ui,

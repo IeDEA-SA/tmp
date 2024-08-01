@@ -21,10 +21,10 @@ mod_plot_missing_ui <- function(id, x, y = NULL) {
         sidebar = sidebar(
           title = "Configure plot",
           uiOutput(ns("exclude_ui")),
-          checkboxInput(ns("pk"),
-                        label = "Compare to primary keys",
-                        value = FALSE
-          ),
+          shinyjs::disabled(checkboxInput(ns("pk"),
+            label = "Compare to primary keys",
+            value = FALSE
+          )),
           checkboxInput(ns("interactive"),
             label = "Display interactive plot",
             value = TRUE
@@ -43,11 +43,12 @@ mod_plot_missing_ui <- function(id, x, y = NULL) {
 #'
 #' @param comb_tbl Data frame. Combined data frame with primary key column.
 #' @noRd
-mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
+mod_plot_missing_server <- function(id, comb_tbl, x = NULL, y = NULL) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     tbl_name <- get_ns_tbl_name(ns)
     plot_id <- get_ns_plot_id(ns)
+
     output$exclude_ui <- renderUI({
       selectizeInput(ns("exclude"),
         label = "Exclude columns",
@@ -65,11 +66,15 @@ mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
         tbl = comb_tbl,
         pk_tbl = session$userData$pk[[session$userData$pk_tbl_name]],
         exclude = input$exclude,
-        compare_pk = input$pk
+        compare_pk = input$pk,
+        tbl_pk_col = get_tbl_pk_col(
+          session$userData$pk[[get_tbl_name(comb_tbl)]]
+          )
       )
     })
 
     output$plot <- renderUI({
+      validate_pk_checkbox(session, comb_tbl)
       if (input$interactive) {
         plotly::renderPlotly({
           generate_plot() %>%
@@ -107,3 +112,31 @@ mod_plot_missing_server <- function(id, comb_tbl, x, y = NULL) {
 
 ## To be copied in the server
 # mod_plot_missing_server("plot_missing_1")
+
+validate_pk_checkbox <- function(session, comb_tbl) {
+  pk_tbl_name <- session$userData$pk_tbl_name
+  tbl_name <- get_tbl_name(comb_tbl)
+
+  pk_not_null <- !is.null(session$userData$pk[[pk_tbl_name]])
+  tbl_pk_not_null <- !is.null(session$userData$pk[[tbl_name]])
+  not_pk_tbl <- pk_tbl_name != tbl_name
+  valid_row_bind <- validate_row_bind(
+    session$userData$pk[c(pk_tbl_name, tbl_name)])
+
+  if (all(pk_not_null, tbl_pk_not_null, valid_row_bind, not_pk_tbl)) {
+    shinyjs::enable(id = "pk")
+  }
+}
+
+
+validate_row_bind <- function(pk_list) {
+  check <- pk_list |>
+    purrr::map(~ .x["pk"]) |>
+    purrr::reduce(dplyr::bind_rows) |>
+    try(silent = TRUE)
+  !inherits(check, "try-error")
+}
+
+get_tbl_name <- function(comb_tbl) {
+  unique(comb_tbl[["tbl_name"]])
+}

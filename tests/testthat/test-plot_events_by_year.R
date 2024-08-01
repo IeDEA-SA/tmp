@@ -1,6 +1,5 @@
 test_that("plot_events_by_year works", {
   tblBAS <- load_comb_tbl("tblBAS")
-  tbl <- load_comb_tbl("tblBAS")
   event1 <- "enrol_d"
   event2 <- "recart_d"
 

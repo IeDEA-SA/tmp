@@ -2,19 +2,21 @@
 % Please edit documentation in R/plot_summary_complete.R
 \name{plot_summary_complete}
 \alias{plot_summary_complete}
-\title{Create bar plot of completeness of primary key ids across tables.}
+\title{Study Subject Data Completeness.}
 \usage{
-plot_summary_complete(pk, pk_col = "patient")
+plot_summary_complete(pk, pk_col = "patient", pk_table_name = "tblBAS")
 }
 \arguments{
 \item{pk}{List containing tibble of primary key information for each table loaded.
 Usually stored in userData$pk.}
 
 \item{pk_col}{Column name of primary key in each table. Default is "patient".}
+
+\item{pk_table_name}{Name of primary key table. Default is "tblBAS".}
 }
 \value{
 Primary key completeness ggplot bar plot.
 }
 \description{
-Create bar plot of completeness of primary key ids across tables.
+Study Subject Data Completeness.
 }

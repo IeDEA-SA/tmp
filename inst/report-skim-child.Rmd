@@ -1,0 +1,17 @@
+<div class="child-content">
+
+### Table summaries {.tabset .tabset-fade}
+
+#### Previous
+
+```{r}
+params$skims[[tbl_name]]$previous
+```
+
+#### Current
+
+```{r}
+params$skims[[tbl_name]]$current
+```
+
+</div>

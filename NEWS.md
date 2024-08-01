@@ -1,9 +1,27 @@
+# MATCHA 1.0.0
+
+First stable release of MATCHA for project completion.   
+* Added minimum requirement of R version 4.4.0
+* Check for valid data type variables in data for plot args in plotting dialog box and disable `ok` button if non detected (#48)
+* Added pkgdown documentation website (#70).
+* Added titles to plots (#96)
+* App now opens directly in a new browser window (#98)
+* Added popovers with information on dataset requirements (#99).
+* Added choice to render PDF report (#100).
+* Improved `plot_count_by_date` function to work with few observations and use better axes (#89).
+* Added table `skim::skimr()` summaries (collapsible in HTML) to reports (#9).
+* Improved theme and layout of the app.
+* Added additional module tests
+* Handled missing `tblBAS` and `pk_col`s more formally.
+
+
+
 # MATCHA 0.7.0
 
 * Added boxplot
 * Named and ordered plot types in the drop down menu
 * Added spinners when plotting and downloading the report.
-* Various plot and layout improvements (eg. #88, #87)
+* Various plot and layout improvements (e.g. #88, #87)
 
 # MATCHA 0.6.2
 

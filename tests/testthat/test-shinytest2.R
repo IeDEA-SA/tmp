@@ -1,13 +1,6 @@
 library(shinytest2)
 
-app_driver <- AppDriver
-app_driver$set("public", "run_js_delay", function(js_string, sys_sleep = 1) {
-  self$run_js(js_string)
-  Sys.sleep(sys_sleep)
-}, overwrite = TRUE)
-
-app <- app_driver$new(
-  MATCHA::run_app(),
+app <- init_app_driver(
   variant = FALSE,
   name = "MATCHA_INIT",
   height = 899,
@@ -72,10 +65,7 @@ test_that("{shinytest2} SET_CURRENT_PATH", {
 test_that("{shinytest2} GET_VANILLA_REPORT", {
   report_file <- app$get_download("download-report")
 
-  all_classes <- report_file %>%
-    xml2::read_html() %>%
-    xml2::xml_find_all(".//div") %>%
-    xml2::xml_attr("class")
+  all_classes <- get_html_classes(report_file)
 
   expect_snapshot(all_classes)
 })
@@ -94,7 +84,6 @@ test_that("{shinytest2} READ_TABLES", {
     app$get_value(input = "tbl_tab-tab"),
     "tbl_tab-tblBAS_4oncnyz0"
   )
-
 })
 
 test_that("{shinytest2} GENERATE_PLOT", {
@@ -108,9 +97,7 @@ test_that("{shinytest2} GENERATE_PLOT", {
     output = "tbl_tab-tblBAS_4oncnyz0-plt_gis9nqlo-card-plot"
   ) %>%
     purrr::chuck("html") %>%
-    xml2::read_html() %>%
-    xml2::xml_find_all(".//div") %>%
-    xml2::xml_attr("class")
+    get_html_classes()
 
   expect_snapshot(plot_class)
 })
@@ -118,16 +105,12 @@ test_that("{shinytest2} GENERATE_PLOT", {
 test_that("{shinytest2} GET_PLOT_REPORT", {
   report_file <- app$get_download("download-report")
 
-  all_classes <- report_file %>%
-    xml2::read_html() %>%
-    xml2::xml_find_all(".//div") %>%
-    xml2::xml_attr("class")
+  all_classes <- get_html_classes(report_file)
 
   expect_snapshot(all_classes)
 })
 
 test_that("{shinytest2} SUMMARY_TAB", {
-
   app$run_js_delay("$('#tbl_tab-tab').find('[data-value=tbl_tab-summary]').click()")
   app$run_js_delay("$('#tbl_tab-summary-add_plot').click()")
 
@@ -135,5 +118,4 @@ test_that("{shinytest2} SUMMARY_TAB", {
     input = "tbl_tab-summary-plt_5gijw0g0-select_plot"
   )
   expect_snapshot(selected_summary_plot)
-
 })

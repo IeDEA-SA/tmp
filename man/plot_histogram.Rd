@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_histogram.R
 \name{plot_histogram}
 \alias{plot_histogram}
-\title{Create histogram plot of numerical variable}
+\title{Value Distribution / Histogram plot}
 \usage{
 plot_histogram(
   tbl,
@@ -29,5 +29,5 @@ exist in \code{x} (to avoid returning \code{NaN} values).}
 Histogram ggplot plot.
 }
 \description{
-Create histogram plot of numerical variable
+Value Distribution / Histogram plot
 }

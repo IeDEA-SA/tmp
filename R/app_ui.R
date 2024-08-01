@@ -4,7 +4,6 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @import bslib
-# @importFrom bslib bs_theme font_google page_sidebar sidebar card
 #' @noRd
 app_ui <- function(request) {
   tagList(
@@ -12,20 +11,14 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     # Your application UI logic
     page_sidebar(
-      theme = bs_theme(
-        bg = "white",
-        fg = "#494544",
-        primary = "maroon",
-        base_font = font_google("Montserrat"),
-        version = 5
-      ) %>%
-        # Rule to allow overflow in cards with dropdown menus
-        bs_add_rules(".card-dropdown {overflow: visible !important;}"),
+      theme = matcha_theme(),
       waiter::useWaiter(),
+      shinyjs::useShinyjs(),
       title = "MATCHA",
       # Select source for dataset 1 (previous)
       sidebar = sidebar(
         open = "open", width = 350,
+        h5("Select datasets to compare"),
         mod_access_data_ui("access_prev_dat", dataset = "Previous"),
         # Select source for dataset 2 (current)
         mod_access_data_ui("access_curr_dat", dataset = "Current"),

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_cat_count_by_year.R
 \name{plot_cat_count_by_year}
 \alias{plot_cat_count_by_year}
-\title{Create faceted bar plots of category counts per year}
+\title{Categorical Frequency Timeline plot}
 \usage{
 plot_cat_count_by_year(
   tbl,
@@ -33,5 +33,5 @@ y dimension ("free_y")?}
 Stacked Bar plot ggplot plot.
 }
 \description{
-Create faceted bar plots of category counts per year
+Categorical Frequency Timeline plot
 }

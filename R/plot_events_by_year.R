@@ -1,4 +1,4 @@
-#' Create nested bar plots of counts of two date variables per year.
+#' Yearly Event Comparison plot
 #'
 #' Primarily used to compare `recart_d` to `enrol_d` but can be used to compare
 #' the relative completion of two related events, completion of which is recorded
@@ -8,7 +8,7 @@
 #' event is complete, is displayed as a solid, narrower bar within.
 #' Note that if `t0_tally` is `TRUE`, all records of the second event (`event2`) are counted
 #'  in the year `event1` is recorded for a given record. Counting them in the same year
-#'  (regardless of when `event2` actually occured) allows for the correct display
+#'  (regardless of when `event2` actually occurred) allows for the correct display
 #'  of the proportion of `event1` records for which a record of `event2` also exists.
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param event1 Character string. Name of Date variable containing records of occurrence of the first event.
@@ -19,6 +19,7 @@
 #' @return Nested Dodge Bar plot ggplot plot.
 #' @export
 #' @importFrom dplyr select all_of filter mutate case_when
+#' @importFrom rlang :=
 #' @importFrom ggplot2 ggplot aes geom_bar geom_vline guides guide_axis position_dodge2 labs scale_alpha_manual
 plot_events_by_year <- function(tbl, event1, event2, t0_tally = TRUE,
                                 mark_cutoff = TRUE) {
@@ -92,7 +93,7 @@ plot_events_by_year <- function(tbl, event1, event2, t0_tally = TRUE,
       geom_vline(xintercept = prev_cutoff - 0.5, linetype = "dashed")
   }
   p + labs(
-    title = paste("Counts of", event1, "Vs", event2, "by year"),
+    title = paste("Yearly Event Comparison of", event1, "Vs", event2),
     x = "year"
   )
 }

@@ -1,13 +1,16 @@
+library(vdiffr)
+
 test_that("plot_summary_complete works", {
   pk <- purrr::map(
     purrr::set_names(c("tblBAS", "tblART", "tblDIS")),
     ~ subset_pk_tbl_cols(
       load_comb_tbl(.x),
-      add_pk_col = TRUE)
+      add_pk_col = TRUE
+    )
   )
 
   expect_doppelganger(
-    title = "Summary completeness plot for tbls tblBAS tblART and tblDIS",
+    title = "tblBAS tblART tblDIS",
     {
       plot_summary_complete(pk)
     }
@@ -16,6 +19,19 @@ test_that("plot_summary_complete works", {
   pltly <- plot_summary_complete(pk) %>%
     matcha_ggplotly()
   expect_snapshot(pltly$x$data)
+
+
+  pk_no_tblBAS <- purrr::map(
+    purrr::set_names(c("tblART", "tblDIS")),
+    ~ subset_pk_tbl_cols(
+      load_comb_tbl(.x),
+      add_pk_col = TRUE
+    )
+  )
+  expect_doppelganger(
+    title = "tblART tblDIS",
+    {
+      plot_summary_complete(pk_no_tblBAS)
+    }
+  )
 })
-
-

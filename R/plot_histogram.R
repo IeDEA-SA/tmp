@@ -1,4 +1,4 @@
-#' Create histogram plot of numerical variable
+#' Value Distribution / Histogram plot
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param x Character string. Name of variable in table to plot.
@@ -77,5 +77,8 @@ plot_histogram <- function(tbl, x,
   if (log) {
     p <- p + xlab(x_label)
   }
-  p + labs(caption = caption)
+  p + labs(
+    caption = caption,
+    title = glue::glue("Value Distribution / Histogram of {x}")
+  )
 }

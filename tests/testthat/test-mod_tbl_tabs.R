@@ -12,7 +12,8 @@ test_that("Invalilid table pairs are captured correctly", {
     mod_tbl_tabs_server,
     args = list(
       tbls = tbls_invalid
-    ), {
+    ),
+    {
       pair_checks <- checks()$tbl_pair1
       expect_false(pair_checks$valid)
       expect_false(pair_checks$check_names$valid)

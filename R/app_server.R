@@ -8,6 +8,7 @@
 app_server <- function(input, output, session) {
   options(shiny.maxRequestSize = 100 * 1024^2)
   session$userData$plots <- list()
+  session$userData$skims <- list()
   session$userData$add_plot_observers <- list()
   session$userData$tab_list <- tibble(
     source_hash = character(),

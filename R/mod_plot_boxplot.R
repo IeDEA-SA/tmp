@@ -63,7 +63,6 @@ mod_plot_boxplot_server <- function(id, comb_tbl, x, y = NULL) {
     generate_plot <- reactive({
       req(
         !is.null(input$include_violin),
-        !is.null(input$include_violin),
         !is.null(input$interactive),
         !is.null(input$varwidth),
         !is.null(input$show_outliers),

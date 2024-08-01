@@ -1,11 +1,11 @@
-#' Create boxplot plot of numerical variable
+#' Value Distribution / Boxplot plot
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param x Character string. Name of variable in table to plot.
 #' @param log Logical. If TRUE, log transform x variable with `log(x + 1)`
 #' (to avoid returning `Inf` values) or `log(x + 1 -min(x))` if negative numbers
 #' exist in `x` (to avoid returning `NaN` values).
-#' @param include_violin Logical. Include a violing plot?
+#' @param include_violin Logical. Include a violin plot?
 #' @param include_points Logical. Include points in the plot?
 #' @param varwidth Logical. If TRUE, width of boxplot is proportional to the
 #' square root of the number of observations in each tbl.
@@ -80,6 +80,9 @@ plot_boxplot <- function(tbl, x,
   if (log) {
     p <- p + ylab(y_label)
   }
-  #attributes(p) <- list(type = "boxplot", remove_outliers = !show_outliers)
-  p + labs(caption = caption)
+  # attributes(p) <- list(type = "boxplot", remove_outliers = !show_outliers)
+  p + labs(
+    caption = caption,
+    title = glue::glue("Value Distribution / Boxplot of {x}")
+  )
 }

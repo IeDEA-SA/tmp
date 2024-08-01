@@ -116,7 +116,7 @@
 <rect x='659.20' y='285.64' width='15.86' height='15.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #00BFC4;' />
 <text x='681.25' y='279.32' style='font-size: 8.80px; font-family: sans;' textLength='33.27px' lengthAdjust='spacingAndGlyphs'>previous</text>
 <text x='681.25' y='296.60' style='font-size: 8.80px; font-family: sans;' textLength='27.39px' lengthAdjust='spacingAndGlyphs'>current</text>
-<text x='37.69' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='189.29px' lengthAdjust='spacingAndGlyphs'>tbl_tblART art_rs NAs histogram</text>
+<text x='37.69' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='226.71px' lengthAdjust='spacingAndGlyphs'>Value Distribution / Histogram of art_rs</text>
 <text x='647.53' y='568.69' text-anchor='end' style='font-size: 8.80px; font-family: sans;' textLength='169.77px' lengthAdjust='spacingAndGlyphs'>44942 rows containing NA values removed.</text>
 </g>
 </svg>

@@ -1,4 +1,4 @@
-#' Create bar plot of missing value (NA) counts across variables in a tbl
+#' Missing Values plot
 #'
 #' @param tbl Combined table of previous and current data. Output of [combine_tbls()].
 #' @param pk_tbl Tibble of primary key information. Usually stored in
@@ -6,14 +6,16 @@
 #' @param exclude Columns to exclude from plot.
 #' @param compare_pk Logical. Whether to compare table missing values to overall
 #' primary key values.
+#' @param tbl_pk_col Character string. Name of primary key column in `tbl`.
 #' @importFrom ggplot2 ggplot aes geom_bar labs scale_x_continuous
 #' @return Missing value ggplot bar plot.
 #' @export
-plot_missing <- function(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE) {
+plot_missing <- function(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE,
+                         tbl_pk_col = "patient") {
   exclude <- c("tbl_name", exclude)
   x_lab <- "% missing"
   if (compare_pk) {
-    tbl <- join_pk(tbl, pk_tbl)
+    tbl <- join_pk(tbl, pk_tbl, pk_col = tbl_pk_col)
     x_lab <- paste(x_lab, "(compared to primary key)")
   }
 

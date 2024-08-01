@@ -1,26 +1,8 @@
 library(vdiffr)
 
 test_that("plot_boxplot works", {
-  tblname <- "tblVIS"
-  ext <- "csv"
-  test_dir <- "csv"
-  file <- fs::path(tblname, ext = ext)
-  set.seed(1)
-
-  tbl <- combine_tbls(
-    previous = suppressWarnings(
-      read_file(
-        system.file("test-data", test_dir, "01_previous", file, package = "MATCHA")
-      )
-    ),
-    current = suppressWarnings(
-      read_file(
-        system.file("test-data", test_dir, "02_current", file, package = "MATCHA")
-      )
-    ),
-    tbl_name = tblname
-  )
-
+  set.seed(123)
+  tbl <- load_comb_tbl(tblname = "tblVIS", ext = "csv", test_dir = "csv")
   tbl[tbl == 999] <- NA
 
   expect_doppelganger(

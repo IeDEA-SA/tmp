@@ -334,7 +334,7 @@
       
       $title
       $title$text
-      [1] "Counts of enrol_d Vs recart_d by year"
+      [1] "Yearly Event Comparison of enrol_d Vs recart_d"
       
       $title$font
       $title$font$color

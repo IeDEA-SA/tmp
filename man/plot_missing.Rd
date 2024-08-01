@@ -2,9 +2,15 @@
 % Please edit documentation in R/plot_missing.R
 \name{plot_missing}
 \alias{plot_missing}
-\title{Create bar plot of missing value (NA) counts across variables in a tbl}
+\title{Missing Values plot}
 \usage{
-plot_missing(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE)
+plot_missing(
+  tbl,
+  pk_tbl,
+  exclude = NULL,
+  compare_pk = FALSE,
+  tbl_pk_col = "patient"
+)
 }
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
@@ -16,10 +22,12 @@ plot_missing(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE)
 
 \item{compare_pk}{Logical. Whether to compare table missing values to overall
 primary key values.}
+
+\item{tbl_pk_col}{Character string. Name of primary key column in \code{tbl}.}
 }
 \value{
 Missing value ggplot bar plot.
 }
 \description{
-Create bar plot of missing value (NA) counts across variables in a tbl
+Missing Values plot
 }

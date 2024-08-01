@@ -1,10 +1,10 @@
 # Subsets primary key (pk) column pk_col and tbl column from a table (or equivalent).
 subset_pk_tbl_cols <- function(tbl, pk_col = "patient", add_pk_col = FALSE,
                                rename_pk_col = FALSE, session_pk_col = "patient") {
-  out <- tbl[, c(pk_col, "tbl")]  %>%
+  out <- tbl[, c(pk_col, "tbl")] %>%
     dplyr::distinct()
   if (add_pk_col) {
-   out <- dplyr::mutate(out, pk = .data[[pk_col]])
+    out <- dplyr::mutate(out, pk = .data[[pk_col]])
   }
   if (rename_pk_col) {
     names(out)[names(out) == pk_col] <- session_pk_col
@@ -21,7 +21,9 @@ join_pk <- function(tbl, pk_tbl, pk_col = "patient", keep_pk = FALSE) {
 
   join_cols <- c("pk", "tbl") %>%
     purrr::set_names()
-  rm_cols <- sprintf("%s_id", pk_col)
+  rm_cols <- c(sprintf("%s_id", pk_col),
+               setdiff(get_tbl_pk_col(pk_tbl), names(tbl))
+               )
   if (!keep_pk) {
     rm_cols <- c("pk", rm_cols)
   }
@@ -36,7 +38,6 @@ join_pk <- function(tbl, pk_tbl, pk_col = "patient", keep_pk = FALSE) {
 
 select_pk_col <- function(tbl, colnames,
                           selected = c("patient", "mother_id"), add = NULL) {
-
   rlang::check_exclusive(tbl, colnames)
   if (rlang::is_missing(colnames)) {
     colnames <- names(tbl)
@@ -55,4 +56,8 @@ select_pk_col <- function(tbl, colnames,
   } else {
     return(pk_col)
   }
+}
+
+get_tbl_pk_col <- function(pk_tbl) {
+  names(pk_tbl)[!names(pk_tbl) %in% c("tbl", "pk")]
 }
