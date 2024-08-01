@@ -49,4 +49,3 @@ res <- purrr::imap(
 )
 cat(unlist(res), sep = "\n")
 ```
-

@@ -15,7 +15,6 @@ skim_child <- system.file("report-skim-child.Rmd", package = "MATCHA")
 show_skim <- tbl_name != "summary"
 ```
 
-
 <details>
 <summary>Click for Table Summary</summary>
 
@@ -24,6 +23,7 @@ show_skim <- tbl_name != "summary"
 ```
 
 </details>
+
 
 ### Plots
 
@@ -41,5 +41,3 @@ cat(unlist(res), sep = "\n")
 ```
 
 ***
-
-</div>
