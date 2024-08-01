@@ -15,6 +15,12 @@ consistency reports.
 
 ## Installation
 
+> **MATCHA requires R version 4.4.0 or higher.**
+>
+> On Windows you may also need to install the corresponding version of
+> [Rtools](https://cran.r-project.org/bin/windows/Rtools/) to install
+> the package from GitHub.
+
 You can install the development version of MATCHA from
 [GitHub](https://github.com/) with:
 

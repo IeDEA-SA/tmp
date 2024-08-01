@@ -24,6 +24,10 @@ The goal of MATCHA is to provide an interface for producing data consistency rep
 
 ## Installation
 
+> **MATCHA requires R version 4.4.0 or higher.**
+>
+On Windows you may also need to install the corresponding version of [Rtools](https://cran.r-project.org/bin/windows/Rtools/) to install the package from GitHub.
+
 You can install the development version of MATCHA from [GitHub](https://github.com/) with:
 
 ``` r
@@ -36,6 +40,7 @@ Alternatively, you can use package `pak`
 # install.packages("pak")
 pak::pak("IeDEA-SA/MATCHA")
 ```
+
 
 > NOTE: Because the repository is currently private, **installation will require that you have created a GitHub Personal Authorisation Token (PAT)** and made it available to the session (this is necessary for interacting through https with private repositories). 
 >
