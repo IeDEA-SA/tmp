@@ -28,12 +28,13 @@ test_that("mod_plot_missing_server works", {
   mock_session$userData$pk_tbl_name <- "tblBAS"
   mock_session$userData$pk_col <- "patient"
   mock_session$userData$pk[[mock_session$userData$pk_tbl_name]] <- pk_tbl
+  mock_session$userData$pk[["tblART"]] <- subset_pk_tbl_cols(tbl, add_pk_col = TRUE)
 
   testServer(
     mod_plot_missing_server,
     args = list(
       comb_tbl = tbl,
-      x = "deaf_var",
+      x = NULL,
       y = NULL
     ),
     session = mock_session,
@@ -49,7 +50,6 @@ test_that("mod_plot_missing_server works", {
         exclude = NULL,
         pk = TRUE
       )
-
       # generates a plot
       missing_data_plot <- generate_plot()
 
@@ -67,7 +67,7 @@ test_that("mod_plot_missing_server works", {
 
       expect_equal(
         session_plot_list$x,
-        "deaf_var"
+        NULL
       )
 
       expect_s3_class(
@@ -87,6 +87,17 @@ test_that("mod_plot_missing_server works", {
         delete = 1
       )
       expect_error(session$userData$plots[[1]][[1]], regexp = "subscript out of bounds")
+
+      # updating inputs
+      session$setInputs(
+        interactive = TRUE,
+        exclude = NULL,
+        pk = FALSE
+      )
+      expect_doppelganger(
+        title = "missing_data_plot no pk",
+        session$userData$plots[[1]][[1]]$plot
+      )
     }
   )
 })
