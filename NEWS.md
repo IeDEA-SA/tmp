@@ -12,6 +12,8 @@ First stable release of MATCHA for project completion.
 * Added table `skim::skimr()` summaries (collapsible in HTML) to reports (#9).
 * Improved theme and layout of the app.
 * Added additional module tests
+* Handled missing `tblBAS` and `pk_col`s more formally.
+
 
 
 # MATCHA 0.7.0

@@ -42,7 +42,7 @@ mod_pk_column_server <- function(id, comb_tbl, tbl_name) {
         log_debug("pk col for tbl {tbl_name} not detected.")
         NULL
       } else {
-        log_debug("pk col for tbl {tbl_name} assigned.")
+        log_debug("pk col {input$pk_col} assigned for tbl {tbl_name}.")
         subset_pk_tbl_cols(comb_tbl(),
           pk_col = input$pk_col,
           add_pk_col = TRUE,
