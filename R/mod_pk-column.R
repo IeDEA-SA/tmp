@@ -46,7 +46,7 @@ mod_pk_column_server <- function(id, comb_tbl, tbl_name) {
         subset_pk_tbl_cols(comb_tbl(),
           pk_col = input$pk_col,
           add_pk_col = TRUE,
-          rename_pk_col = TRUE,
+          rename_pk_col = FALSE,
           session_pk_col = session$userData$pk_col
         )
       }

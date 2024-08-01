@@ -26,6 +26,7 @@ test_that("mod_plot_missing_server works", {
   # mock session with userData
   mock_session <- MockShinySession$new()
   mock_session$userData$pk_tbl_name <- "tblBAS"
+  mock_session$userData$pk_col <- "patient"
   mock_session$userData$pk[[mock_session$userData$pk_tbl_name]] <- pk_tbl
 
   testServer(

@@ -4,7 +4,13 @@
 \alias{plot_missing}
 \title{Missing Values plot}
 \usage{
-plot_missing(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE)
+plot_missing(
+  tbl,
+  pk_tbl,
+  exclude = NULL,
+  compare_pk = FALSE,
+  tbl_pk_col = "patient"
+)
 }
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}

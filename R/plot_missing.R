@@ -9,11 +9,12 @@
 #' @importFrom ggplot2 ggplot aes geom_bar labs scale_x_continuous
 #' @return Missing value ggplot bar plot.
 #' @export
-plot_missing <- function(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE) {
+plot_missing <- function(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE,
+                         tbl_pk_col = "patient") {
   exclude <- c("tbl_name", exclude)
   x_lab <- "% missing"
   if (compare_pk) {
-    tbl <- join_pk(tbl, pk_tbl)
+    tbl <- join_pk(tbl, pk_tbl, pk_col = tbl_pk_col)
     x_lab <- paste(x_lab, "(compared to primary key)")
   }
 

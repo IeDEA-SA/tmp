@@ -15,10 +15,11 @@ plot_summary_complete <- function(pk, pk_col = "patient", pk_table_name = "tblBA
   } else {
     caption <- ""
   }
+  p <- try({
   purrr::imap(
     pk,
     function(x, idx) {
-      names(x)[names(x) == pk_col] <- idx
+      names(x)[names(x) == get_tbl_pk_col(x)] <- idx
       return(x)
     }
   ) %>%
@@ -55,4 +56,10 @@ plot_summary_complete <- function(pk, pk_col = "patient", pk_table_name = "tblBA
          x = "% Completeness",
          caption = caption) +
     theme(legend.position = "none")
+  })
+  if (inherits(p, "try-error")) {
+    return(NULL)
+  } else {
+    return(p)
+  }
 }

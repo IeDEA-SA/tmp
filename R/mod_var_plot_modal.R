@@ -35,8 +35,23 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
 
         plot_name <- input$select_plot
         plot_args <- get_plot_arg_names(plot_name)
-        if (length(plot_args) == 0L) {
+        if (length(plot_args) == 0L && !is_summary_tab(ns)) {
           shinyjs::enable(id = "ok")
+        }
+        if (is_summary_tab(ns)) {
+          summary_valid <- validate_summary(session)
+          if (summary_valid) {
+            shinyjs::enable(id = "ok")
+          }
+          validate(
+            need(
+              summary_valid,
+              glue::glue(
+                "`pk_col` values across tables cannot be merged.
+                Please check `pk_col` columns are valid and can be merged."
+              )
+            )
+          )
         }
         plot_arg_ids <- create_arg_ids(plot_args)
 
@@ -62,7 +77,6 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
             selected = NULL,
             selectize = TRUE
           )
-          # browser()
           validate_ok_button(input, plot_arg_ids)
         }
         output
@@ -76,7 +90,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
         plot_ui_mod(
           ns("card"),
           x = input$select_var_x,
-          y = input$select_var_y
+          y = input$select_plot
         )
       }
     }) %>%
@@ -191,4 +205,13 @@ validate_ok_button <- function(input, plot_arg_ids) {
   if (plot_args_valid) {
     shinyjs::enable(id = "ok")
   }
+}
+
+validate_summary <- function(session) {
+  #browser()
+  check <- session$userData$pk |>
+    purrr::map(~ head(.x["pk"])) |>
+    purrr::reduce(dplyr::bind_rows) |>
+    try(silent = TRUE)
+  !inherits(check, "try-error")
 }

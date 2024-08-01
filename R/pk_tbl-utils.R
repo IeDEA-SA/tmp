@@ -21,7 +21,7 @@ join_pk <- function(tbl, pk_tbl, pk_col = "patient", keep_pk = FALSE) {
 
   join_cols <- c("pk", "tbl") %>%
     purrr::set_names()
-  rm_cols <- sprintf("%s_id", pk_col)
+  rm_cols <- c(sprintf("%s_id", pk_col), get_tbl_pk_col(pk_tbl))
   if (!keep_pk) {
     rm_cols <- c("pk", rm_cols)
   }
@@ -54,4 +54,8 @@ select_pk_col <- function(tbl, colnames,
   } else {
     return(pk_col)
   }
+}
+
+get_tbl_pk_col <- function(pk_tbl) {
+  names(pk_tbl)[!names(pk_tbl) %in% c("tbl", "pk")]
 }
