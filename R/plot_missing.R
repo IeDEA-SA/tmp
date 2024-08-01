@@ -6,6 +6,7 @@
 #' @param exclude Columns to exclude from plot.
 #' @param compare_pk Logical. Whether to compare table missing values to overall
 #' primary key values.
+#' @param tbl_pk_col Character string. Name of primary key column in `tbl`.
 #' @importFrom ggplot2 ggplot aes geom_bar labs scale_x_continuous
 #' @return Missing value ggplot bar plot.
 #' @export

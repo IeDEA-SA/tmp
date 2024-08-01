@@ -22,6 +22,8 @@ plot_missing(
 
 \item{compare_pk}{Logical. Whether to compare table missing values to overall
 primary key values.}
+
+\item{tbl_pk_col}{Character string. Name of primary key column in \code{tbl}.}
 }
 \value{
 Missing value ggplot bar plot.
