@@ -208,7 +208,6 @@ validate_ok_button <- function(input, plot_arg_ids) {
 }
 
 validate_summary <- function(session) {
-  #browser()
   check <- session$userData$pk |>
     purrr::map(~ head(.x["pk"])) |>
     purrr::reduce(dplyr::bind_rows) |>
