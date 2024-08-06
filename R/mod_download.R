@@ -42,7 +42,7 @@ mod_download_server <- function(id) {
 
     output$report <- downloadHandler(
       filename = function() {
-        glue::glue("report_{Sys.Date()}.{input$format}")
+        glue::glue("{Sys.Date()}_consistency_report.{input$format}")
       },
       content = function(file) {
         w <- add_waiter(msg = "Generating report...")
