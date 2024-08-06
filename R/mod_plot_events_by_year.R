@@ -11,7 +11,7 @@ mod_plot_events_by_year_ui <- function(id, x, y) {
   ns <- NS(id)
   tagList(
     card(
-      card_header(paste(x, "/", y)),
+      card_header(paste(y, "/", x)),
       full_screen = TRUE,
       layout_sidebar(
         fillable = TRUE,

@@ -91,7 +91,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
         plot_ui_mod(
           ns("card"),
           x = input$select_var_x,
-          y = input$select_plot
+          y = input$select_var_y
         )
       }
     }) %>%
