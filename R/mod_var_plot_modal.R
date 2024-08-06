@@ -56,6 +56,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
         plot_arg_ids <- create_arg_ids(plot_args)
 
         for (i in seq_along(plot_args)) {
+
           arg_name <- plot_args[i]
           arg_type <- get_plot_arg_type(plot_name, arg_name)
           id <- plot_arg_ids[i]
@@ -69,6 +70,7 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
               )
             )
           )
+          shinyjs::enable(id = "ok")
 
           output[[i]] <- selectInput(ns(id),
             paste("Select", arg_name, "variable", "to compare"),
@@ -77,7 +79,6 @@ mod_var_plot_modal_server <- function(id, comb_tbl) {
             selected = NULL,
             selectize = TRUE
           )
-          validate_ok_button(input, plot_arg_ids)
         }
         output
       }
@@ -195,16 +196,6 @@ get_arg_choices <- function(arg_type, comb_tbl) {
     names(comb_tbl())[purrr::map_lgl(comb_tbl(), ~ fn(.x))],
     c("tbl", "tbl_name")
   )
-}
-
-validate_ok_button <- function(input, plot_arg_ids) {
-  plot_args_valid <- purrr::map_lgl(
-    plot_arg_ids,
-    ~ !(is.null(input[[.x]]) || input[[.x]] == "")
-  ) |> all()
-  if (plot_args_valid) {
-    shinyjs::enable(id = "ok")
-  }
 }
 
 validate_summary <- function(session) {
