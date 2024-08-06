@@ -3,6 +3,7 @@
 * Fix bug related to validation of ok button (#108)
 * Fix card headers in plot modules with two vars
 * Change name in default report file name
+* Named tables in skimr output
 
 # MATCHA 1.0.0
 

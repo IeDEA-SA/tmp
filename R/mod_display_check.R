@@ -119,8 +119,8 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
 
     skim_tables <- reactive({
       skim_tables <- list(
-        current = skimr::skim(schema_tbl()$current),
-        previous = skimr::skim(schema_tbl()$previous)
+        current = skimr::skim(schema_tbl()$current, .data_name = "current"),
+        previous = skimr::skim(schema_tbl()$previous, .data_name = "previous")
       )
       skim_tables
     })
