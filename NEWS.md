@@ -1,3 +1,9 @@
+# MATCHA 1.0.1
+
+* Fix bug related to validation of ok button (#108)
+* Fix card headers in plot modules with two vars
+* Change name in default report file name
+
 # MATCHA 1.0.0
 
 First stable release of MATCHA for project completion.   
