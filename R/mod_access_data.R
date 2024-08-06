@@ -42,10 +42,11 @@ mod_access_data_server <- function(id) {
       "home" = fs::path_home(),
       "." = getwd()
     )
+    file_types <- c("csv", "rds", "dta", "sav", "por", "sas7bdat", "sas7bcat")
 
     shinyDirChoose(input, "folder",
       roots = roots,
-      filetypes = c("", "csv", "rds", "dta", "sav", "por", "sas7bdat", "sas7bcat"),
+      filetypes = c("", file_types),
       allowDirCreate = FALSE
     )
 
@@ -57,7 +58,6 @@ mod_access_data_server <- function(id) {
     reactive({
       folder <- input$folder
       req(folder)
-
       file_paths <- fs::dir_ls(parseDirPath(roots, folder))
       names(file_paths) <- fs::path_file(file_paths) %>%
         fs::path_ext_remove()

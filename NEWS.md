@@ -1,3 +1,7 @@
+# MATCHA 1.0.2
+
+* Support capitalised extensions. Warn of and ignore invalid extensions (#109).
+
 # MATCHA 1.0.1
 
 * Fix bug related to validation of ok button (#108)
