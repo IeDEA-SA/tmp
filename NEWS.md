@@ -1,3 +1,7 @@
+# MATCHA 1.0.3
+
+* Use single notification for message regarding table being read.
+
 # MATCHA 1.0.2
 
 * Support capitalised extensions. Warn of and ignore invalid extensions (#109).

@@ -43,6 +43,7 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
       req(selected_tables())
       log_debug("reading data from disk")
       n <- length(selected_tables())
+
       withProgress(message = "Reading data from disk...", {
         purrr::map(
           .x = purrr::set_names(selected_tables()),
@@ -66,8 +67,9 @@ mod_read_tbls_server <- function(id, selected_tables, previous_dat, current_dat)
                 current = read_file(current_file_path)
               )
               showNotification(
-                glue::glue("Table {.x} read from disk. Checking...."),
+                markdown(glue::glue("Table **{.x}** read from disk. Checking....")),
                 duration = 2,
+                id = "tbl-read",
                 type = "message"
               )
             }
