@@ -3,9 +3,11 @@ CMD
 IeDEA
 Lifecycle
 ORCID
+Rtools
 Tibble
 args
 bslib
+capitalised
 ggplot
 ggplotly
 golem
@@ -13,8 +15,10 @@ https
 pkgdown
 plotly
 recoded
+skimr
 summarise
 tbl
+tblBAS
 tbls
 tibble
 tooltip
