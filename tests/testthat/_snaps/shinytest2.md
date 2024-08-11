@@ -46,7 +46,7 @@
        [9] "section level4"                                 
       [10] "section level4"                                 
       [11] "section level3"                                 
-      [12] "section level3"                                 
+      [12] "section level4"                                 
       [13] "plotly html-widget html-fill-item"              
 
 # {shinytest2} SUMMARY_TAB
