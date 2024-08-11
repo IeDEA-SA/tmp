@@ -24,3 +24,24 @@ matcha_theme <- function() {
       warning = "#DB865C", danger = "#F08787"
     )
 }
+
+#' MATCHA reports bslib theme
+#'
+#' @return the MATCHA bslib theme adapted for reports
+#' @export
+matcha_report_theme <- function() {
+  matcha_theme() %>%
+    bs_theme_update(
+      spacer = "0.6rem") %>%
+    # Make each heading a fraction smaller than default for use in report. Each
+    # heading should still be progressively smaller than the previous one.
+    bs_add_variables(
+      "h1-font-size" = "1.75rem",
+      "h2-font-size" = "1.5rem",
+      "h3-font-size" = "1.25rem",
+      "h4-font-size" = "1.15rem",
+      "h5-font-size" = "1.05rem",
+      "h6-font-size" = "1rem"
+    )
+
+}
