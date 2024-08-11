@@ -5,10 +5,10 @@ date: '`r format(Sys.Date(), "%B %d, %Y")`'
 output:
   html_document:
     toc: true
-    toc_depth: 2
+    toc_depth: 3
     toc_float: true
     df_print: paged
-    theme: !expr MATCHA::matcha_theme()
+    theme: !expr MATCHA::matcha_report_theme()
   pdf_document:
     toc: true
     toc_depth: 2

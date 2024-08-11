@@ -30,7 +30,12 @@ plot_missing <- function(tbl, pk_tbl, exclude = NULL, compare_pk = FALSE,
         fill = .data[["tbl"]]
       )
     ) +
-    geom_bar(stat = "identity", position = "dodge") +
+    suppressWarnings(
+      geom_bar(
+        stat = "identity", position = "dodge",
+        aes(text = glue::glue("variable: {.data[['variable']]}"))
+      )
+    ) +
     scale_x_continuous(limits = c(0, 100)) +
     labs(
       title = "Missingness across Table",

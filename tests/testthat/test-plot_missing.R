@@ -16,6 +16,11 @@ test_that("plot_missing works", {
       plot_missing(tbl, pk_tbl)
     }
   )
+  pltly <- plot_missing(tbl, pk_tbl) %>%
+    matcha_ggplotly()
+  # check ggplotly hover text correct
+  expect_snapshot(pltly$x$data[[1]]$text)
+  expect_snapshot(pltly$x$data[[2]]$text)
 
   expect_doppelganger(
     title = "tbl_tblART missing plot + pk",

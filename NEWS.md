@@ -1,3 +1,11 @@
+# MATCHA 1.0.4
+
+* Fix bug in missingness plot hover text (#111)
+* Introduce report specific theme and make report heading sizes smaller.
+* Change app fonts to `Montserrat` and `Hind`.
+* Change TOC depth to 3 in HTML report.
+* Add deploy script to `dev/` directory.
+
 # MATCHA 1.0.3
 
 * Use single notification for message regarding table being read.

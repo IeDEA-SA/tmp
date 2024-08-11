@@ -2,6 +2,7 @@
 
 export(combine_tbls)
 export(matcha_ggplotly)
+export(matcha_report_theme)
 export(matcha_theme)
 export(plot_boxplot)
 export(plot_cat_count_by_year)
