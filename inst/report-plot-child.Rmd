@@ -7,7 +7,7 @@ if (x$x == "summary") {
 ```
 
 
-### `r plot_title`
+#### `r plot_title`
 
 ```{r, out.width="100%"}
 if (x$interactive && knitr::is_html_output()) {
