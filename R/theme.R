@@ -8,8 +8,8 @@ matcha_theme <- function() {
     fg = "#494544",
     primary = "maroon",
     secondary = "#494544",
-    base_font = font_google("Poppins", wght = c(400, 700)),
-    heading_font = font_google("Alfa Slab One"),
+    base_font = font_google("Hind", wght = c(400, 700)),
+    heading_font = font_google("Montserrat", wght = c(700)),
     version = 5,
     spacer = "0.4rem"
   ) %>%
