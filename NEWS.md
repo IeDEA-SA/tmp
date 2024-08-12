@@ -1,3 +1,7 @@
+# MATCHA 1.0.5
+
+* Make current working directory the default directory in the file chooser dialog (#106).
+
 # MATCHA 1.0.4
 
 * Fix bug in missingness plot hover text (#111)

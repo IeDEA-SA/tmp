@@ -38,9 +38,9 @@ mod_access_data_server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     roots <- c(
-      demo_data = system.file("test-data", package = "MATCHA"),
+      "." = getwd(),
       "home" = fs::path_home(),
-      "." = getwd()
+      demo_data = system.file("test-data", package = "MATCHA")
     )
     file_types <- c("csv", "rds", "dta", "sav", "por", "sas7bdat", "sas7bcat")
 
