@@ -58,6 +58,7 @@ Suggests:
     withr,
     xml2
 Config/testthat/edition: 3
+Config/runiverse/noindex: true
 Language: en-US
 Depends: 
     R (>= 4.4)
