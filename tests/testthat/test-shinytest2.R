@@ -50,6 +50,18 @@ test_that("{shinytest2} SET_PREVIOUS_PATH", {
 test_that("{shinytest2} SET_CURRENT_PATH", {
   app$run_js_delay("$('#access_curr_dat-folder').click()")
   app$run_js_delay("
+  var dropdown = document.querySelector('.sF-breadcrumps');
+  var options = dropdown.options;
+  for (var i = 0; i < options.length; i++) {
+    if (options[i].text === 'demo_data') {
+      dropdown.selectedIndex = i;
+      dropdown.dispatchEvent(new Event('change'));
+      break;
+    }
+  }
+")
+
+  app$run_js_delay("
     $('.sF-content')
       .find('.sF-expander')
       .first()
