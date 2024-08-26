@@ -19,7 +19,7 @@ get_shared_nms_rct <- function(previous, current, pk_tbl_name) {
     if (length(shared) == 0L) {
       showNotification(
         markdown("**No shared tables detected!** No data to compare."),
-        duration = NULL,
+        duration = 5,
         type = "error"
       )
     } else {
