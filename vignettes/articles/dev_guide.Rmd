@@ -1,0 +1,42 @@
+---
+title: "dev_guide"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MATCHA)
+```
+
+## Golem & Modules
+
+## App structure
+
+- `run_app.R`: Contains the function used to run the Shiny application. It is a wrapper around `shiny::shinyApp()`.
+- `app_ui.R`: The UI for the app.
+- `app_server.R`: The server logic for the app.
+
+## Running MATCHA in debug mode
+
+## Tests
+
+## Documentation
+
+## MATCHA Theme
+
+The `matcha_theme()` function creates a custom [`bslib`](https://rstudio.github.io/bslib/) theme that is applied to the app. It is defined in `R/theme.R`.
+
+You can override any of the settings by editing the function in `theme.R`.
+
+## Adding another plot
+
+
+## Deploying MATCHA
+
+
+## r-universe
