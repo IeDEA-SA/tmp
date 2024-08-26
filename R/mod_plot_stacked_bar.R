@@ -32,6 +32,10 @@ mod_plot_stacked_bar_ui <- function(id, x, y = NULL) {
             label = "Remove NA values",
             value = TRUE
           ),
+          checkboxInput(ns("other.rm"),
+                        label = "Remove 'Other' values",
+                        value = FALSE
+          ),
           checkboxInput(ns("interactive"),
             label = "Display interactive plot",
             value = TRUE
@@ -60,6 +64,9 @@ mod_plot_stacked_bar_server <- function(id, comb_tbl, x, y = NULL) {
     output$n_ui <- renderUI({
       value <- 8L
       max_n <- length(unique(stats::na.omit(comb_tbl[[x]])))
+      if (max_n > 25L) {
+        max_n <- 25L
+      }
       if (8L > max_n) {
         value <- max_n
       }
@@ -79,7 +86,8 @@ mod_plot_stacked_bar_server <- function(id, comb_tbl, x, y = NULL) {
         tbl = comb_tbl, x = x,
         position = input$position,
         n = input$n,
-        na.rm = input$na.rm
+        na.rm = input$na.rm,
+        other.rm = input$other.rm
       )
     })
 

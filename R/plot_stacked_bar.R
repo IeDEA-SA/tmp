@@ -7,6 +7,7 @@
 #' @param n Integer. Number of most common categories to display. All other
 #' categories recoded to "Other".
 #' @param na.rm Logical. Remove NA values from the table.
+#' @param other.rm Logical. Remove "Other" values from the table.
 #'
 #' @importFrom ggplot2 ggplot aes geom_bar scale_fill_manual labs scale_y_continuous
 #' @importFrom forcats fct_infreq fct_lump_n
@@ -20,14 +21,15 @@ plot_stacked_bar <- function(tbl, x,
                                "fill", "stack"
                              ),
                              n = 8L,
-                             na.rm = TRUE) {
+                             na.rm = TRUE,
+                             other.rm = FALSE) {
   position <- arg_match(position)
   palette <- c(gg_color_hue(n), "grey")
   caption <- NULL
   if (na.rm) {
     na_rows <- is.na(tbl[[x]])
     if (any(na_rows)) {
-      caption <- glue::glue("{sum(na_rows)} rows containing NA values removed.")
+      caption <- glue::glue("{sum(na_rows)} NA values removed.")
       tbl <- filter(tbl, !is.na(.data[[x]]))
     }
   }
@@ -37,7 +39,28 @@ plot_stacked_bar <- function(tbl, x,
   }
 
   tbl[[x]] <- fct_infreq(tbl[[x]]) %>%
-    fct_lump_n(n)
+    fct_lump_n(n, ties.method = "first")
+
+  total_n <- nrow(tbl)
+  non_other_n <- sum(na.omit(tbl[[x]]) != "Other")
+  other_n <- total_n - non_other_n
+
+  if (other.rm) {
+    tbl <- filter(tbl, .data[[x]] != "Other")
+    caption <- paste(other_n, "'Other'",
+                 if (na.rm) {"/ NA "} else {""},
+                "values out of", total_n, "removed.")
+    } else if (non_other_n / other_n / n < 0.01) {
+    caption <- paste(
+      caption,
+      paste(
+      "Each category less that 1% of 'Other'",
+      if (na.rm) {"/NA.\n "} else {".\n "},
+      "Too many categories to plot.
+    Consider removing 'Other'."
+      ),
+      sep = "\n")
+    }
 
   p <- tbl %>%
     ggplot(aes(x = .data[["tbl"]], fill = .data[[x]])) +
