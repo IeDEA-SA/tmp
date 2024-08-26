@@ -33,9 +33,17 @@ request to determine whether the \code{ui} should be used to handle the
 request. Note that the entire request path must match the regular
 expression in order for the match to be considered successful.}
 
-\item{...}{arguments to pass to golem_opts.
-See \code{?golem::get_golem_options} for more details.}
+\item{...}{arguments to pass to golem_opts. E.g. use these to override the
+primary key table and column at runtime through arguments \code{pk_tbl_name}
+and \code{pk_col} respectively. See \code{?golem::get_golem_options} for more details.}
 }
 \description{
 Run the Shiny Application
+}
+\examples{
+\dontrun{
+run_app()
+# Override the default primary key source settings
+run_app(pk_tbl_name = "tblKEYS", pk_col = "id")
+}
 }
