@@ -119,8 +119,12 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
 
     skim_tables <- reactive({
       skim_tables <- list(
-        current = skimr::skim(schema_tbl()$current, .data_name = "current"),
-        previous = skimr::skim(schema_tbl()$previous, .data_name = "previous")
+        current = suppressWarnings(
+          skimr::skim(schema_tbl()$current, .data_name = "current")
+        ),
+        previous = suppressWarnings(
+          skimr::skim(schema_tbl()$previous, .data_name = "previous")
+        )
       )
       skim_tables
     })
@@ -138,7 +142,7 @@ mod_display_check_server <- function(id, tbl, tbl_name, check) {
     outputOptions(output, "tbl_skim_current", suspendWhenHidden = FALSE)
     outputOptions(output, "tbl_skim_previous", suspendWhenHidden = FALSE)
 
-     # Return the clean table with any schema changes applied
+    # Return the clean table with any schema changes applied
     schema_tbl
   })
 }
