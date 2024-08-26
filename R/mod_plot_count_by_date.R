@@ -13,6 +13,7 @@
 mod_plot_count_by_date_ui <- function(id, x, y = NULL) {
   ns <- NS(id)
   tagList(
+    waiter::waiterOnBusy(color = "maroon"),
     card(
       card_header(x),
       full_screen = TRUE,

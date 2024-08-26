@@ -10,6 +10,7 @@
 mod_plot_boxplot_ui <- function(id, x, y = NULL) {
   ns <- NS(id)
   tagList(
+    waiter::waiterOnBusy(color = "maroon"),
     card(
       card_header(x),
       full_screen = TRUE,
