@@ -1,5 +1,5 @@
 ---
-title: "dev_guide"
+title: "Developer guide"
 ---
 
 ```{r, include = FALSE}
@@ -13,7 +13,25 @@ knitr::opts_chunk$set(
 library(MATCHA)
 ```
 
+## Developer installation
+
+To install the package with all development dependencies, i.e. dependencies required to run all tests, build documentation etc. you can use the following code:
+
+```r
+# install.packages("remotes")
+remotes::install_github("IeDEA-SA/MATCHA", dependencies = TRUE)
+```
+
+On Windows you will also need to install the corresponding version of [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
+
 ## Golem & Modules
+
+The app is built using the [`golem`](https://thinkr-open.github.io/golem/) R package structure and in particular, modules. These serve as a way to organize the app into smaller, modular, more manageable pieces.
+
+Modules act like functions returning reactive outputs. To avoid however passing around objects of interest for the report or other global objects the app depends on up and down the module hierarchy, we use the `session$userData` object to store these objects. This includes the open table names and hashes, a list of plots and a list of the skimr results, which are required by the reports.
+
+
+For more information on the golem package structure, see the [Introduction to `{golem}` chapter](https://engineering-shiny.org/golem.html) in the **Engineering Production-Grade Shiny** book.
 
 ## App structure
 
@@ -23,9 +41,64 @@ library(MATCHA)
 
 ## Running MATCHA in debug mode
 
+Through out the app we use the `log_*` functions from the `logger` package to log messages. The `debug` messages, which are most useful to developers, are only displayed when the app is run in debug mode. 
+
+To run the app so that debug messages are shown, you can either run the following code at the start of a session or add it to you R profile using `usethis::edit_r_profile()`:
+
+```r
+logger::log_threshold(logger::TRACE)
+```
+
+For more information on the `logger` package, see the [package documentation](https://daroczig.github.io/logger/).
+
 ## Tests
 
+The packages uses the `testthat` package for testing. The tests are located in the `tests/testthat` directory.
+
+To run the tests, you can use the following code:
+
+```r
+devtools::test()
+```
+Or click on the `Test` button on the build panel in RStudio.
+
+### Plot tests
+
+We use the `vdiffr` package to test the plots. This package takes a snapshot of the plot and compares it to a reference image. If the plot changes, the test will fail. To update the reference images, click on the links in the test panel to review/accept new snaposhots. 
+
+For more information on the `vdiffr` package, see the [package documentation](https://vdiffr.r-lib.org/).
+
+### shinytest tets for testing app functionality
+
+As part of the test suite use the `shinytest2` package to test the app functionality. The tests are located in the `tests/test-shinytest2.R` script and test the basic functionality of the app, i.e. electing directories, loading tables, and generating plots and reports.
+
+### Continuous Integration
+
+The app uses GitHub Actions for continuous integration. The workflow for testing the app package is defined in the `.github/workflows/R-CMD-check.yaml` file. The workflow runs the tests and checks the package for standard compliance.
+
 ## Documentation
+
+The app uses the `roxygen2` package for function documentation. The documentation is included above all exported functions located in the `R/` directory and can be accessed as any other help file in R.
+
+For longer form documentation and guides, we use R Markdown files located in the `vignettes/` directory.
+
+### `pkgdown` documentation website
+
+Function help and vignettes are built and served as website using the `pkgdown` package. 
+
+You can build and preview the documentation website locally using the `pkgdown::build_site()` function.
+
+### Setting up GitHub Pages
+
+The package is already set up with a `pkgdown.yaml` workflow in `.github/workflows/` to build the documentation website and deploy it to GitHub Pages.
+
+To [prepare to publish the pkgdown site from the `gh-pages` branch](https://usethis.r-lib.org/reference/use_github_pages.html), you can use the following function from `usethis`:
+
+```r
+usethis::use_github_pages()
+```
+
+
 
 ## MATCHA Theme
 
@@ -35,8 +108,31 @@ You can override any of the settings by editing the function in `theme.R`.
 
 ## Adding another plot
 
+To add another plot to the application:
+
+1. Create a function that generates the plot in the `R/` directory called `plot_name*()`. The function should return a ggplot object.
+2. Create a module in the `R/` directory called `mod_plot_name()`. The `plot_name*()` part of the module name should match the plot function name exactly. The module UI section should contain the widgets used to change the inputs passed as arguments to the plot. The server section should call the plot function with the inputs from the UI. The easiest way to create the module skeleton is to use `golem::add_module("plot_name")` and then use othe `mod_plot_*()` modules as a source of example code. Especially some of the server logic used to render, delete and store the plots in `userData` needs to be replicated across any plotting module.
+3. Add plot metadata to the `plot_meta` object. The code to create and save this object is contained in `data-raw/sysdata.R`. The metadata should include:
+  - `args`: A list of arguments that the plot function requires. This is used to generate the variable selection drop downs according to the required data type.
+  - `label`: The label for the plot that is displayed in plot selection drop down menu.
+  
+    Here's an example of a plot named list element for `plot_cat_count_by_year` that requires a date and a categorical variable as arguments:
+    ```{r, eval=FALSE}
+    plot_cat_count_by_year = list(
+      args = list(
+        x = "Date",
+        y = "character_or_factor_or_integer"
+      ),
+      label = "Categorical Frequency Timeline"
+    )
+    ```
+
+
 
 ## Deploying MATCHA
 
+Currently the app is distributed as a package, to be installed and run locally. 
+
+To deploy the app as a Shiny app on a server, follow the instructions in the [Deploying apps with `{golem}` chapter](https://engineering-shiny.org/deploy.html#deploying-apps-with-golem) in the **Engineering Production-Grade Shiny** book.
 
 ## r-universe
