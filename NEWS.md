@@ -6,6 +6,7 @@
 * Handle large number of categories in `plot_stacked_bar` by fixing the maximum number of categories to 25 and introducing an option to omit 'Other' categories which may overwhelm the plot (#121).
 * Add waiterOnBusy to all plot modules so that spinners are active when plots are plotting, not just when cards containing them are being created (#95).
 * 'No shared tables' error message now disappears after 5 seconds (#117).
+* Complete User and Dev guide articles.
 
 # MATCHA 1.0.5
 
