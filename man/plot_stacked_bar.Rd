@@ -4,7 +4,14 @@
 \alias{plot_stacked_bar}
 \title{Categorical Distribution plot}
 \usage{
-plot_stacked_bar(tbl, x, position = c("fill", "stack"), n = 8L, na.rm = TRUE)
+plot_stacked_bar(
+  tbl,
+  x,
+  position = c("fill", "stack"),
+  n = 8L,
+  na.rm = TRUE,
+  other.rm = FALSE
+)
 }
 \arguments{
 \item{tbl}{Combined table of previous and current data. Output of \code{\link[=combine_tbls]{combine_tbls()}}.}
@@ -18,6 +25,8 @@ or "stack" (counts).}
 categories recoded to "Other".}
 
 \item{na.rm}{Logical. Remove NA values from the table.}
+
+\item{other.rm}{Logical. Remove "Other" values from the table.}
 }
 \value{
 Stacked Bar plot ggplot plot.
