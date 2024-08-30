@@ -42,7 +42,7 @@ plot_stacked_bar <- function(tbl, x,
     fct_lump_n(n, ties.method = "first")
 
   total_n <- nrow(tbl)
-  non_other_n <- sum(na.omit(tbl[[x]]) != "Other")
+  non_other_n <- sum(stats::na.omit(tbl[[x]]) != "Other")
   other_n <- total_n - non_other_n
 
   if (other.rm) {
