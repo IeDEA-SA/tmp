@@ -85,3 +85,29 @@ test_that("plot_stacked_bar works handles NAs", {
     }
   )
 })
+
+
+test_that("plot_stacked_bar works handles many categories", {
+  tblBAS <- load_comb_tbl("tblBAS")
+
+  expect_doppelganger(
+    title = "tblBAS patient without NAs",
+    {
+      plot_stacked_bar(tblBAS, x = "patient")
+    }
+  )
+  tblBAS$patient[1:100] <- NA
+  expect_doppelganger(
+    title = "tblBAS patient with NAs removed",
+    {
+      plot_stacked_bar(tblBAS, x = "patient", other.rm = TRUE)
+    }
+  )
+  expect_doppelganger(
+    title = "tblBAS patient with NAs not removed",
+    {
+      plot_stacked_bar(tblBAS, x = "patient", na.rm = FALSE,
+                       other.rm = TRUE)
+    }
+  )
+})

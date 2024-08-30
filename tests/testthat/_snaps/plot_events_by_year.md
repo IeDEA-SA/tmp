@@ -299,39 +299,8 @@
 ---
 
     Code
-      pltly$x$layout
+      pltly$x$layout[c("title", "xaxis", "yaxis")]
     Output
-      $margin
-      $margin$t
-      [1] 43.27549
-      
-      $margin$r
-      [1] 7.305936
-      
-      $margin$b
-      [1] 39.69559
-      
-      $margin$l
-      [1] 43.10502
-      
-      
-      $plot_bgcolor
-      [1] "rgba(235,235,235,1)"
-      
-      $paper_bgcolor
-      [1] "rgba(255,255,255,1)"
-      
-      $font
-      $font$color
-      [1] "rgba(0,0,0,1)"
-      
-      $font$family
-      [1] ""
-      
-      $font$size
-      [1] 14.61187
-      
-      
       $title
       $title$text
       [1] "Yearly Event Comparison of enrol_d Vs recart_d"
@@ -563,91 +532,5 @@
       $yaxis$hoverformat
       [1] ".2f"
       
-      
-      $shapes
-      $shapes[[1]]
-      $shapes[[1]]$type
-      [1] "rect"
-      
-      $shapes[[1]]$fillcolor
-      [1] NA
-      
-      $shapes[[1]]$line
-      $shapes[[1]]$line$color
-      [1] NA
-      
-      $shapes[[1]]$line$width
-      [1] 0
-      
-      $shapes[[1]]$line$linetype
-      character(0)
-      
-      
-      $shapes[[1]]$yref
-      [1] "paper"
-      
-      $shapes[[1]]$xref
-      [1] "paper"
-      
-      $shapes[[1]]$x0
-      [1] 0
-      
-      $shapes[[1]]$x1
-      [1] 1
-      
-      $shapes[[1]]$y0
-      [1] 0
-      
-      $shapes[[1]]$y1
-      [1] 1
-      
-      
-      
-      $showlegend
-      [1] TRUE
-      
-      $legend
-      $legend$bgcolor
-      [1] "rgba(255,255,255,1)"
-      
-      $legend$bordercolor
-      [1] "transparent"
-      
-      $legend$borderwidth
-      [1] 1.889764
-      
-      $legend$font
-      $legend$font$color
-      [1] "rgba(0,0,0,1)"
-      
-      $legend$font$family
-      [1] ""
-      
-      $legend$font$size
-      [1] 11.6895
-      
-      
-      $legend$title
-      $legend$title$text
-      [1] "event<br />tbl"
-      
-      $legend$title$font
-      $legend$title$font$color
-      [1] "rgba(0,0,0,1)"
-      
-      $legend$title$font$family
-      [1] ""
-      
-      $legend$title$font$size
-      [1] 14.61187
-      
-      
-      
-      
-      $hovermode
-      [1] "closest"
-      
-      $barmode
-      [1] "relative"
       
 

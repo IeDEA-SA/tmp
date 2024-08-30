@@ -191,11 +191,21 @@ get_plot_arg_type <- function(plot_name, arg_name) {
 }
 
 get_arg_choices <- function(arg_type, comb_tbl) {
+
   fn <- var_type_fn(arg_type)
+  tbl_colnames <- names(comb_tbl())
+
+  # Identify all NA columns
+  all_na_columns <- colSums(is.na(comb_tbl())) == nrow(comb_tbl())
+
   arg_choices <- setdiff(
-    names(comb_tbl())[purrr::map_lgl(comb_tbl(), ~ fn(.x))],
-    c("tbl", "tbl_name")
+    tbl_colnames[purrr::map_lgl(comb_tbl(), ~ fn(.x))],
+    c("tbl", "tbl_name",
+      # Remove all NA columns as potential plot columns
+      tbl_colnames[all_na_columns]
+      )
   )
+  arg_choices
 }
 
 validate_summary <- function(session) {
