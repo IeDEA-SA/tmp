@@ -64,17 +64,17 @@ Or click on the `Test` button on the build panel in RStudio.
 
 ### Plot tests
 
-We use the `vdiffr` package to test the plots. This package takes a snapshot of the plot and compares it to a reference image. If the plot changes, the test will fail. To update the reference images, click on the links in the test panel to review/accept new snaposhots. 
+We use the `vdiffr` package to test the plots. This package takes a snapshot of the plot and compares it to a reference image. If the plot changes, the test will fail. To update the reference images, click on the links in the test panel to review/accept new snapshots. 
 
 For more information on the `vdiffr` package, see the [package documentation](https://vdiffr.r-lib.org/).
 
 ### shinytest tets for testing app functionality
 
-As part of the test suite use the `shinytest2` package to test the app functionality. The tests are located in the `tests/test-shinytest2.R` script and test the basic functionality of the app, i.e. electing directories, loading tables, and generating plots and reports.
+As part of the test suite, we also use the `shinytest2` package to test the app functionality. The tests are located in the `tests/test-shinytest2.R` script and test the basic functionality of the app, i.e. selecting directories, loading tables, and generating plots and reports.
 
 ### Continuous Integration
 
-The app uses GitHub Actions for continuous integration. The workflow for testing the app package is defined in the `.github/workflows/R-CMD-check.yaml` file. The workflow runs the tests and checks the package for standard compliance.
+The app uses GitHub Actions for continuous integration and running tests. The workflow for testing the app package is defined in the `.github/workflows/R-CMD-check.yaml` file. The workflow runs the tests and checks the package for standard compliance.
 
 ## Documentation
 
@@ -84,13 +84,21 @@ For longer form documentation and guides, we use R Markdown files located in the
 
 ### `pkgdown` documentation website
 
-Function help and vignettes are built and served as website using the `pkgdown` package. 
+Function help files and vignettes are built and served as website using the [`pkgdown`](https://pkgdown.r-lib.org/) package. 
 
-You can build and preview the documentation website locally using the `pkgdown::build_site()` function.
+#### Build documentation site locally
 
-### Setting up GitHub Pages
+You can build and preview the documentation website locally using the `pkgdown::build_site()` function. This builds the site into the `docs/` directory and launches in the browser for preview. 
 
-The package is already set up with a `pkgdown.yaml` workflow in `.github/workflows/` to build the documentation website and deploy it to GitHub Pages.
+The `docs/` directory is currently ignored by git because the site is is built and deployed to GitHub Pages using a GitHub Action (see below).
+
+#### Deploying the site on GitHub Pages
+
+The package is already set up with a `pkgdown.yaml` workflow in `.github/workflows/` to build the documentation website and deploy it to GitHub Pages whenever changes are made to the repo contents (whether through a PR or direct pushes).
+
+The workflow is built onto the `gh-pages` branch, which is where the site is served from. 
+
+##### Setting up GitHub Pages
 
 To [prepare to publish the pkgdown site from the `gh-pages` branch](https://usethis.r-lib.org/reference/use_github_pages.html), you can use the following function from `usethis`:
 
@@ -98,13 +106,13 @@ To [prepare to publish the pkgdown site from the `gh-pages` branch](https://uset
 usethis::use_github_pages()
 ```
 
-
-
 ## MATCHA Theme
 
 The `matcha_theme()` function creates a custom [`bslib`](https://rstudio.github.io/bslib/) theme that is applied to the app. It is defined in `R/theme.R`.
 
-You can override any of the settings by editing the function in `theme.R`.
+The `matcha_report_theme()` adds minor modifications to the `matcha_theme()` and is applied to the report HTML output.
+
+You can override any of the settings by editing the functions in `theme.R`.
 
 ## Adding another plot
 
@@ -113,7 +121,7 @@ To add another plot to the application:
 1. Create a function that generates the plot in the `R/` directory called `plot_name*()`. The function should return a ggplot object.
 2. Create a module in the `R/` directory called `mod_plot_name()`. The `plot_name*()` part of the module name should match the plot function name exactly. The module UI section should contain the widgets used to change the inputs passed as arguments to the plot. The server section should call the plot function with the inputs from the UI. The easiest way to create the module skeleton is to use `golem::add_module("plot_name")` and then use othe `mod_plot_*()` modules as a source of example code. Especially some of the server logic used to render, delete and store the plots in `userData` needs to be replicated across any plotting module.
 3. Add plot metadata to the `plot_meta` object. The code to create and save this object is contained in `data-raw/sysdata.R`. The metadata should include:
-  - `args`: A list of arguments that the plot function requires. This is used to generate the variable selection drop downs according to the required data type.
+  - `args`: A list of arguments that the plot function requires. This is used to generate the variable selection drop downs according to the required data type. The arguments should be named and the value should be the data type required. The current available data type options are , `numeric`, `date`, `logical`, `character`, `factor`, `integer`, `character_or_factor`, `character_or_factor_or_integer` or `all`. They are defined in the `var_type_fn()` function in `R/plot_modal_utils.R` in which functions for determining the data type of a variable are defined and retunrned through a `switch()` expression.
   - `label`: The label for the plot that is displayed in plot selection drop down menu.
   
     Here's an example of a plot named list element for `plot_cat_count_by_year` that requires a date and a categorical variable as arguments:
@@ -127,7 +135,7 @@ To add another plot to the application:
     )
     ```
 
-
+If you need to add a new data type option for the `var_type_fn()` function, you can do so by adding a new case to the switch statement in the function.
 
 ## Deploying MATCHA
 
@@ -136,3 +144,10 @@ Currently the app is distributed as a package, to be installed and run locally.
 To deploy the app as a Shiny app on a server, follow the instructions in the [Deploying apps with `{golem}` chapter](https://engineering-shiny.org/deploy.html#deploying-apps-with-golem) in the **Engineering Production-Grade Shiny** book.
 
 ## r-universe
+
+The easiest way to distribute binaries of the MATCHA app for different operating systems is to set up an r-universe for the organisation. When set up, it allows users to install binaries of the app using the `install.packages()` function:
+```r
+install.packages("MATCHA", repos = c("https://IeDEA-SA.r-universe.dev", "https://cran.r-project.org"))
+```
+
+For more information on setting up an r-universe, see the [r-universe documentation](https://r-universe.dev/), more speficially, the [How to create your personal CRAN-like repository on R-universe](https://ropensci.org/blog/2021/06/22/setup-runiverse/) guide.
