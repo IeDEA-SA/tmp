@@ -12,7 +12,7 @@ app_ui <- function(request) {
     # Your application UI logic
     page_sidebar(
       theme = matcha_theme(),
-      waiter::useWaiter(),
+      waiter::useWaiter(), # CHDAO 12.09.2024 temporarily deactivate
       shinyjs::useShinyjs(),
       title = "MATCHA",
       # Select source for dataset 1 (previous)

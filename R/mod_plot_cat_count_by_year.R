@@ -13,7 +13,7 @@
 mod_plot_cat_count_by_year_ui <- function(id, x, y) {
   ns <- NS(id)
   tagList(
-    waiter::waiterOnBusy(color = "maroon"),
+    waiter::waiterOnBusy(color = "lightgrey"),
     card(
       card_header(paste(y, "/", x)),
       full_screen = TRUE,

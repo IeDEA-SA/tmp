@@ -12,7 +12,7 @@
 mod_plot_summary_complete_ui <- function(id, x = NULL, y = NULL) {
   ns <- NS(id)
   tagList(
-    waiter::waiterOnBusy(color = "maroon"),
+    waiter::waiterOnBusy(color = "lightgrey"),
     card(
       card_header(x),
       full_screen = TRUE,

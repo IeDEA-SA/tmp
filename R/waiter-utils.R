@@ -5,7 +5,7 @@ waiting_screen <- function(msg = "Applying schema changes...") {
   )
 }
 
-add_waiter <- function(id = NULL, msg, color = "maroon") {
+add_waiter <- function(id = NULL, msg, color = "lightgrey") {
   hide_on_render <- ifelse(is.null(id), FALSE, TRUE)
   w <- waiter::Waiter$new(
     id = id,

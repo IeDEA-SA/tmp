@@ -13,7 +13,7 @@
 mod_plot_histogram_ui <- function(id, x, y = NULL) {
   ns <- NS(id)
   tagList(
-    waiter::waiterOnBusy(color = "maroon"),
+    waiter::waiterOnBusy(color = "lightgrey"),
     card(
       card_header(x),
       full_screen = TRUE,

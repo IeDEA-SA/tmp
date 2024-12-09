@@ -13,7 +13,7 @@
 mod_plot_missing_ui <- function(id, x, y = NULL) {
   ns <- NS(id)
   tagList(
-    waiter::waiterOnBusy(color = "maroon"),
+    waiter::waiterOnBusy(color = "lightgrey"),
     card(
       card_header("Missingness plot"),
       full_screen = TRUE,
