@@ -10,6 +10,19 @@
 #' @importFrom shiny NS tagList
 mod_schema_var_config_ui <- function(id, var_name, selected_class) {
   ns <- NS(id)
+
+  # CHDAO 04.12.2024
+  # Define compatible data types based on selected_class
+  compatible_types <- switch(selected_class,
+                             "integer" = c("integer", "double", "factor"),
+                             "double" = c("double", "integer", "factor"),
+                             "character" = c("character", "factor"), # CHDAO 09.12.2024 no 'Date' option to avoid coercion error
+                             "Date" = c("Date", "character"),
+                             "factor" = c("factor", "character", "integer", "double"),
+                             "logical" = c("logical", "character", "factor", "integer", "double"),
+                             c("integer", "double", "character", "factor", "Date", "logical")  # Default case
+  )
+
   tagList(
     card(
       class = "card-dropdown",
@@ -19,7 +32,10 @@ mod_schema_var_config_ui <- function(id, var_name, selected_class) {
         layout_column_wrap(
           width = 1 / 2,
           selectInput(ns("var_type"), "Variable Type",
-            choices = c("integer", "double", "character", "factor", "Date", "logical"),
+            # CHDAO 04.12.2024
+            # choices = c("integer", "double", "character", "factor", "Date", "logical"),
+            choices = compatible_types,
+            # CHDAO
             selected = selected_class
           ),
           textInput(ns("unknown"), "Unknown Value", value = "")
