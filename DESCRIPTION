@@ -1,13 +1,18 @@
 Package: MATCHA
-Title: Data consistency report
+Title: MATCH dAtasets
 Version: 1.0.6
 Authors@R: 
     person(given = "Anna",
            family = "Krystalli",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "annakrystalli@googlemail.com",
-           comment = c(ORCID = "0000-0002-2378-4915"))
-Description: Load, compare and summarise IeDEA cohort data.
+           comment = c(ORCID = "0000-0002-2378-4915")),
+    person(given = "Cam Ha", family = "Dao Ostinelli", role = "cre"),
+    person(given = "Chido", family = "Chinogurei", role = "ctb"),       
+    person(given = "Nicola", family = "Maxwel", role = "ctb"),       
+    person(given = "Confidence", family = "Mothiba", role = "ctb"),       
+Maintainer: Cam Ha Dao Ostinelli <camha.dao@unibe.ch>
+Description: Load, summarise and compare IeDEA or longitudinal study data (data consistency check)
 License: file LICENSE
 Imports: 
     bslib (>= 0.6.1),
